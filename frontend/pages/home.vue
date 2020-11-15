@@ -2,17 +2,20 @@
   <div id="home">
     <el-container>
       <el-main>
+        <CryptoGraphs />
         <CryptoTable />
       </el-main>
     </el-container>
   </div>
 </template>
 <script>
+import CryptoGraphs from '../components/cryptoGraphCard/CryptoGraphs.vue';
 import CryptoTable from "../components/CryptoTable";
 
 export default {
   components: {
     CryptoTable,
+    CryptoGraphs,
   },
 };
 </script>
