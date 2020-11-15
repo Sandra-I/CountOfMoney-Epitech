@@ -1,17 +1,18 @@
 <template>
   <div id="home">
     <el-container>
-      <el-main>Main</el-main>
-      <el-footer>Footer</el-footer>
+      <el-main>
+        <CryptoTable />
+      </el-main>
     </el-container>
   </div>
 </template>
 <script>
-import Navbar from "../components/Navbar";
+import CryptoTable from "../components/CryptoTable";
 
 export default {
   components: {
-    Navbar,
+    CryptoTable,
   },
 };
 </script>
@@ -28,7 +29,7 @@ export default {
   background-color: #E9EEF3;
   color: #333;
   text-align: center;
-  line-height: 160px;
+  /* line-height: 160px; */
 }
 
 body > .el-container {

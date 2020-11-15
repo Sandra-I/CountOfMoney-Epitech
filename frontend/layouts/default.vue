@@ -3,6 +3,10 @@
     <Navbar />
     
     <Nuxt />
+
+    <el-container>
+      <el-footer>Footer</el-footer>
+    </el-container>
   </div>
 </template>
 
