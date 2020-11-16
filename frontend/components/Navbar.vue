@@ -2,14 +2,12 @@
   <div id="navbar">
     <el-row>
       <el-col :span="12">
-        <div style="padding-left: 20px; height: 60px;"> 
-					<el-link>
-						<h1>LOGO</h1>
-					</el-link>
+        <div style="padding-left: 20px; height: 60px">
+          <nuxt-link to="/home"><h1>LOGO</h1></nuxt-link>
         </div>
       </el-col>
       <el-col :span="12">
-        <div style="text-align: right; padding-right: 20px;">
+        <div style="text-align: right; padding-right: 20px">
           <h2>
             <el-link>
               {{ butLogAccount }}
@@ -19,27 +17,25 @@
         </div>
       </el-col>
     </el-row>
-		<el-row type="flex" justify="center">
-			<el-col :span="24" style="text-align: center;">
-				<div>
-					<el-menu
-						default-active="1"
-						class="el-menu-demo"
-						mode="horizontal"
-						@select="handleSelect"
-						background-color="#545c64"
-						text-color="#fff"
-						active-text-color="#ffd04b"
-					>
-						<!-- <el-menu-item index="3" disabled>Info</el-menu-item> -->
-						<el-menu-item index="1">Home</el-menu-item>
-						<el-menu-item index="2">Cryto Currencies</el-menu-item>
-						<el-menu-item index="3">Cryto News</el-menu-item>
-					</el-menu>
-				</div>
-			</el-col>
-		</el-row>
-
+    <el-row type="flex" justify="center">
+      <el-col :span="24" style="text-align: center">
+        <div>
+          <el-menu
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+          >
+            <!-- <el-menu-item index="3" disabled>Info</el-menu-item> -->
+            <el-menu-item index="1"><nuxt-link to="/home">Home</nuxt-link></el-menu-item>
+            <el-menu-item index="2"><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item>
+            <el-menu-item index="3"><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item>
+          </el-menu>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -59,8 +55,13 @@ export default {
 </script>
 
 <style>
-	.el-menu--horizontal>.el-menu-item {
-		float: none !important;
-		display: inline-block;
-	}
+.el-menu--horizontal > .el-menu-item {
+  float: none !important;
+  display: inline-block;
+}
+.nuxt-link-active {
+  color: none;
+  text-decoration: none !important;
+}
+
 </style>

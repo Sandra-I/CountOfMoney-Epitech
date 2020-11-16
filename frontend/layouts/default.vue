@@ -7,6 +7,8 @@
     <el-container>
       <el-footer>Footer</el-footer>
     </el-container>
+
+    <el-backtop ></el-backtop>
   </div>
 </template>
 
