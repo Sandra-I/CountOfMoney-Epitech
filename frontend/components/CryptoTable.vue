@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card style="margin-bottom: 20px;"> 
       <!-- Utiliser attribut height dans el-table pour avoir un header fixe -->
     <el-table
     :data="tableData"

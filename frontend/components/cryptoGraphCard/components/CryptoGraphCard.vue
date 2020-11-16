@@ -1,5 +1,9 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }" class="box-card" shadow="hover">
+  <el-card
+   :body-style="{ padding: '0px' }" 
+   class="box-card"
+   shadow="hover"
+  >
     <div style="padding: 14px">
       <h1>Crypto Name</h1>
       <h4>Current Price €€€</h4>
@@ -28,7 +32,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .time {
   font-size: 13px;
   color: #999;
