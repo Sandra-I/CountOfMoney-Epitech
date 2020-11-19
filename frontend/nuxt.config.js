@@ -7,7 +7,7 @@ export default {
     title: 'frontend',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
@@ -34,6 +34,7 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
+    'bootstrap-vue/nuxt'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
