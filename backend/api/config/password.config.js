@@ -1,3 +1,3 @@
 module.exports = {
-    KEY: 'poroni'
+    KEY: process.env.PASSWORD_KEY
   };
