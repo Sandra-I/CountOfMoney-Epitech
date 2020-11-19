@@ -1,12 +1,16 @@
 var express = require('express');
 var router = express.Router();
-const sql = require("../db.js");
 
+router.get("/:id", (req, res) => {
+    var id = parseInt(req.params.id);
+    if (id === 1)
+        return res.status(302).send({id: req.params.id}); // exemple de user trouvé
+    else
+        return res.status(404).send(); // exemple si on a pas trouvé le user
+});
 
-/* GET users listing. */
-router.get('/users', function(req, res, next) {
-
-    res.json({message : "Bienvenue sur  API ", methode : req.method});
+router.get("/", (req, res) => {
+    return res.send('respond with all users');
 });
 
 module.exports = router;
