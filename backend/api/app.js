@@ -1,16 +1,72 @@
+var createError = require('http-errors');
 var express = require('express');
+var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors')
+var bodyParser = require('body-parser');
 
-var usersRouter = require('./routes/users');
+
+
+var indexRouter = require('./routes/index');
+//var usersRouter = require('./routes/index');
 
 var app = express();
 
+app.use(cors({
+  credentials: true,
+  origin:true,
+}))
+
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
+  const cookieConfig = {
+      httpOnly: true,
+      secure: false,
+      expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365)),
+      domain: '',
+  };
+  //res.cookie('cookie', req.cookies.cookie, cookieConfig);
+  if (req.method === "OPTIONS") {
+      return res.status(200).end();
+  } else {
+      next();
+  }
+});
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', usersRouter);
+app.use('/', indexRouter);
+//app.use('/users/register', usersRouter);
+//require("./routes/index.js")(app);
+console.log("toto")
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
 module.exports = app;
