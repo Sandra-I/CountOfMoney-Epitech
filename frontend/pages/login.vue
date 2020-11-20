@@ -1,10 +1,10 @@
 <template>
-  <Register />
+  <Signin />
 </template>
 
 <script>
-import Register from '../components/login/Register.vue'
+import Signin from '../components/login/Signin.vue'
 export default {
-  components: { Register }
+  components: { Signin }
 }
 </script>
