@@ -11,10 +11,11 @@ const createAccountLimiter = rateLimit({
   message:
     "Please try again after 15 min"
 });
-/* GET home page. */
-app.all('/', function(req, res, next) {
-  res.json({message : "Bienvenue sur  API ", methode : req.method});
-});
+
+//app.all('/', function(req, res, next) {
+//  res.json({message : "Bienvenue sur  API ", methode : req.method});
+//});
+
 // Create a new user
 app.post('/users/register', customers.create);
 // user login
