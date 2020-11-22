@@ -1,17 +1,11 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var cors = require('cors')
-var bodyParser = require('body-parser');
-
-
-
-var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/index');
-
-var app = express();
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let cors = require('cors')
+let bodyParser = require('body-parser');
+let app = express();
 
 app.use(cors({
   credentials: true,
@@ -49,9 +43,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-//app.use('/users/register', usersRouter);
-//require("./routes/index.js")(app);
+//routes
+require('./routes/users.route.js')(app)
+
 console.log("toto")
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

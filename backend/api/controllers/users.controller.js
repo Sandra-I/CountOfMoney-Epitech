@@ -1,4 +1,4 @@
-const Customer = require("./user.model.js");
+const Customer = require("../models/users.model.js");
 var CryptoJS = require("crypto-js");
 const passConfig = require("../config/password.config.js");
 
@@ -41,12 +41,12 @@ exports.create = (req, res) => {
     else{
         if (req.body.username == '' || req.body.email == '' || req.body.password === '') {
             console.log("invalid data");
-            res.status(206).send({message: "data invalid!"}, null);
+            res.status(204).send({message: "data invalid!"}, null);
             return;
         }
         if (!isEmailValid(req.body.email)) {
             console.log("invalid email");
-            res.status(205).send({message: "email invalid!"}, null);
+            res.status(204).send({message: "email invalid!"}, null);
             return;
         }
 
@@ -75,13 +75,13 @@ exports.create = (req, res) => {
 exports.login = (req, res, next) => {
     if (!isEmailValid(req.body.email)) {
         console.log("invalid email");
-        res.status(203).send({message: "invalid email format !"});
+        res.status(204).send({message: "invalid email format !"});
         return;
     }
     Customer.findOne(req.body.email, function (customer) {
         console.log("ici")
         if (customer === null) {
-            res.status(201).json({error: 'Utilisateur non trouvé !'});
+            res.status(204).json({message: 'Utilisateur non trouvé !'});
             return;
         }
         var bytes  = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
@@ -90,7 +90,7 @@ exports.login = (req, res, next) => {
         if (req.body.password === originalText) {
             next();
         } else {
-            res.status(208).json({error: "bad password"})
+            res.status(204).json({message: "bad password"})
         }
     })
 
@@ -115,7 +115,7 @@ exports.update = (req, res) => {
                         message: `Not found user with id ${req.params.userId}.`
                     });
                 } else {
-                    res.status(500).send({
+                    res.status(404).send({
                         message: "Error updating user with id " + req.params.userId
                     });
                 }

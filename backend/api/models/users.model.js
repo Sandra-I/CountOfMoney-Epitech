@@ -1,5 +1,5 @@
 const sql = require("../db.js");
-var CryptoJS = require("crypto-js");
+let CryptoJS = require("crypto-js");
 const passConfig = require("../config/password.config.js");
 
 

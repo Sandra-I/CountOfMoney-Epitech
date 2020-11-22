@@ -10,4 +10,3 @@ services:
       - 33061:3306
     env_file:
       - ./api/.env
-   
