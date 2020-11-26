@@ -16,30 +16,32 @@
         </el-row>
       </el-header>
       <!-- ajouter confirmation avant la suppression -->
-      <Crypto-table />
+      <crypto-table></crypto-table>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import AddCryptoCurrency from '../components/AddCryptoCurrency.vue';
-import CryptoTable from '../components/CryptoTable.vue';
+import AddCryptoCurrency from "../components/AddCryptoCurrency.vue";
+import CryptoTable from "../components/CryptoTable.vue";
 
 export default {
   components: { CryptoTable, AddCryptoCurrency },
   data() {
     return {
+      
     };
   },
   methods: {
-    // voir si nécessaire
-    // handleClose(done) {
-    //   this.$confirm("Do you really want to add this currency?")
-    //     .then(_ => {
-    //       done();
-    //     })
-    //     .catch(_ => {});
-    // }
+    deleteCrypto() {},
+    
+    handleClose(done) {
+      this.$confirm("Do you really want to add this currency?")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    }
   }
-}
+};
 </script>

@@ -61,7 +61,7 @@ export default {
   name: "AddCryptoCurrency",
   data() {
     return {
-      showModale: true,
+      showModale: false,
       options: [
         {
           value: "Option1",
