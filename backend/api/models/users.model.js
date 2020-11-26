@@ -24,7 +24,6 @@ Customer.create = (newCustomer, result) => {
 };
 
 Customer.findOne = (email, result) => {
-    console.log(email);
 
     sql.query(`SELECT * FROM users WHERE email = '${email}'`, (err, res) => {
         if (err) {

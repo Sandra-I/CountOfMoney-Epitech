@@ -15,8 +15,9 @@ exports.sendToken = (req, res, next) => {
             res.status(401).json({error: "error with email"})
         } else {
             const token = jwt.sign({
-                user: req.body.email,
-                access: result[0].access,
+                user: req.body.username,
+                email: req.body.email,
+                isadmin: result[0].isadmin,
                 id: result[0].id
             }, secretConfig.secret, {expiresIn: "1h"});
             res.cookie('cookie', token, cookieConfig);
