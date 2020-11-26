@@ -22,6 +22,8 @@
       <!-- intégrer double vérification des mots de passe. correspondance -->
       <el-form-item label="Password" required prop="password" placeholder="A secret password.">
         <el-input v-model="user.password"></el-input>
+        <!-- voir si possible à intégrer -->
+        <p>Forget password?</p>
       </el-form-item>
       <el-form-item>
         <!-- Si valid est false disabled le bouton -->
