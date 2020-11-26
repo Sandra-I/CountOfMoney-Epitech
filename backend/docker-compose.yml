@@ -5,7 +5,8 @@ services:
     image: "mysql"
     volumes:
       - db-data:/var/lib/mysql
-      - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./mysql/setup.sh:/docker-entrypoint-initdb.d/setup.sh
+      - ./mysql/setup.sql:/setup.sql
     env_file:
       - .env.local
     networks:
