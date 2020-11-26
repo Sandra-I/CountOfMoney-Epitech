@@ -1,4 +1,6 @@
-
-#Back End to ignore
-backend/node_modules/
 backend/package-lock.json
+backend/api/node_modules/
+frontend/node_modules/
+backend/api/start.sh
+backend/api/stop.sh
+backend/api/delete.sh
