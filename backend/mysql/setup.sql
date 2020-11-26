@@ -29,6 +29,7 @@ CREATE TABLE `articles` (
 
 CREATE TABLE `users` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `isadmin`  BOOLEAN DEFAULT FALSE,
   `username` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) UNIQUE NOT NULL,
   `token` VARCHAR(255) NULL,
@@ -41,3 +42,4 @@ CREATE TABLE `users` (
   FOREIGN KEY(article) REFERENCES articles(id)
   );
 
+INSERT INTO users (isadmin, username, email, password) VALUES (TRUE, 'user', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=');

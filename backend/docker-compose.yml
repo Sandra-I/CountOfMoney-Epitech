@@ -4,9 +4,9 @@ services:
     image: mysql
     container_name: mysql
     volumes:
-      - mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
-    env_file:
-      - .env
+      - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
     restart: always
     ports:
       - 33061:3306
+    env_file:
+      - ./api/.env
