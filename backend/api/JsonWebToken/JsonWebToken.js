@@ -4,7 +4,6 @@ const secretConfig = require("../config/secret.config.js");
 const db = require("../db.js");
 
 exports.sendToken = (req, res, next) => {
-    console.log("sendToken")
     const cookieConfig = {
         httpOnly: true,
         secure: false,
@@ -21,9 +20,8 @@ exports.sendToken = (req, res, next) => {
                 id: result[0].id
             }, secretConfig.secret, {expiresIn: "1h"});
             res.cookie('cookie', token, cookieConfig);
-            var user = result[0]
+            let user = result[0]
             delete user.password
-            console.log(user)
             res.status(200).json(user)
             db.query(`update users set token = '${token}' where id = ${result[0].id}`)
         }
@@ -31,9 +29,8 @@ exports.sendToken = (req, res, next) => {
 }
 
 exports.checkToken = (req, res, next) => {
-    console.log("checkToken")
     const cookies = req.cookies;
-    var token = cookies.cookie
+    let token = cookies.cookie
     if (!token) {
         res.status(401).send('Unauthorized: No token provided');
     } else {

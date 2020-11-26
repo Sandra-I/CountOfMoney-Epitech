@@ -1,5 +1,4 @@
-USE project;
-
+USE countofmoney;
 
 CREATE TABLE `cryptos` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,

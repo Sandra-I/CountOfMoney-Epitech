@@ -1,8 +1,8 @@
 const Customer = require("../models/users.model.js");
-var CryptoJS = require("crypto-js");
+let CryptoJS = require("crypto-js");
 const passConfig = require("../config/password.config.js");
 
-var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
+let emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
 
 function isEmailValid(email) {
@@ -12,22 +12,19 @@ function isEmailValid(email) {
     if (email.length > 254)
         return false;
 
-    var valid = emailRegex.test(email);
+    let valid = emailRegex.test(email);
     if (!valid)
         return false;
 
     // Further checking of some things regex can't handle
-    var parts = email.split("@");
+    let parts = email.split("@");
     if (parts[0].length > 64)
         return false;
 
-    var domainParts = parts[1].split(".");
-    if (domainParts.some(function (part) {
+    let domainParts = parts[1].split(".");
+    return !domainParts.some(function (part) {
         return part.length > 63;
-    }))
-        return false;
-
-    return true;
+    });
 }
 
 // Create and Save a new user
@@ -38,15 +35,23 @@ exports.create = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-    else{
-        if (req.body.username == '' || req.body.email == '' || req.body.password === '') {
-            console.log("invalid data");
-            res.status(204).send({message: "data invalid!"}, null);
+    else {
+        if (req.body.username == null || req.body.email == null || req.body.password == null) {
+            res.status(400).send({
+                message: "Received data is invalid, some fields are missing!"
+            });
             return;
         }
-        if (!isEmailValid(req.body.email)) {
-            console.log("invalid email");
-            res.status(204).send({message: "email invalid!"}, null);
+        else if (!isEmailValid(req.body.email)) {
+            res.status(400).send({
+                message: "Email address is invalid."
+            });
+            return;
+        }
+        else if (req.body.password.length < 8) {
+            res.status(400).send({
+                message: "Password must be at least 8 characters."
+            });
             return;
         }
 
@@ -60,9 +65,8 @@ exports.create = (req, res) => {
         // Save Customer in the database
         Customer.create(customer, (err, data) => {
             if (err)
-                res.status(203).send({
-                    message:
-                        err.message || "Some error occurred while creating the user."
+                res.status(500).send({
+                    message: err.message || "Some error occurred while creating the user."
                 });
             // else res.send(data);
             else {
@@ -74,23 +78,21 @@ exports.create = (req, res) => {
 
 exports.login = (req, res, next) => {
     if (!isEmailValid(req.body.email)) {
-        console.log("invalid email");
-        res.status(204).send({message: "invalid email format !"});
+        res.status(400).send({message: "invalid email format !"});
         return;
     }
     Customer.findOne(req.body.email, function (customer) {
-        console.log("ici")
         if (customer === null) {
-            res.status(204).json({message: 'Utilisateur non trouvé !'});
+            res.status(400).json({message: 'Utilisateur non trouvé !'});
             return;
         }
-        var bytes  = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
-        var originalText = bytes.toString(CryptoJS.enc.Utf8);
+        let bytes = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
+        let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
         if (req.body.password === originalText) {
             next();
         } else {
-            res.status(204).json({message: "bad password"})
+            res.status(400).json({message: "bad password"})
         }
     })
 
@@ -115,11 +117,11 @@ exports.update = (req, res) => {
                         message: `Not found user with id ${req.params.userId}.`
                     });
                 } else {
-                    res.status(404).send({
+                    res.status(500).send({
                         message: "Error updating user with id " + req.params.userId
                     });
                 }
             } else res.send(data);
         }
     );
-}; 
+};
