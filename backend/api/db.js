@@ -18,4 +18,6 @@ connection.connect(error => {
   console.log("Successfully connected to the database.");
 });
 
+//TODO: au lancement du serveur, faire une requête BDD sur la liste des users et s'il n'y en a pas, en créer un proprement au lieu de l'ajouter directement depuis le script SQL
+
 module.exports = connection;

@@ -16,7 +16,6 @@ Customer.create = (newCustomer, result) => {
             result(err, null);
             return;
         }
-        console.log("created user: ", {id: res.insertId, ...newCustomer});
         result(null, {id: res.insertId, ...newCustomer});
     });
 };
@@ -38,12 +37,16 @@ Customer.findOne = (email, result) => {
 }
 
 Customer.updateById = (id, customer, result) => {
-    if (customer.username === '' || customer.email === '' || customer.password === '') {
-        result({message: "data invalid!"}, null);
+    if (req.body.username === undefined || req.body.email === undefined || req.body.password === undefined) {
+        result({
+            message: "Received data is invalid, some fields are missing!"
+        });
         return;
     }
     if (!isEmailValid(customer.email)) {
-        result({message: "email invalid!"}, null);
+        result({
+            message: "Email address is invalid."
+        });
         return;
     }
     sql.query(
@@ -61,7 +64,6 @@ Customer.updateById = (id, customer, result) => {
                 return;
             }
 
-            console.log("updated user: ", {id: id, ...customer});
             result(null, {id: id, ...customer});
         }
     );

@@ -9,9 +9,11 @@ exports.sendToken = (req, res, next) => {
         secure: false,
         expires: new Date(Date.now() + (1000 * 60 * 60 * 24)),
     };
-    db.query(`select * from users where email = '${req.body.email}'`, function (err, result) {
+    db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`, function (err, result) { //TODO: requêtes préparées
         if (err) {
-            res.status(401).json({error: "error with email"})
+            res.status(500).send({
+                error: "An error has occured."
+            })
         } else {
             const token = jwt.sign({
                 user: req.body.username,
@@ -22,7 +24,7 @@ exports.sendToken = (req, res, next) => {
             res.cookie('cookie', token, cookieConfig);
             let user = result[0]
             delete user.password
-            res.status(200).json(user)
+            res.status(200).send(user)
             db.query(`update users set token = '${token}' where id = ${result[0].id}`)
         }
     })
@@ -38,7 +40,7 @@ exports.checkToken = (req, res, next) => {
             if (err) {
                 res.status(401).send('Unauthorized: Invalid token');
             } else {
-                res.status(200).json({success: "success"})
+                res.status(200).send({success: "success"})
             }
         });
     }

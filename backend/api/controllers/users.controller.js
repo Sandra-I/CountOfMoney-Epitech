@@ -6,14 +6,7 @@ let emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{
 
 
 function isEmailValid(email) {
-    if (!email)
-        return false;
-
-    if (email.length > 254)
-        return false;
-
-    let valid = emailRegex.test(email);
-    if (!valid)
+    if (!email || email.length > 254 || !emailRegex.test(email))
         return false;
 
     // Further checking of some things regex can't handle
@@ -36,7 +29,7 @@ exports.create = (req, res) => {
         });
     }
     else {
-        if (req.body.username == null || req.body.email == null || req.body.password == null) {
+        if (req.body.username === undefined || req.body.email === undefined || req.body.password === undefined) {
             res.status(400).send({
                 message: "Received data is invalid, some fields are missing!"
             });
@@ -78,21 +71,28 @@ exports.create = (req, res) => {
 
 exports.login = (req, res, next) => {
     if (!isEmailValid(req.body.email)) {
-        res.status(400).send({message: "invalid email format !"});
+        res.status(400).send({
+            message: "Email address is invalid."
+        });
         return;
     }
     Customer.findOne(req.body.email, function (customer) {
         if (customer === null) {
-            res.status(400).json({message: 'Utilisateur non trouvé !'});
+            res.status(400).send({
+                message: 'User not found.'
+            });
             return;
         }
+        //TODO: changer l'algorithme de chiffrage
         let bytes = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
         let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
         if (req.body.password === originalText) {
             next();
         } else {
-            res.status(400).json({message: "bad password"})
+            res.status(400).send({
+                message: "Wrong password."
+            })
         }
     })
 
@@ -107,18 +107,15 @@ exports.update = (req, res) => {
         });
     }
 
-    Customer.updateById(
-        req.params.userId,
-        new Customer(req.body, req.params.userId),
-        (err, data) => {
+    Customer.updateById(req.params.userId, new Customer(req.body, req.params.userId), (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
-                        message: `Not found user with id ${req.params.userId}.`
+                        message: "No user found with id " + req.params.userId + "."
                     });
                 } else {
                     res.status(500).send({
-                        message: "Error updating user with id " + req.params.userId
+                        message: "Error updating user with id " + req.params.userId + "."
                     });
                 }
             } else res.send(data);

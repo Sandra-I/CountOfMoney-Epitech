@@ -18,6 +18,8 @@ const createAccountLimiter = rateLimit({
 
 // Create a new user
 router.post('/register', customers.create);
+// user update (not working)
+//router.post('/update', customers.update);
 // user login
 router.post('/login', createAccountLimiter, customers.login, checkToken.sendToken);
 // user update
