@@ -35,7 +35,8 @@ export default {
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     'bootstrap-vue/nuxt',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -45,7 +46,7 @@ export default {
 
   // METTRE A JOUR AVEC .env
   // Vérifier le runtime config
-  
+
   // Global axios options to applied to all requests
   axios: {
     //proxy: true,
@@ -64,5 +65,10 @@ export default {
   //   axios: {
   //     baseURL: process.env.BASE_URL
   //   }
-  // }
+  // },
+
+  // Authentification module
+  auth: {
+    // Options
+  }
 }
