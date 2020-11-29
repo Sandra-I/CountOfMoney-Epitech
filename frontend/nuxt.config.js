@@ -34,11 +34,35 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    'bootstrap-vue/nuxt'
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/axios'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     transpile: [/^element-ui/],
-  }
+  },
+
+  // METTRE A JOUR AVEC .env
+  // Vérifier le runtime config
+  
+  // Global axios options to applied to all requests
+  axios: {
+    //proxy: true,
+    baseURL: 'http://localhost:3000'
+  },
+
+  // Runtime config
+  publicRuntimeConfig: {
+    axios: {
+      //browserBaseURL: process.env.BROWSER_BASE_URL
+      browserBaseURL: 'http://localhost:3000'
+    }
+  },
+
+  // privateRuntimeConfig: {
+  //   axios: {
+  //     baseURL: process.env.BASE_URL
+  //   }
+  // }
 }
