@@ -51,22 +51,23 @@ export default {
   axios: {
     //proxy: true,
     // baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
-    baseURL: 'http://localhost:34435/'
+    baseURL: 'http://localhost:3000'
   },
   
 
   // Authentification module
   auth: {
+    localStorage: true,
     strategies: {
       local: {
         endpoints: {
-          // adapter au back
-          login: { url: '/sessions', method: 'post', propertyName: 'token' },
-          logout: { url: '/sessions/logout', method: 'post' },
-          user: { url: '/sessions/user', method: 'get', propertyName: 'user' }
+          login: { url: '/users/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/users/logout', method: 'get' },
+          user: { url: '/users/profile', method: 'get', propertyName: 'user' },
+          register: { url: '/users/register', method: 'post'}
         },
         // tokenRequired: true,
-        // tokenType: '',
+        //tokenType: '',
         // globalToken: true,
         // autoFetchUser: true
       }

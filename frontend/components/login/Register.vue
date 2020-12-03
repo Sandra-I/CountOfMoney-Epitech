@@ -24,8 +24,31 @@ export default {
   name: "Register",
   components: { UserAuthForm },
   methods: {
-    registerUser(userInfo) {
-      alert("Coucou");
+    async registerUser(userInfo) {
+      try {
+        //console.log(userInfo.name);
+        // Enregistrement de l'utilisateur
+        await this.$axios.post('http://localhost:3000/users/register', 
+          {
+            username: userInfo.name,
+            email: userInfo.email,
+            password: userInfo.password 
+          }
+        ).then(
+          (response) => {
+            console.log(response);
+            if (response.status == 200) {
+              
+              this.$router.push('/home');
+            } else {
+              alert(response.data.message);
+            }
+          }
+        );
+      } catch (e) {
+        // this.error = e.response.data.message
+        console.log(e);
+      }
     }
   }
 };

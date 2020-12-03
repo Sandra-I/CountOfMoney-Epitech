@@ -7,7 +7,7 @@
         </div>
       </el-col>
       <el-col :span="12" class="d-flex justify-content-end">
-        <div v-if="$auth.loggedIn">
+        <div v-if="this.$auth.loggedIn">
           {{ $auth.user.email }}
           <el-button size="medium">Logout</el-button>
         </div>
@@ -27,19 +27,18 @@
           <el-menu
             class="el-menu-demo d-flex flex-direction-column"
             mode="horizontal"
-            @select="handleSelect"
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b"
           >
             <!-- <el-menu-item index="3" disabled>Info</el-menu-item> -->
-            <el-menu-item index="1"
+            <el-menu-item
               ><nuxt-link to="/home">Home</nuxt-link></el-menu-item
             >
-            <el-menu-item index="2"
+            <el-menu-item
               ><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item
             >
-            <el-menu-item index="3"
+            <el-menu-item
               ><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item
             >
           </el-menu>
@@ -55,11 +54,6 @@ export default {
     return {
       butLogAccount: "Log In | Sign Up"
     };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
   }
 };
 </script>

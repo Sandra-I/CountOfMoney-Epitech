@@ -59,9 +59,9 @@ export default {
     return {
       valid: false,
       userInfo: {
-        name: 'San',
-        email: 'san@san.fr',
-        password: 'Aefdv21fd'
+        name: '',
+        email: '',
+        password: ''
         //passwordConfirmation: ''
       },
       rules: {

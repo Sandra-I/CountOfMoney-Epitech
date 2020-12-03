@@ -35,16 +35,11 @@ export default {
             if (response.status == 200) {
               localStorage.setItem('user',JSON.stringify(response.data));
               localStorage.setItem('jwt',response.data.token);
-              
               console.log('auth value : ' + this.$auth.loggedIn);
-
               if (localStorage.getItem('jwt') != null){
-                // this.$auth.loggedIn = true;
-                // set la variable à true
-                console.log('state ' + this.state.isadmin);
+                this.$emit('loggedIn')
               }
-
-              console.log('auth value2 : ' + this.$auth.loggedIn);
+              console.log(this.$auth.isloggedIn);
               console.log(response.data.isadmin);
               if (response.data.isadmin == 1) {
                 this.$router.push('/admin');
