@@ -24,27 +24,9 @@ export default {
   name: "Register",
   components: { UserAuthForm },
   methods: {
-    registerUser(user) {
+    registerUser(userInfo) {
       alert("Coucou");
     }
-    // onSubmit(user) {
-    //   this.$refs[user].validate((valid) => {
-    //     if (valid) {
-    //       alert('submit!');
-    //       // Rajouter code à exécuter
-    //     } else {
-    //       // Rajouter code à exécuter
-    //       console.log('error submit!!');
-    //       return false;
-    //     }
-    //   })
-    // },
-    // resetForm(user) {
-    //   this.$refs[user].resetFields();
-    // },
-    // clearValidation(user) {
-    //   this.$refs[user].clearValidate();
-    // }
   }
 };
 </script>

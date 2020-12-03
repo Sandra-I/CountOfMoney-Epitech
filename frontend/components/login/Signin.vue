@@ -20,16 +20,12 @@ export default {
   name: "Signin",
   components: { UserAuthForm },
   methods: {
-    loginUser(user) {
-      //alert('Clock click');
-      this.$refs[user].validate(valid => {
-        if (!valid) {
-          alert("submit!");
-          // Rajouter code à exécuter
-        } else {
-          // Rajouter code à exécuter
-          console.log("error submit!!");
-          return false;
+    loginUser(userInfo) {
+      console.log(userInfo);
+      this.$auth.loginWith('local', { 
+        data: {
+          username: userInfo.name,
+          password: userInfo.password
         }
       });
     }

@@ -50,25 +50,26 @@ export default {
   // Global axios options to applied to all requests
   axios: {
     //proxy: true,
-    baseURL: 'http://localhost:3000'
+    // baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
+    baseURL: 'http://localhost:34435/'
   },
-
-  // Runtime config
-  publicRuntimeConfig: {
-    axios: {
-      //browserBaseURL: process.env.BROWSER_BASE_URL
-      browserBaseURL: 'http://localhost:3000'
-    }
-  },
-
-  // privateRuntimeConfig: {
-  //   axios: {
-  //     baseURL: process.env.BASE_URL
-  //   }
-  // },
+  
 
   // Authentification module
   auth: {
-    // Options
+    strategies: {
+      local: {
+        endpoints: {
+          // adapter au back
+          login: { url: '/sessions', method: 'post', propertyName: 'token' },
+          logout: { url: '/sessions/logout', method: 'post' },
+          user: { url: '/sessions/user', method: 'get', propertyName: 'user' }
+        },
+        // tokenRequired: true,
+        // tokenType: '',
+        // globalToken: true,
+        // autoFetchUser: true
+      }
+    }
   }
 }
