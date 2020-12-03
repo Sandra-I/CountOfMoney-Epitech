@@ -10,13 +10,14 @@ exports.sendToken = (req, res, next) => {
         secure: false,
         expires: new Date(Date.now() + (1000 * 60 * 60 * 24)),
     };
+    console.log(req.body)
     db.query(`select * from users where email = '${req.body.email}'`, function (err, result) {
         if (err) {
             res.status(401).json({error: "error with email"})
         } else {
             const token = jwt.sign({
-                user: req.body.username,
-                email: req.body.email,
+                username: result[0].username,
+                email: result[0].email,
                 isadmin: result[0].isadmin,
                 id: result[0].id
             }, secretConfig.secret, {expiresIn: "1h"});
@@ -55,4 +56,27 @@ exports.logout = (req, res, next) => {
     };
     res.cookie('cookie', "", cookieConfig);
     res.send("log out")
+}
+
+exports.checkSuperRight = (req, res, next) => {
+    console.log("checkRightOrId")
+    const cookies = req.cookies;
+    var token = cookies.cookie
+    console.log("token: " + token);
+    if (!token) {
+        res.status(401).send('Unauthorized: No token provided');
+    } else {
+        jwt.verify(token, secret, function (err, decoded) {
+            if (err) {
+                console.log(err)
+                res.status(401).send('Unauthorized: Invalid token');
+            } else {
+                if (decoded.isadmin == 1) {
+                    next();
+                } else {
+                    res.status(403).send('Unauthorized: Invalid Right');
+                }
+            }
+        });
+    }
 }
