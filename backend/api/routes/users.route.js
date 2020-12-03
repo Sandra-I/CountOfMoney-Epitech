@@ -1,14 +1,15 @@
 let rateLimit = require("express-rate-limit");
+let router = require('express').Router();
 
 const customers = require("../controllers/users.controller.js");
 const checkToken = require("../JsonWebToken/JsonWebToken.js")
 
-module.exports = app => {
+// Limiter function
 const createAccountLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min window
   max: 5, // start blocking after 5 requests
   message:
-    "Please try again after 15 min"
+      "Please try again after 15 min"
 });
 
 //app.all('/', function(req, res, next) {
@@ -16,13 +17,15 @@ const createAccountLimiter = rateLimit({
 //});
 
 // Create a new user
-app.post('/users/register', customers.create);
+router.post('/register', customers.create);
+// user update (not working)
+//router.post('/update', customers.update);
 // user login
-app.post('/users/login', createAccountLimiter, customers.login, checkToken.sendToken);
+router.post('/login', createAccountLimiter, customers.login, checkToken.sendToken);
 // user update
-app.get('/users/profile', checkToken.sendToken, customers.update,);
+router.get('/profile', checkToken.sendToken, customers.update);
 // user logout
-app.get('/users/logout', checkToken.logout);
+router.get('/logout', checkToken.logout);
 
 
-}
+module.exports = router

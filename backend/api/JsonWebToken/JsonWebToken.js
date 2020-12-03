@@ -4,15 +4,16 @@ const secretConfig = require("../config/secret.config.js");
 const db = require("../db.js");
 
 exports.sendToken = (req, res, next) => {
-    console.log("sendToken")
     const cookieConfig = {
         httpOnly: true,
         secure: false,
         expires: new Date(Date.now() + (1000 * 60 * 60 * 24)),
     };
-    db.query(`select * from users where email = '${req.body.email}'`, function (err, result) {
+    db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`, function (err, result) { //TODO: requêtes préparées
         if (err) {
-            res.status(401).json({error: "error with email"})
+            res.status(500).send({
+                error: "An error has occured."
+            })
         } else {
             const token = jwt.sign({
                 user: req.body.username,
@@ -21,19 +22,17 @@ exports.sendToken = (req, res, next) => {
                 id: result[0].id
             }, secretConfig.secret, {expiresIn: "1h"});
             res.cookie('cookie', token, cookieConfig);
-            var user = result[0]
+            let user = result[0]
             delete user.password
-            console.log(user)
-            res.status(200).json(user)
+            res.status(200).send(user)
             db.query(`update users set token = '${token}' where id = ${result[0].id}`)
         }
     })
 }
 
 exports.checkToken = (req, res, next) => {
-    console.log("checkToken")
     const cookies = req.cookies;
-    var token = cookies.cookie
+    let token = cookies.cookie
     if (!token) {
         res.status(401).send('Unauthorized: No token provided');
     } else {
@@ -41,7 +40,7 @@ exports.checkToken = (req, res, next) => {
             if (err) {
                 res.status(401).send('Unauthorized: Invalid token');
             } else {
-                res.status(200).json({success: "success"})
+                res.status(200).send({success: "success"})
             }
         });
     }

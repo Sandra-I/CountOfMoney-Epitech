@@ -1,6 +1,3 @@
-USE project;
-
-
 CREATE TABLE `cryptos` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -42,4 +39,4 @@ CREATE TABLE `users` (
   FOREIGN KEY(article) REFERENCES articles(id)
   );
 
-INSERT INTO users (isadmin, username, email, password) VALUES (TRUE, 'user', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=');
+INSERT INTO users (isadmin, username, email, password) VALUES (TRUE, 'admin', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=');

@@ -1,12 +1,37 @@
 version: "3"
+
 services:
   mysql:
-    image: mysql
-    container_name: mysql
+    image: "mysql"
     volumes:
-      - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
-    restart: always
-    ports:
-      - 33061:3306
+      - db-data:/var/lib/mysql
+      - ./mysql/setup.sh:/docker-entrypoint-initdb.d/setup.sh
+      - ./mysql/setup.sql:/setup.sql
     env_file:
-      - ./api/.env
+      - .env.local
+    networks:
+      - backend-net
+    ports:
+      - 3306:3306  # Port actuellement exposé pour faciliter les tests sur BDD, à supprimer lors du passage en prod
+    restart: always
+  api:
+    build: api
+    ports:
+      - 3000:3000
+    env_file:
+      - .env.local
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+    depends_on:
+      - "mysql"
+    networks:
+      - backend-net
+    restart: always
+
+networks:
+  backend-net:
+    driver: bridge
+
+volumes:
+  db-data:
