@@ -1,6 +1,5 @@
 const Customer = require("../models/users.model.js");
-let CryptoJS = require("crypto-js");
-const passConfig = require("../config/password.config.js");
+const argon2 = require("argon2")
 
 let emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
@@ -20,8 +19,13 @@ function isEmailValid(email) {
     });
 }
 
+async function validatePassword(encryptedPass, passToValidate) {
+    let result = await argon2.verify(encryptedPass, passToValidate)
+    return result
+}
+
 // Create and Save a new user
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     // Validate request
     if (!req.body) {
         res.status(400).send({
@@ -48,11 +52,13 @@ exports.create = (req, res) => {
             return;
         }
 
+        let hash = await argon2.hash(req.body.password)
+
         // Create a Customer
         const customer = new Customer({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: hash
         });
 
         // Save Customer in the database
@@ -78,24 +84,22 @@ exports.login = (req, res, next) => {
     }
     Customer.findOne(req.body.email, function (customer) {
         if (customer === null) {
-            res.status(400).send({
+            res.status(401).send({
                 message: 'User not found.'
             });
             return;
         }
-        //TODO: changer l'algorithme de chiffrage
-        let bytes = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
-        let originalText = bytes.toString(CryptoJS.enc.Utf8);
 
-        if (req.body.password === originalText) {
-            next();
-        } else {
-            res.status(400).send({
-                message: "Wrong password."
-            })
-        }
+        (async () => {
+            if (await validatePassword(customer.password, req.body.password)) {
+                next();
+            } else {
+                res.status(401).send({
+                    message: "Wrong password."
+                })
+            }
+        })()
     })
-
 };
 
 // Update a user identified by the userId in the request
@@ -118,7 +122,7 @@ exports.update = (req, res) => {
                         message: "Error updating user with id " + req.params.userId + "."
                     });
                 }
-            } else res.send(data);
+            } else res.send(data); //TODO: implémentation algo quand update fonctionnera
         }
     );
 };

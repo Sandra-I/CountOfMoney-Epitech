@@ -1,13 +1,10 @@
 const sql = require("../db.js");
-let CryptoJS = require("crypto-js");
-const passConfig = require("../config/password.config.js");
-
 
 // constructor
 const Customer = function (customer, id) {
     this.username = customer.username;
     this.email = customer.email;
-    this.password = CryptoJS.AES.encrypt(customer.password, passConfig.KEY).toString();
+    this.password = customer.password;
 };
 
 Customer.create = (newCustomer, result) => {

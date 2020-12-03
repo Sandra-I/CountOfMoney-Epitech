@@ -15,17 +15,23 @@ exports.sendToken = (req, res, next) => {
                 error: "An error has occured."
             })
         } else {
-            const token = jwt.sign({
-                user: req.body.username,
-                email: req.body.email,
-                isadmin: result[0].isadmin,
-                id: result[0].id
-            }, secretConfig.secret, {expiresIn: "1h"});
-            res.cookie('cookie', token, cookieConfig);
-            let user = result[0]
-            delete user.password
-            res.status(200).send(user)
-            db.query(`update users set token = '${token}' where id = ${result[0].id}`)
+            if (result[0]) {
+                const token = jwt.sign({
+                    user: req.body.username,
+                    email: req.body.email,
+                    isadmin: result[0].isadmin,
+                    id: result[0].id
+                }, secretConfig.secret, {expiresIn: "1h"});
+                res.cookie('cookie', token, cookieConfig);
+                let user = result[0]
+                delete user.password
+                res.status(200).send(user)
+                db.query(`update users set token = '${token}' where id = ${result[0].id}`)
+            } else {
+                res.status(400).send({
+                    error: "Please specify the profile email."
+                })
+            }
         }
     })
 }
