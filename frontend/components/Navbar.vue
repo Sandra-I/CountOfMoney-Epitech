@@ -6,7 +6,7 @@
           <nuxt-link to="/home">LOGO</nuxt-link>
         </div>
       </el-col>
-      <el-col :span="12" class="d-flex justify-content-end mb-2">
+      <el-col :span="12" class="d-flex justify-content-end mb-2 pr-3">
         <div v-if="this.userLoggedState">
           Coucou
           <el-button size="medium" @click="logOut">Logout</el-button>
