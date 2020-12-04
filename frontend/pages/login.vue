@@ -1,8 +1,5 @@
 <template>
-  <el-tabs
-    type="border-card"
-    class="card my-3"
-    v-model="activeName" @tab-click="handleClick">
+  <el-tabs type="border-card" class="card my-3" v-model="activeName" @tab-click="handleClick">
     <!-- name est l'attribut utilisé par Tabs pour connaître l'onglet actif -->
     <el-tab-pane label="Register" name="register">
       <Register />
@@ -14,11 +11,11 @@
 </template>
 
 <script>
-import Register from "../components/login/Register.vue";
-import Signin from "../components/login/Signin.vue";
+import Register from "@/components/login/Register.vue";
+import Signin from "@/components/login/Signin.vue";
 
 export default {
-  components: { Signin, Register },
+  components: { Register, Signin },
   data() {
     return {
       activeName: "signin"
@@ -26,7 +23,7 @@ export default {
   },
   methods: {
     handleClick(tab) {
-      console.log(tab['name']);
+      console.log(tab["name"]);
     }
   }
 };

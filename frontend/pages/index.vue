@@ -1,34 +1,27 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        frontend
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div id="home">
+    <el-container>
+      <el-main>
+        <CryptoGraphs />
+        <CryptoTable />
+        <BreakingNews />
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-export default {}
+import CryptoGraphs from '../components/cryptoGraphCard/CryptoGraphs';
+import CryptoTable from "../components/CryptoTable";
+import BreakingNews from '../components/news/BreakingNews';
+
+export default {
+  components: {
+    CryptoTable,
+    CryptoGraphs,
+    BreakingNews
+  },
+};
 </script>
 
 <style>
