@@ -121,6 +121,5 @@ export default {
 }
 .grid-content {
   border-radius: 4px;
-  width: 60%;
 }
 </style>

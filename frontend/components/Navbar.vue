@@ -1,12 +1,12 @@
 <template>
   <div id="navbar" type="flex" class="mt-2">
-    <el-row class="d-flex">
-      <el-col :span="12" class="d-flex">
-        <div class="pl-3" style="height: 60px">
+    <el-row class="d-flex mb-0">
+      <el-col :span="12" class="d-flex m-auto">
+        <div class="pl-3" style="height: 30px">
           <nuxt-link to="/home">LOGO</nuxt-link>
         </div>
       </el-col>
-      <el-col :span="12" class="d-flex justify-content-end">
+      <el-col :span="12" class="d-flex justify-content-end mb-2">
         <div v-if="this.userLoggedState">
           Coucou
           <el-button size="medium" @click="logOut">Logout</el-button>
