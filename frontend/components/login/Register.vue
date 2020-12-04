@@ -22,13 +22,13 @@ import UserAuthForm from "@/components/login/UserAuthForm.vue";
 
 export default {
   name: "Register",
-  components: { UserAuthForm },
+  components: { 
+    UserAuthForm 
+  },
   methods: {
     async registerUser(userInfo) {
       try {
-        //console.log(userInfo.name);
-        // Enregistrement de l'utilisateur
-        await this.$axios.post('http://localhost:3000/users/register', 
+        await this.$axios.post('http://127.0.0.1:3000/users/register', 
           {
             username: userInfo.name,
             email: userInfo.email,
@@ -38,7 +38,6 @@ export default {
           (response) => {
             console.log(response);
             if (response.status == 200) {
-              
               this.$router.push('/home');
             } else {
               alert(response.data.message);

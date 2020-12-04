@@ -7,11 +7,11 @@
         </div>
       </el-col>
       <el-col :span="12" class="d-flex justify-content-end">
-        <div v-if="this.$auth.loggedIn">
-          {{ $auth.user.email }}
-          <el-button size="medium">Logout</el-button>
+        <div v-if="this.userLoggedState">
+          Coucou
+          <el-button size="medium" @click="logOut">Logout</el-button>
         </div>
-        <div else>
+        <div v-if="!this.userLoggedState">
           <nuxt-link to="/login">
             <el-button size="medium">
               Login | Register
@@ -49,11 +49,33 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       butLogAccount: "Log In | Sign Up"
     };
+  },
+  computed: {
+    userLoggedState () {
+      return this.$store.state.isloggedState;
+    }
+  },
+  methods: {
+    async logOut() {
+      await this.$axios.get('http://127.0.0.1:3000/users/logout'
+      ).then(
+        (response) => {
+          if(response.status == 200) {
+            //console.log(response.data);
+            localStorage.removeItem('user');
+            localStorage.removeItem('jwt');
+            this.$store.commit('isloggedInFalse');
+            this.$router.push('/home');
+          }
+        }
+      )
+    }
   }
 };
 </script>

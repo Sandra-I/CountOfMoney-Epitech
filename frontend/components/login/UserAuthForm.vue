@@ -52,7 +52,6 @@
 </template>
 
 <script>
-
 export default {
   name: "UserAuthForm",
   data() {
@@ -103,7 +102,7 @@ export default {
       }
     };
   },
-	props: ["submitForm", "buttonText", "hasName"]
+  props: ["submitForm", "buttonText", "hasName"]
 };
 </script>
 

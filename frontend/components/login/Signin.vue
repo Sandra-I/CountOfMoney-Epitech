@@ -15,37 +15,29 @@
 
 <script>
 import UserAuthForm from "@/components/login/UserAuthForm.vue";
+import { mapMutations } from "vuex";
 
 export default {
-  name: "Signin",
-  components: { UserAuthForm },
+  name: 'Signin',
+  components: {
+    UserAuthForm
+  },
   methods: {
     async loginUser(userInfo) {
-      // console.log(userInfo);
       try {
-        console.log(userInfo.email);
-        await this.$axios.post('http://localhost:3000/users/login',
-          {
+        await this.$axios
+          .post('http://127.0.0.1:3000/users/login', {
             email: userInfo.email,
             password: userInfo.password
-          }
-        ).then(
-          (response) => {
-            console.log(response);
+          })
+          .then(response => {
             if (response.status == 200) {
-              localStorage.setItem('user',JSON.stringify(response.data));
-              localStorage.setItem('jwt',response.data.token);
-              
-              console.log('auth value : ' + this.$auth.loggedIn);
+              localStorage.setItem('user', JSON.stringify(response.data));
+              localStorage.setItem('jwt', response.data.token);
 
-              if (localStorage.getItem('jwt') != null){
-                // this.$auth.loggedIn = true;
-                // set la variable à true
-                console.log('state ' + this.state.isadmin);
+              if (localStorage.getItem('jwt') != null) {
+                this.$store.commit('isloggedInTrue');
               }
-
-              console.log('auth value2 : ' + this.$auth.loggedIn);
-              console.log(response.data.isadmin);
               if (response.data.isadmin == 1) {
                 this.$router.push('/admin');
               } else {
@@ -54,11 +46,18 @@ export default {
             } else {
               alert(response.data.message);
             }
-          }
-        );
-      } catch(e) {
+          });
+      } catch (e) {
         console.log(e);
       }
+    },
+    ...mapMutations({
+      isIn: 'isloggedInTrue'
+    })
+  },
+  computed: {
+    userLoggedState() {
+      return this.$store.state.isloggedState;
     }
   }
 };

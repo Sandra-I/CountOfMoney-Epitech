@@ -45,32 +45,30 @@ export default {
   },
 
   // METTRE A JOUR AVEC .env
-  // Vérifier le runtime config
 
   // Global axios options to applied to all requests
   axios: {
-    //proxy: true,
+    // proxy: true,
     // baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
-    baseURL: 'http://localhost:3000'
+    baseURL: 'http://127.0.0.1:3000'
   },
   
 
   // Authentification module
-  auth: {
-    localStorage: true,
-    strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/users/login', method: 'post', propertyName: 'token' },
-          logout: { url: '/users/logout', method: 'get' },
-          user: { url: '/users/profile', method: 'get', propertyName: 'user' },
-          register: { url: '/users/register', method: 'post'}
-        },
-        // tokenRequired: true,
-        //tokenType: '',
-        // globalToken: true,
-        // autoFetchUser: true
-      }
-    }
-  }
+  // auth: {
+  //   strategies: {
+  //     local: {
+  //       endpoints: {
+  //         login: { url: '/users/login', method: 'post', propertyName: 'token' },
+  //         logout: { url: '/users/logout', method: 'get' },
+  //         user: { url: '/users/profile', method: 'get', propertyName: 'user' },
+  //         register: { url: '/users/register', method: 'post'}
+  //       },
+  //       // tokenRequired: true,
+  //       // tokenType: '',
+  //       // globalToken: true,
+  //       // autoFetchUser: true
+  //     }
+  //   }
+  // }
 }
