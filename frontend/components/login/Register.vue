@@ -17,7 +17,7 @@
      ref="user"
      status-icon>
 
-      <el-form-item label="Username" required prop="name" placeholder="What's your name?"> 
+      <el-form-item label="Username" required prop="name" placeholder="What's your name?">
         <el-input v-model="user.name"></el-input>
       </el-form-item>
       <el-form-item label="E-mail" required prop="email" placeholder="About your email!">
@@ -33,8 +33,8 @@
       <el-form-item>
         <!-- Si valid est false disabled le bouton -->
         <el-button
-         type="primary" 
-         style="float: right;" 
+         type="primary"
+         style="float: right;"
          @click="onSubmit('user')">Register</el-button>
 
         <el-button
@@ -80,7 +80,7 @@ export default {
   methods: {
     onSubmit(user) {
       this.$refs[user].validate((valid) => {
-        if (valid) { 
+        if (valid) {
           alert('submit!');
           // Rajouter code à exécuter
         } else {
@@ -107,14 +107,10 @@ export default {
 .el-col {
   border-radius: 4px;
 }
-.bg-purple-light {
-  background: #e5e9f2;
-}
 .bg-purple-dark {
-  background: #99a9bf;
+  background: #f6f7fb;
 }
 .grid-content {
   border-radius: 4px;
-  width: 60%;
 }
 </style>

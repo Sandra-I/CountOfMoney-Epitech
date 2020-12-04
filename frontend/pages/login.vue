@@ -1,8 +1,9 @@
 <template>
   <el-tabs
-   type="border-card" 
-   v-model="activeName" @tab-click="handleClick">
-   <!-- name est l'attribut utilisé par Tabs pour connaître l'onglet actif -->
+    type="border-card"
+    class="card my-3"
+    v-model="activeName" @tab-click="handleClick">
+    <!-- name est l'attribut utilisé par Tabs pour connaître l'onglet actif -->
     <el-tab-pane label="Register" name="register">
       <Register />
     </el-tab-pane>
@@ -30,3 +31,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.card {
+  max-width: 40em;
+  margin: auto;
+  border-radius: 10px;
+}
+</style>

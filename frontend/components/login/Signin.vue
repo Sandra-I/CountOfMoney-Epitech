@@ -28,8 +28,8 @@
       <el-form-item>
         <!-- Si valid est false disabled le bouton -->
         <el-button
-         type="primary" 
-         style="float: right;" 
+         type="primary"
+         style="float: right;"
          @click="onSubmit('user')">Login</el-button>
       </el-form-item>
     </el-form>
@@ -60,7 +60,7 @@ export default {
   methods: {
     onSubmit(user) {
       this.$refs[user].validate((valid) => {
-        if (valid) { 
+        if (valid) {
           alert('submit!');
           // Rajouter code à exécuter
         } else {
@@ -81,14 +81,10 @@ export default {
 .el-col {
   border-radius: 4px;
 }
-.bg-purple-light {
-  background: #e5e9f2;
-}
 .bg-purple-dark {
-  background: #99a9bf;
+  background: #f6f7fb;
 }
 .grid-content {
   border-radius: 4px;
-  width: 60%;
 }
 </style>
