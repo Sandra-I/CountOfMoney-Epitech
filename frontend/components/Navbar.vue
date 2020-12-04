@@ -1,6 +1,6 @@
 <template>
   <div id="navbar" type="flex"  >
-    <el-row type="flex"> 
+    <el-row type="flex">
       <el-col :span="12">
         <div style="padding-left: 20px; height: 60px">
           <nuxt-link to="/home"><h1>LOGO</h1></nuxt-link>
@@ -8,10 +8,12 @@
       </el-col>
       <el-col :span="12" type="flex" >
           <h2 style="padding-right: 20px" justify="end">
-            <el-link>
-              {{ butLogAccount }}
-              <!-- <i class="el-icon-user"></i> -->
-            </el-link>
+            <nuxt-link to="/login">
+              <el-link>
+                {{ butLogAccount }}
+                <!-- <i class="el-icon-user"></i> -->
+              </el-link>
+            </nuxt-link>
           </h2>
       </el-col>
     </el-row>
