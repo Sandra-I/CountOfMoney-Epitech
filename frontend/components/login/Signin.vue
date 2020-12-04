@@ -9,86 +9,56 @@
       <h1>Sign In</h1>
       <p>Welcome back!</p>
     </div>
-    <el-form
-     label-position="top"
-     label-width="100px"
-     :model="user"
-     :rules="rules"
-     ref="user"
-     status-icon>
-      <el-form-item label="E-mail" required prop="email" placeholder="About your email!">
-        <el-input type="email" v-model="user.email"></el-input>
-      </el-form-item>
-      <!-- intégrer double vérification des mots de passe. correspondance -->
-      <el-form-item label="Password" required prop="password" placeholder="A secret password.">
-        <el-input v-model="user.password"></el-input>
-        <!-- voir si possible à intégrer -->
-        <p>Forget password?</p>
-      </el-form-item>
-      <el-form-item>
-        <!-- Si valid est false disabled le bouton -->
-        <el-button
-         type="primary" 
-         style="float: right;" 
-         @click="onSubmit('user')">Login</el-button>
-      </el-form-item>
-    </el-form>
+    <UserAuthForm buttonText="Sign in" :submitForm="loginUser" />
   </el-card>
 </template>
 
 <script>
+import UserAuthForm from "@/components/login/UserAuthForm.vue";
+import { mapMutations } from "vuex";
+
 export default {
-  name: "Signin",
-  data() {
-    return {
-      user: {
-        name: "",
-        email: "",
-        password: ""
-      },
-      rules: {
-        email: [
-          { required: true, message: 'Please input your email', trigger: 'blur' },
-          { type: 'email', trigger: ['blur', 'change'] }
-        ],
-        password: [
-          { required: true, message: 'Please input your password', trigger: 'blur' }
-        ]
-      }
-    };
+  name: 'Signin',
+  components: {
+    UserAuthForm
   },
   methods: {
-    onSubmit(user) {
-      this.$refs[user].validate((valid) => {
-        if (valid) { 
-          alert('submit!');
-          // Rajouter code à exécuter
-        } else {
-          // Rajouter code à exécuter
-          console.log('error submit!!');
-          return false;
-        }
-      })
+    async loginUser(userInfo) {
+      try {
+        await this.$axios
+          .post('http://127.0.0.1:3000/users/login', {
+            email: userInfo.email,
+            password: userInfo.password
+          })
+          .then(response => {
+            if (response.status == 200) {
+              localStorage.setItem('user', JSON.stringify(response.data));
+              localStorage.setItem('jwt', response.data.token);
+
+              if (localStorage.getItem('jwt') != null) {
+                this.$store.commit('isloggedInTrue');
+              }
+              if (response.data.isadmin == 1) {
+                this.$router.push('/admin');
+              } else {
+                this.$router.push('/home');
+              }
+            } else {
+              alert(response.data.message);
+            }
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    ...mapMutations({
+      isIn: 'isloggedInTrue'
+    })
+  },
+  computed: {
+    userLoggedState() {
+      return this.$store.state.isloggedState;
     }
   }
 };
 </script>
-
-<style scoped>
-.el-row {
-  margin-bottom: 20px;
-}
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple-light {
-  background: #e5e9f2;
-}
-.bg-purple-dark {
-  background: #99a9bf;
-}
-.grid-content {
-  border-radius: 4px;
-  width: 60%;
-}
-</style>
