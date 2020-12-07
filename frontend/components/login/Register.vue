@@ -1,6 +1,6 @@
 <template>
   <el-card
-    class="grid-content bg-purple-dark"
+    class="grid-content bg-purple-light"
     shadow="never"
     type="flex"
     justify="center"
@@ -22,17 +22,17 @@ import UserAuthForm from "@/components/login/UserAuthForm.vue";
 
 export default {
   name: "Register",
-  components: { 
-    UserAuthForm 
+  components: {
+    UserAuthForm
   },
   methods: {
     async registerUser(userInfo) {
       try {
-        await this.$axios.post('http://127.0.0.1:3000/users/register', 
+        await this.$axios.post('http://127.0.0.1:3000/users/register',
           {
             username: userInfo.name,
             email: userInfo.email,
-            password: userInfo.password 
+            password: userInfo.password
           }
         ).then(
           (response) => {
@@ -52,3 +52,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.bg-purple-light {
+  background: #f6f7fb;
+}
+.grid-content {
+  border-radius: 4px;
+}
+</style>

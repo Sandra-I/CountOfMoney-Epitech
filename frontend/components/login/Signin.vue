@@ -1,6 +1,6 @@
 <template>
   <el-card
-    class="grid-content bg-purple-dark"
+    class="grid-content bg-purple-light"
     shadow="never"
     type="flex"
     justify="center"
@@ -62,3 +62,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.bg-purple-light {
+  background: #f6f7fb;
+}
+.grid-content {
+  border-radius: 4px;
+}
+</style>

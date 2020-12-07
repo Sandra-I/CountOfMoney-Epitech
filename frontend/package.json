@@ -16,5 +16,8 @@
     "element-ui": "^2.13.2",
     "nuxt": "^2.14.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxt/types": "^2.14.9",
+    "bootstrap-vue": "^2.19.0"
+  }
 }
