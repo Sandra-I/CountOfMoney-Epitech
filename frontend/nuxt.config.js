@@ -45,7 +45,6 @@ export default {
   },
 
   // METTRE A JOUR AVEC .env
-
   // Global axios options to applied to all requests
   axios: {
     // proxy: true,
@@ -55,20 +54,32 @@ export default {
   
 
   // Authentification module
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       endpoints: {
-  //         login: { url: '/users/login', method: 'post', propertyName: 'token' },
-  //         logout: { url: '/users/logout', method: 'get' },
-  //         user: { url: '/users/profile', method: 'get', propertyName: 'user' },
-  //         register: { url: '/users/register', method: 'post'}
-  //       },
-  //       // tokenRequired: true,
-  //       // tokenType: '',
-  //       // globalToken: true,
-  //       // autoFetchUser: true
-  //     }
-  //   }
-  // }
+  auth: {
+    // redirect: {
+    //   login: '/login',
+    //   logout: '/',
+    //   home: '/'
+    // },
+    strategies: {
+      local: {
+        // token: {
+        //   //token base
+        //   property: false
+        //   //cookie based
+        //   // required: false,
+        //   // type: false
+        // },
+        endpoints: {
+          login: { url: '/users/login', method: 'post', propertyName: 'data.token' },
+          logout: { url: '/users/logout', method: 'get' },
+          user: false
+          //user: { url: '/users/profile', method: 'get', propertyName: 'user' }
+        },
+        // tokenRequired: true,
+        //tokenType: '',
+        // globalToken: true,
+        //autoFetchUser: true
+      }
+    }
+  }
 }

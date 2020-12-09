@@ -59,41 +59,23 @@ export default {
       valid: false,
       userInfo: {
         name: '',
-        email: '',
-        password: ''
+        email: 'admin@admin.fr',
+        password: 'test'
         //passwordConfirmation: ''
       },
       rules: {
         name: [
           { message: "Please input your username", trigger: "blur" },
-          {
-            min: 3,
-            max: 10,
-            message: "Length should be 3 to 10",
-            trigger: "blur"
-          }
+          { min: 3, max: 10, message: "Length should be 3 to 10", trigger: "blur" }
         ],
         email: [
-          {
-            required: true,
-            message: "Please input your email",
-            trigger: "blur"
-          },
+          { required: true, message: "Please input your email" },
           { type: "email", trigger: ["blur", "change"] }
         ],
         // 8 caractères min + 1 chiffres + 1 lettre
         password: [
-          {
-            required: true,
-            message: "Please input your password",
-            trigger: "blur"
-          },
-          {
-            min: 8,
-            max: 15,
-            message: "Length should be 8 to 15",
-            trigger: "blur"
-          }
+          { required: true, message: "Please input your password", trigger: "blur" },
+          { min: 8, max: 15, message: "Length should be 8 to 15", trigger: "blur" }
         ]
         // passwordConfirmation: [
         //   { required: true, message: 'Please input the same password', trigger: 'blur' },

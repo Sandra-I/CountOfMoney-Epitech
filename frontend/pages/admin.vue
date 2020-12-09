@@ -26,6 +26,7 @@ import AddCryptoCurrency from "../components/AddCryptoCurrency.vue";
 import CryptoTable from "../components/CryptoTable.vue";
 
 export default {
+  //middleware: 'auth',
   components: { CryptoTable, AddCryptoCurrency },
   data() {
     return {

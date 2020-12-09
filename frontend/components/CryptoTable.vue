@@ -2,7 +2,7 @@
   <el-card style="margin-bottom: 20px;">
     <!-- Utiliser attribut height dans el-table pour avoir un header fixe -->
     <el-table
-      :data="tableData"
+      :data="cryptoArray"
       ref="testref"
       :default-sort="{ prop: 'id', order: 'descending' }"
       stripe
@@ -12,26 +12,21 @@
     >
       <el-table-column type="index" label="N°" width="65"> </el-table-column>
 
-      <el-table-column label="Name" width="180" sortable>
+      <el-table-column prop="fullname" label="Name" width="180" sortable>
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
           <span style="margin-left: 10px">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="" label="Current Price" width="150" sortable>
+      <el-table-column prop="currentPrice" label="Current Price" width="150" sortable>
       </el-table-column>
-      <el-table-column prop="date" label="Opening Price" width="150" sortable>
+      <el-table-column prop="openingPrice" label="Opening Price" width="150" sortable>
       </el-table-column>
-      <el-table-column prop="address" label="Lowest Price" width="150" sortable>
+      <el-table-column prop="lowestPrice" label="Lowest Price" width="150" sortable>
       </el-table-column>
-      <el-table-column
-        prop="highestPrice"
-        label="Highest Price"
-        width="150"
-        sortable
-      >
+      <el-table-column prop="highestPrice" label="Highest Price" width="150" sortable>
       </el-table-column>
-      <el-table-column>
+      <el-table-column v-if="isAdmin">
         <el-button
           type="danger"
           icon="el-icon-delete"
@@ -59,43 +54,36 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "CryptoTable",
   data() {
     return {
       showDeleteModale: false,
-      tableData: [
+      cryptoArray: [
         {
-          id: 1,
-          date: "2016-05-02",
-          name: "Bitcoins",
-          address: "No. 189"
-        },
-        {
-          id: 2,
-          date: "2016-05-04",
-          name: "Ethereum",
-          address: "No. 189"
-        },
-        {
-          id: 3,
-          date: "2016-05-01",
-          name: "XRP",
-          address: "No. 189"
-        },
-        {
-          id: 4,
-          date: "2016-05-01",
-          name: "Litcoins",
-          address: "No. 189"
+          image: '',
+          fullname: '',
+          currentPrice: '',
+          openingPrice: '',
+          lowestPrice: '',
+          highestPrice: ''
         }
       ]
     };
+  },
+  computed: {
+    ...mapState({
+      isAdmin: 'isAdmin'
+    })
   },
   methods: {
     handleDelete() {
       console.log(this.$refs.testref.data[0]);
     }
+  },
+  mounted() {
   }
 };
 </script>

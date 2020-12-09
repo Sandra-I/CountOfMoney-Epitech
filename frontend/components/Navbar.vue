@@ -7,11 +7,11 @@
         </div>
       </el-col>
       <el-col :span="12" class="d-flex justify-content-end">
-        <div v-if="this.userLoggedState">
+        <div v-if="this.$auth.loggedIn">
           Coucou
           <el-button size="medium" @click="logOut">Logout</el-button>
         </div>
-        <div v-if="!this.userLoggedState">
+        <div v-if="!this.$auth.loggedIn">
           <nuxt-link to="/login">
             <el-button size="medium">
               Login | Register
