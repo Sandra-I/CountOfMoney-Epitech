@@ -1,6 +1,7 @@
 const Customer = require("../models/users.model.js");
 var CryptoJS = require("crypto-js");
 const passConfig = require("../config/password.config.js");
+const checkToken = require("../JsonWebToken/JsonWebToken.js")
 
 var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
@@ -87,7 +88,7 @@ exports.login = (req, res, next) => {
         var originalText = bytes.toString(CryptoJS.enc.Utf8);
 
         if (req.body.password === originalText) {
-            next();
+            checkToken.sendToken(req, res);
         } else {
             res.status(208).json({message: "bad password"})
         }

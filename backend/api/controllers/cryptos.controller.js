@@ -13,6 +13,7 @@ exports.all = (req, res) => {
         res.send(`Expected status code 200 but received ${response.statusCode}.`);
         return;
     }
+    console.log(response.body);
     res.send(response.body)
 });
 }
@@ -51,6 +52,7 @@ exports.create = (req, res) => {
 
 exports.delete = (req, res) => {
     id = req.params.cmid;
+    console.log("id: ",id)
     Crypto.remove(id, (err, data) => {
         if (err)
             res.status(203).send({
@@ -58,9 +60,27 @@ exports.delete = (req, res) => {
                      err.message || "Some error to delete crypto."
              });
         else {
-            res.send("deleted crypto with id: ", id);
+            res.status(200).send("deleted crypto");
         }
     });
+};
+
+exports.del = (req, res) => {
+  console.log("coucou")
+  code= req.params.code;
+  userid = req.params.userid;
+  console.log("code: ", code)
+  console.log("userid: ", userid)
+  Crypto.remov(userid, code, (err, data) => {
+      if (err)
+          res.status(203).send({
+              message:
+                   err.message || "Some error to delete crypto."
+           });
+      else {
+          res.status(200).send("deleted crypto in favorite");
+      }
+  });
 };
 
 exports.findAll = (req, res) => {
@@ -139,3 +159,51 @@ exports.findAll = (req, res) => {
       } 
     });
   };
+
+
+  exports.add = (req, res) => {
+    // Validate request
+    
+    if (!req.body) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+    }
+    else {
+      code = req.body.code;
+      console.log(code)
+      Crypto.select(code, (err, data) => {
+        if (err)
+            res.status(203).send({
+                message:
+                     err.message || "Some error occurred while creating the user."
+             });
+        if (!data) {
+              res.status(400).send({
+                message: "Content can not be empty!"
+            });
+             }
+        else {
+      
+    // Create a Crypto
+        const crypto = new Crypto ({
+            fullname: data[0].fullname,
+            code: data[0].code,
+            imageurl: data[0].imageurl
+        });
+        console.log(crypto)
+    Crypto.adds(crypto, (err, data) => {
+        if (err)
+            res.status(203).send({
+                message:
+                     err.message || "Some error occurred while creating the user."
+             });
+        else {
+            res.send(data);
+        }
+    }); 
+  }
+})
+}
+
+}

@@ -73,7 +73,7 @@ const createAccountLimiter = rateLimit({
 // Create a new user
 app.post('/users/register', customers.create);
 // user login
-app.post('/users/login', createAccountLimiter, customers.login, checkToken.sendToken);
+app.post('/users/login', createAccountLimiter, customers.login, checkToken.sendToken,);
 // user update
 app.get('/users/profile', checkToken.sendToken, customers.update,);
 // user logout

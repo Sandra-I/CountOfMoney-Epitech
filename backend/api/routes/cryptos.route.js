@@ -1,23 +1,29 @@
 const current = require("../controllers/cryptos.controller.js");
-//const checkToken = require("../JsonWebToken/JsonWebToken.js")
+const checkToken = require("../JsonWebToken/JsonWebToken.js")
 
 
 module.exports = app => {
-    app.get('/cryptos/all', current.all)
+    app.get('/cryptos/all', checkToken.checkSuperRight, current.all)
 
     // Create a new crypto
-    app.post('/cryptos', current.create);
+    app.post('/cryptos', checkToken.checkSuperRight, current.create);
 
     // Delete a crypto
-    app.delete('/cryptos/:cmid', current.delete);
+    app.delete('/cryptos/:cmid', checkToken.checkSuperRight, current.delete);
 
-    //  get all crypto with params money
+    // Add a crypto in favorite
+    app.post('/cryptos/:userid', current.add);
+
+    // Delete a crypto in favorite   checkToken.checkSuperToken,
+    app.delete('/cryptos/:code/:userid', checkToken.checkSuperToken, current.del);
+
+    //  get all crypto with params money /cryptos?money=
     app.get('/cryptos', current.findAll);
 
     //  get one crypto
-    app.get('/cryptos/:cmid', current.findOne);
+    app.get('/cryptos/:cmid', checkToken.checkToken, current.findOne);
 
      //  get one crypto and period
-     app.get('/cryptos/:cmid/history/:period', current.findOnes);
+     app.get('/cryptos/:cmid/history/:period', checkToken.checkToken, current.findOnes);
 
 }
