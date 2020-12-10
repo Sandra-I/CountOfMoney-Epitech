@@ -16,12 +16,12 @@ CREATE TABLE `currents` (
 
 CREATE TABLE `articles` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `summary` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(1024) NOT NULL,
+  `summary` VARCHAR(1024) NOT NULL,
   `source` VARCHAR(255) NOT NULL,
   `date` DATETIME NOT NULL,
-  `urlpage` VARCHAR(255) NOT NULL,
-  `urlimage` VARCHAR(255) NULL
+  `urlpage` VARCHAR(1024) NOT NULL,
+  `urlimage` VARCHAR(1024) NULL
   );
 
 CREATE TABLE `users` (

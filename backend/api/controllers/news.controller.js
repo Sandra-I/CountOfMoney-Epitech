@@ -1,7 +1,7 @@
 const News = require("../models/news.model.js")
 
-getArticleList(req, res) {
-    queryVars = {
+function getArticleList(req, res) {
+    let queryVars = {
         id: 0
     }
     if (Number.isInteger(req.query.maxValue)) {
@@ -23,7 +23,7 @@ getArticleList(req, res) {
     })
 }
 
-getArticleById(req, res) {
+function getArticleById(req, res) {
     let article = new News.Article({
         id: req.params.id
     })

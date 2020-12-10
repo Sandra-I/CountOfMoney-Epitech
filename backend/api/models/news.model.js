@@ -2,10 +2,10 @@ const sql = require("../db.js")
 
 class Article {
 
-    let id = 0
-    let maxValue = 30
-    let before = null
-    let after = null
+    id = 0
+    maxValue = 30
+    before = null
+    after = null
 
     constructor(requestParams) {
         if (requestParams && Number.isInteger(requestParams.id)) {
@@ -57,3 +57,4 @@ class Article {
         })
     }
 }
+
