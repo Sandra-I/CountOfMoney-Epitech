@@ -93,7 +93,8 @@ export default {
       try {
         // .get(`http://127.0.0.1:3000/cryptos/all?token=${localStorage.getItem('jwt')}`, {withCredentials: true})
         await this.$axios
-          .get(`http://127.0.0.1:3000/cryptos/all?token=${localStorage.getItem('jwt')}`
+          .get('http://127.0.0.1:3000/cryptos/all',
+          { withCredentials: false }
           )
           .then(response => {
             if (response.status == 200) {
