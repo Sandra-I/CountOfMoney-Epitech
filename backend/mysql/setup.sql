@@ -3,13 +3,9 @@ USE project;
 
 CREATE TABLE `cryptos` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `username` VARCHAR(255) NOT NULL,
-  `currentprice` VARCHAR(255) NOT NULL,
-  `openingprice` VARCHAR(255) NOT NULL,
-  `lowestpriceday` VARCHAR(255) NOT NULL,
-  `highestpriceday` VARCHAR(255) NOT NULL,
-  `urlimage` VARCHAR(255) NOT NULL
+  `fullname` VARCHAR(255) NOT NULL,
+  `code` VARCHAR(255) NOT NULL,
+  `imageurl` VARCHAR(255) NOT NULL
   );
 
 CREATE TABLE `currents` (
@@ -38,8 +34,11 @@ CREATE TABLE `users` (
   FOREIGN KEY(crypto) REFERENCES cryptos(id),
   `current` INT NULL,
   FOREIGN KEY(current) REFERENCES currents(id),
-  `article` INT NULL,
+  `article` INT NULL, 
   FOREIGN KEY(article) REFERENCES articles(id)
   );
 
 INSERT INTO users (isadmin, username, email, password) VALUES (TRUE, 'user', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=');
+INSERT INTO currents (name) VALUES ("EUR");
+INSERT INTO currents (name) VALUES ("USD");
+INSERT INTO currents (name) VALUES ("BTC");

@@ -56,7 +56,6 @@ exports.create = (req, res) => {
             email: req.body.email,
             password: req.body.password
         });
-
         // Save Customer in the database
         Customer.create(customer, (err, data) => {
             if (err)
@@ -90,7 +89,7 @@ exports.login = (req, res, next) => {
         if (req.body.password === originalText) {
             next();
         } else {
-            res.status(204).json({message: "bad password"})
+            res.status(208).json({message: "bad password"})
         }
     })
 
