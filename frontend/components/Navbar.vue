@@ -12,8 +12,8 @@
           <!-- <el-button>{{ this.username }}</el-button> -->
           <el-button>{{ testname }}</el-button>
           <el-button>{{ this.username }}</el-button>
-          <el-button size="medium" @click="logOut">Logout</el-button>
           <el-button size="medium" @click="testconsole">testconsole</el-button>
+          <el-button size="medium" @click="logOut">Logout</el-button>
         </div>
         <div v-if="!this.isloggedState">
           <nuxt-link to="/login">
@@ -25,26 +25,16 @@
       </el-col>
     </el-row>
 
-    <el-row type="flex" justify="center" class="d-flex">
-      <el-col :span="24" style="text-align: center">
-        <div>
-          <el-menu
-            class="el-menu-demo d-flex flex-direction-column"
-            mode="horizontal"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-          >
-            <!-- <el-menu-item index="3" disabled>Info</el-menu-item> -->
-            <el-menu-item><nuxt-link to="/home">Home</nuxt-link></el-menu-item>
-            <el-menu-item
-              ><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item
-            >
-            <el-menu-item
-              ><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item
-            >
+    <el-row type="flex" class="d-flex">
+      <el-col :span="24" class="d-flex justify-content-center">
+          <el-menu :default-active="activeIndex" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
+            <!-- <el-menu-item><nuxt-link to="/"><span><i class="el-icon-s-home"></i>Home</span></nuxt-link></el-menu-item> -->
+            <el-menu-item index="1"><nuxt-link to="/">Home</nuxt-link></el-menu-item>
+            <el-menu-item index="2"><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item>
+            <el-menu-item index="3"><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item>
+            <el-menu-item index="4" v-if="this.isloggedState"><nuxt-link to="/profile">Profile</nuxt-link></el-menu-item>
+            <el-menu-item index="5" v-if="this.isAdmin"><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item>
           </el-menu>
-        </div>
       </el-col>
     </el-row>
   </div>
@@ -57,7 +47,8 @@ export default {
   data() {
     return {
       butLogAccount: "Register | Sign in",
-      testname: "Test"
+      testname: "Test",
+      activeIndex: '5'
     };
   },
   computed: {
@@ -76,7 +67,7 @@ export default {
           localStorage.removeItem("jwt");
           this.$store.commit("isloggedInFalse");
           this.$store.commit("isAdminInFalse");
-          this.$router.push("/home");
+          this.$router.push("/");
         }
       });
     },

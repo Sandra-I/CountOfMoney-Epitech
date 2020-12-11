@@ -18,6 +18,7 @@ export default {
   components: {
     CryptoTable,
     CryptoGraphs,
+    BreakingNews
   },
 };
 </script>
