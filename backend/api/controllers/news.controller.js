@@ -13,27 +13,22 @@ function checkQueryVars(q) {
     if (q.maxValue) {
         let mv = (+q.maxValue)
 
-        if (Number.isInteger(mv) && mv > 0) {
+        if (Number.isInteger(mv) && mv > 0)
             queryVars["maxValue"] = mv
-        } else {
+        else
             queryVars.warn.log.push("maxValue: maxValue must be a whole number and greater than 0. Default value will be used.")
-        }
     }
-
     if (q.before) {
-        if (moment(q.before, "YYYYMMDD-HHmmss").isValid()) {
+        if (moment(q.before, "YYYYMMDD-HHmmss").isValid())
             queryVars["before"] = moment(q.before, "YYYYMMDD-HHmmss").format("YYYY-MM-DDTHH:mm:ss.SSS")
-        } else {
+        else
             queryVars.warn.log.push("before: Date format invalid, specified value will be ignored. It must be formatted this way with a 24-hour format: YYYYMMDD-HHMMSS (ex: 20201225-162451).")
-        }
     }
-
     if (q.after) {
-        if (moment(q.after, "YYYYMMDD-HHmmss").isValid()) {
+        if (moment(q.after, "YYYYMMDD-HHmmss").isValid())
             queryVars["after"] = moment(q.after, "YYYYMMDD-HHmmss").format("YYYY-MM-DDTHH:mm:ss.SSS")
-        } else {
+        else
             queryVars.warn.log.push("after: Date format invalid, specified value will be ignored. It must be formatted this way with a 24-hour format: YYYYMMDD-HHMMSS (ex: 20201225-162451).")
-        }
     }
     return queryVars
 }
