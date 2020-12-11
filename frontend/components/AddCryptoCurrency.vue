@@ -96,14 +96,14 @@ export default {
           .then(response => {
             if (response.status == 200) {
               
-              const arrayCrypto = response.data.Data;
+              //const arrayCrypto = response.data.Data;
               //console.log(response.data.Data);
-              const data1 = [];
-              const data2 = [];
+              // const data1 = [];
+              // const data2 = [];
               // console.log(response.data.Data.toString(42).CoinName);
-              for (const data in arrayCrypto) {
-                data1.push(data);
-              }
+              // for (const data in arrayCrypto) {
+              //   data1.push(data);
+              // }
               //console.log(data2.length);
 
               // let h = '.'+data1[10];
@@ -111,9 +111,9 @@ export default {
               // console.log(o);
               // console.log('length data1 ' + data1.length);
 
-              for (let i=0; i<data1.length; i++) {
-                data2.push(arraCrypto.data1[i]);
-              }
+              // for (let i=0; i<data1.length; i++) {
+              //   data2.push(arraCrypto.data1[i]);
+              // }
               //console.log(data2);
               //this.cryptoArray.fullname = response.data.fullname;
               //return this.cryptoArray = response.data;
@@ -127,7 +127,7 @@ export default {
     },
     async addCrypto() {
       try {
-        await this.$axios.post('http://127.0.0.1:3000/cryptos', 
+        await this.$axios.post('/cryptos', 
           {
             fullname: crypto.fullname,
             code: crypto.code,
