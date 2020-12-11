@@ -7,14 +7,18 @@
         </div>
       </el-col>
       <el-col :span="12" class="d-flex justify-content-end">
-        <div v-if="this.$auth.loggedIn">
-          Coucou
+        <div v-if="this.isloggedState">
+          <!-- Souci lié au fait que ce ne soit pasune string envoyé au state -->
+          <!-- <el-button>{{ this.username }}</el-button> -->
+          <el-button>{{ testname }}</el-button>
+          <el-button>{{ this.username }}</el-button>
           <el-button size="medium" @click="logOut">Logout</el-button>
+          <el-button size="medium" @click="testconsole">testconsole</el-button>
         </div>
-        <div v-if="!this.$auth.loggedIn">
+        <div v-if="!this.isloggedState">
           <nuxt-link to="/login">
             <el-button size="medium">
-              Login | Register
+              {{ butLogAccount }}
             </el-button>
           </nuxt-link>
         </div>
@@ -32,9 +36,7 @@
             active-text-color="#ffd04b"
           >
             <!-- <el-menu-item index="3" disabled>Info</el-menu-item> -->
-            <el-menu-item
-              ><nuxt-link to="/home">Home</nuxt-link></el-menu-item
-            >
+            <el-menu-item><nuxt-link to="/home">Home</nuxt-link></el-menu-item>
             <el-menu-item
               ><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item
             >
@@ -49,32 +51,46 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
-      butLogAccount: "Log In | Sign Up"
+      butLogAccount: "Register | Sign in",
+      testname: "Test"
     };
   },
   computed: {
-    userLoggedState () {
-      return this.$store.state.isloggedState;
-    }
+    ...mapState({
+      isloggedState: 'isloggedState',
+      username: 'username',
+      isAdmin: 'isAdmin'
+    })
   },
   methods: {
     async logOut() {
-      await this.$axios.get('http://127.0.0.1:3000/users/logout'
-      ).then(
-        (response) => {
-          if(response.status == 200) {
-            //console.log(response.data);
-            localStorage.removeItem('user');
-            localStorage.removeItem('jwt');
-            this.$store.commit('isloggedInFalse');
-            this.$router.push('/home');
-          }
+      await this.$axios.get("/users/logout").then(response => {
+        if (response.status == 200) {
+          console.log("logout");
+          localStorage.removeItem("user");
+          localStorage.removeItem("jwt");
+          this.$store.commit("isloggedInFalse");
+          this.$store.commit("isAdminInFalse");
+          this.$router.push("/home");
         }
-      )
+      });
+    },
+    testconsole() {
+      const username = JSON.parse(localStorage.getItem("user"));
+      console.log(username);
+      const monTableau = Object.keys(username);
+      console.log(monTableau);
+      if (localStorage.user) {
+        console.log(this.$store.state.username);
+        //this.testname = localStorage.user;
+      } else {
+        this.testname = "Echec";
+      }
     }
   }
 };

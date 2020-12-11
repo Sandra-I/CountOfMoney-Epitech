@@ -2,6 +2,10 @@ export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
+  server: {
+    port: 8000 // default: 3000
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'frontend',
@@ -49,36 +53,24 @@ export default {
   axios: {
     // proxy: true,
     // baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
-    baseURL: 'http://127.0.0.1:3000'
+    // headers: {
+    //   Authorization: 'Bearer {token}'
+    // },
+    baseURL: 'http://127.0.0.1:3000',
+    withCredentials: true
   },
   
 
   // Authentification module
   auth: {
-    // redirect: {
-    //   login: '/login',
-    //   logout: '/',
-    //   home: '/'
-    // },
     strategies: {
       local: {
-        // token: {
-        //   //token base
-        //   property: false
-        //   //cookie based
-        //   // required: false,
-        //   // type: false
-        // },
         endpoints: {
           login: { url: '/users/login', method: 'post', propertyName: 'data.token' },
           logout: { url: '/users/logout', method: 'get' },
           user: false
           //user: { url: '/users/profile', method: 'get', propertyName: 'user' }
-        },
-        // tokenRequired: true,
-        //tokenType: '',
-        // globalToken: true,
-        //autoFetchUser: true
+        }
       }
     }
   }

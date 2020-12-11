@@ -1,12 +1,16 @@
 export const state = () => ({
   isloggedState: false,
   isAdmin: false,
-  username: ''
+  username: 'No name',
+  useremail: ''
 })
 
 export const getters = () => ({
   getLoggedInUser() {
-    return this.state.isloggedState
+    return this.state.isloggedState;
+  },
+  getUsername() {
+    return this.state.username;
   }
 })
 
@@ -17,8 +21,17 @@ export const mutations = {
   isloggedInFalse() {
     this.state.isloggedState = false;
   },
+  isAdminInTrue() {
+    this.state.isAdmin = true;
+  },
+  isAdminInFalse() {
+    this.state.isAdmin = false;
+  },
   setUsername(payload) {
     this.state.username = payload;
+  },
+  setUseremail(payload) {
+    this.state.useremail = payload;
   }
 }
 

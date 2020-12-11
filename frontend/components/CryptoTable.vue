@@ -26,7 +26,7 @@
       </el-table-column>
       <el-table-column prop="highestPrice" label="Highest Price" width="150" sortable>
       </el-table-column>
-      <el-table-column v-if="isAdmin">
+      <el-table-column v-if="this.isAdmin">
         <el-button
           type="danger"
           icon="el-icon-delete"

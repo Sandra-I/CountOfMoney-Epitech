@@ -91,23 +91,20 @@ export default {
     },
     async getAllCrypto() {
       try {
-        // .get(`http://127.0.0.1:3000/cryptos/all?token=${localStorage.getItem('jwt')}`, {withCredentials: true})
         await this.$axios
-          .get('http://127.0.0.1:3000/cryptos/all',
-          { withCredentials: false }
-          )
+          .get('/cryptos/all')
           .then(response => {
             if (response.status == 200) {
               
               const arrayCrypto = response.data.Data;
-              console.log(response.data.Data);
+              //console.log(response.data.Data);
               const data1 = [];
               const data2 = [];
               // console.log(response.data.Data.toString(42).CoinName);
               for (const data in arrayCrypto) {
                 data1.push(data);
               }
-              console.log(data2.length);
+              //console.log(data2.length);
 
               // let h = '.'+data1[10];
               // let o = response.data.Data+h;
@@ -117,7 +114,7 @@ export default {
               for (let i=0; i<data1.length; i++) {
                 data2.push(arraCrypto.data1[i]);
               }
-              console.log(data2);
+              //console.log(data2);
               //this.cryptoArray.fullname = response.data.fullname;
               //return this.cryptoArray = response.data;
             } else {
