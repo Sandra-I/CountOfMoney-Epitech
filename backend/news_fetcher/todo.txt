@@ -1,5 +1,0 @@
-tout d'abord: tester les routes parce que je l'ai pas fait
-
-
-requête sur l'api de cryptocompare et ajouter les articles qui ont une date supérieure ou égale à l'article de la bdd le plus récent (en excluant ce dernier grâce à une comparaison de tous les champs entre les 2)
-installer moment pour convertir les epoch de la requête cryptocompare en datetime mysql -> https://stackoverflow.com/questions/40752287/use-moment-js-to-convert-unix-epoch-time-to-human-readable-time

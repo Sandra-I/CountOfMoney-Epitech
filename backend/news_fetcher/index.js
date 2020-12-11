@@ -4,7 +4,6 @@ const moment = require('moment')
 
 const apiKey = process.env.CC_API_KEY
 
-
 const connection = mysql.createConnection({
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
@@ -13,16 +12,18 @@ const connection = mysql.createConnection({
     database: process.env.MYSQL_DATABASE
 });
 
+
 connection.connect(error => {
     if (error) throw error
     else console.log("Successfully connected to the database."); //TODO: virer
 });
 
-//TODO: while?
 
 connection.query('DELETE FROM articles WHERE date < DATE_SUB(NOW() , INTERVAL 7 DAY)', function (err) {
     if (err) throw err
 })
+
+
 
 axios.get('https://min-api.cryptocompare.com/data/v2/news/', {
     headers: {
@@ -90,4 +91,5 @@ axios.get('https://min-api.cryptocompare.com/data/v2/news/', {
 })
 
 
-setTimeout(function () {}, 10000)
+
+setTimeout(function () {}, 30000)
