@@ -15,7 +15,6 @@ const connection = mysql.createConnection({
 
 connection.connect(error => {
     if (error) throw error
-    else console.log("Successfully connected to the database."); //TODO: virer
 });
 
 

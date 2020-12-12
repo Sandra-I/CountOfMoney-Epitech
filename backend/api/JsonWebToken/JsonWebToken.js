@@ -9,7 +9,7 @@ exports.sendToken = (req, res, next) => {
         secure: false,
         expires: new Date(Date.now() + (1000 * 60 * 60 * 24)),
     };
-    db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`, function (err, result) { //TODO: requêtes préparées
+    db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`, function (err, result) {
         if (err) {
             res.status(500).send({
                 error: "An error has occured."

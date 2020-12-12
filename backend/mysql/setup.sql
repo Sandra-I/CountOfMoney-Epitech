@@ -38,5 +38,3 @@ CREATE TABLE `users` (
   `article` INT NULL,
   FOREIGN KEY(article) REFERENCES articles(id)
   );
-
-INSERT INTO users (isadmin, username, email, password) VALUES (TRUE, 'admin', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=');
