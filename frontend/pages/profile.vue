@@ -17,10 +17,10 @@
           <el-input
             id="email"
             placeholder="Enter your email"
-            v-model="email"
+            v-model="useremail"
           ></el-input>
         </div>
-        <div class="d-flex flex-row">
+        <!-- <div class="d-flex flex-row">
           <div class="d-flex flex-column mb-3 pr-5">
             <label for="password">Password</label>
             <el-input
@@ -44,7 +44,7 @@
         </div>
         <div class="d-flex justify-content-end">
           <el-button>Update</el-button>
-        </div>
+        </div> -->
       </el-card>
     </el-col>
     <el-col :span="18">
@@ -54,28 +54,15 @@
         <div class="d-flex flex-column">
           <p>Default currency</p>
           <div class="d-flex flex-row">
-            <el-radio v-model="currency" label="eur" border size="medium"
-              >EURO</el-radio
+            <el-radio v-model="usercurrency" label="EUR" border size="medium"
+              ></el-radio
             >
-            <el-radio v-model="currency" label="dol" border size="medium"
-              >DOLLAR</el-radio
+            <el-radio v-model="usercurrency" label="USD" border size="medium"
+              ></el-radio
             >
           </div>
         </div>
-        <el-divider></el-divider>
-        <div class="d-flex flex-column">
-          <p>Favorite crypto currencies</p>
-          <div>
-            <el-transfer
-              filterable
-              filter-placeholder="Crypto List"
-              :titles="['Source', 'Your list']"
-              v-model="value"
-              :data="data"
-            >
-            </el-transfer>
-          </div>
-        </div>
+
         <el-divider></el-divider>
         <div class="d-flex flex-column">
           <p>Press Keywords</p>
@@ -89,31 +76,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  // data [] attendue pour le transfer : array[{ key, label, disabled }]
-  data() {
-    // Test pour le transfer
-    const generateData = _ => {
-      const data = [];
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `Option ${i}`,
-          disabled: i % 4 === 0
-        });
-      }
-      return data;
-    };
-    return {
-      username: "",
-      email: "",
-      password: "",
-      password2: "",
-      currency: "eur",
-      //
-      data: generateData(),
-      value: [1, 4]
-    };
+  computed: {
+    ...mapState({
+      isloggedState: 'isloggedState',
+      username: 'username',
+      useremail: 'useremail',
+      usercurrency: 'usercurrency'
+    })
   }
 };
 </script>
