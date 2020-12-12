@@ -8,11 +8,7 @@
       </el-col>
       <el-col :span="12" class="d-flex justify-content-end">
         <div v-if="this.isloggedState">
-          <!-- Souci lié au fait que ce ne soit pasune string envoyé au state -->
-          <!-- <el-button>{{ this.username }}</el-button> -->
-          <el-button>{{ testname }}</el-button>
-          <el-button>{{ this.username }}</el-button>
-          <el-button size="medium" @click="testconsole">testconsole</el-button>
+          <span>{{ this.username }}</span>
           <el-button size="medium" @click="logOut">Logout</el-button>
         </div>
         <div v-if="!this.isloggedState">
@@ -70,18 +66,6 @@ export default {
           this.$router.push("/");
         }
       });
-    },
-    testconsole() {
-      const username = JSON.parse(localStorage.getItem("user"));
-      console.log(username);
-      const monTableau = Object.keys(username);
-      console.log(monTableau);
-      if (localStorage.user) {
-        console.log(this.$store.state.username);
-        //this.testname = localStorage.user;
-      } else {
-        this.testname = "Echec";
-      }
     }
   }
 };

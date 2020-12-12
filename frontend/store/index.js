@@ -27,8 +27,8 @@ export const mutations = {
   isAdminInFalse() {
     this.state.isAdmin = false;
   },
-  setUsername(payload) {
-    this.state.username = payload;
+  setUsername(currentState, payload) {
+    currentState.username = payload;
   },
   setUseremail(payload) {
     this.state.useremail = payload;

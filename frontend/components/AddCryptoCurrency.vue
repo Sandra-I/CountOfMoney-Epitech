@@ -10,54 +10,73 @@
       :visible.sync="showModale"
     >
       <div>
-        <el-form>
+        <el-form ref="form" :model="form">
           <el-form-item label="Crypto" :label-width="formLabelWidth">
-            <el-select v-model="value" filterable autocomplete="on" placeholder="Choose a crypto currency">
-              <!-- Add crypto image to show -->
+            <el-select
+              v-model="value"
+              filterable
+              autocomplete="on"
+              placeholder="Choose a crypto currency"
+              @change="onChange($event)"
+            >
+              <!-- filtrable se fait sur le label -->
               <el-option
-                v-for="currency in info"
-                :key="currency.Id"
-                :label="currency.Name"
-                :value="currency.CoinName"
-                :imageurl="currency.ImageUrl"
-                :testName="currency.CoinName"
+                v-for="crypto in info"
+                :key="crypto.code"
+                :label="crypto.fullname"
+                :value="crypto.code"
               >
+                <span style="float: left">{{ crypto.fullname }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{
+                  crypto.code
+                }}</span>
               </el-option>
             </el-select>
           </el-form-item>
+          <template v-if="value">
+            <el-form-item label="Code">
+              <el-input v-model="showOneCrypto.code" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="Fullname">
+              <el-input v-model="showOneCrypto.fullname" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="Image">
+              <el-image
+                style="width: 100px; height: 100px"
+                :src="showOneCrypto.imageurl"
+              ></el-image>
+            </el-form-item>
+          </template>
         </el-form>
-        <!-- <div v-for="currency in info" :key="currency.CoinName">{{ currency.CoinName }}</div> -->
 
-        <el-card class="box-card" v-if="value">
+        <!-- <el-card class="box-card" v-if="value">
           <div slot="header" class="clearfix">
             <span>Crypto Details</span>
           </div>
           <ul>
             <li>
               <span>Code:</span>
-              <span>{{ value }}</span>
+              <span>{{ showOneCrypto.code }}</span>
             </li>
             <li>
               <span>Name:</span>
-              <span>{{ testName }}</span>
+              <span>{{ showOneCrypto.fullname }}</span>
             </li>
             <li>
               <span>Image:</span>
               <span>
-                <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                <img src="" class="image" />
               </span>
             </li>
           </ul>
-        </el-card>
+        </el-card> -->
       </div>
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeModale">CANCEL</el-button>
-        <!-- @click="" méthode pour valider ajout crypto -->
-        <el-button type="primary">ADD</el-button>
+        <el-button type="primary" @click="addCrypto(showOneCrypto)">ADD</el-button>
       </span>
     </el-dialog>
-
   </div>
 </template>
 
@@ -67,18 +86,22 @@ export default {
   data() {
     return {
       showModale: false,
-      options: [
-        {
-          value: '',
-          label: '',
-          imageurl: ''
-        }
-      ],
-      value: '',
-      testName: '',
+      options: {
+        code: "",
+        name: "",
+        image: ""
+      },
+      value: "",
+      info: [],
+      cryptoFullArray: [],
       formLabelWidth: "120px",
-      arrayTest: [],
-      info: null
+      form: {
+        code: "",
+        name: "",
+        image: ""
+      },
+      baseUrl: "",
+      showOneCrypto: []
     };
   },
   methods: {
@@ -91,73 +114,83 @@ export default {
     },
     async getAllCrypto() {
       try {
-        await this.$axios
-          .get('/cryptos/all')
-          .then(response => {
-            if (response.status == 200) {
-              
-              //const arrayCrypto = response.data.Data;
-              //console.log(response.data.Data);
-              // const data1 = [];
-              // const data2 = [];
-              // console.log(response.data.Data.toString(42).CoinName);
-              // for (const data in arrayCrypto) {
-              //   data1.push(data);
-              // }
-              //console.log(data2.length);
+        await this.$axios.get("/cryptos/all").then(response => {
+          if (response.status == 200) {
+            const baseUrlImage = response.data.BaseImageUrl;
+            this.baseUrl = baseUrlImage;
+            // const message = response.data.Message;
 
-              // let h = '.'+data1[10];
-              // let o = response.data.Data+h;
-              // console.log(o);
-              // console.log('length data1 ' + data1.length);
+            const cryptoArrayofObject = response.data.Data;
+            this.cryptoFullArray = cryptoArrayofObject;
 
-              // for (let i=0; i<data1.length; i++) {
-              //   data2.push(arraCrypto.data1[i]);
-              // }
-              //console.log(data2);
-              //this.cryptoArray.fullname = response.data.fullname;
-              //return this.cryptoArray = response.data;
-            } else {
-              alert(response.data.message);
+            const cryptoCode = Object.keys(cryptoArrayofObject);
+
+            // i < cryptoCode.length
+            for (let i = 0; i < 15; i++) {
+              const element = cryptoCode[i];
+              const code = cryptoArrayofObject[element].Symbol;
+              const fullname = cryptoArrayofObject[element].CoinName;
+              const pieceImageurl = cryptoArrayofObject[element].ImageUrl;
+              const theImageUrl = baseUrlImage + pieceImageurl;
+              const oneCrypto = {
+                code,
+                fullname,
+                theImageUrl
+              };
+              this.info.push(oneCrypto);
             }
-          });
+          } else {
+            alert(response.data.message);
+          }
+        });
       } catch (e) {
         console.log(e);
       }
     },
-    async addCrypto() {
-      try {
-        await this.$axios.post('/cryptos', 
-          {
-            fullname: crypto.fullname,
-            code: crypto.code,
-            imageUrl: crypto.imageurl
-          }
-        ).then(
-          (response) => {
-            console.log(response);
-            // Ajouter la crypto dans la BDD
-            // if (response.status == 200) {
-            //   this.$router.push('/home');
-            // } else {
-            //   alert(response.data.message);
-            // }
-          }
-        );
-      } catch (e) {
-        console.log(e);
-      }
+    async addCrypto(event) {
+      console.log(event);
+      // try {
+      //   await this.$axios
+      //     .post("/cryptos", {
+      //       fullname: event.fullname,
+      //       code: event.code,
+      //       imageurl: event.imageurl
+      //     })
+      //     .then(response => {
+      //       console.log(response);
+      //       // Ajouter la crypto dans la BDD
+      //       // if (response.status == 200) {
+      //       //   this.$router.push('/home');
+      //       // } else {
+      //       //   alert(response.data.message);
+      //       // }
+      //     });
+      // } catch (e) {
+      //   console.log(e);
+      // }
+    },
+    onChange(event) {
+      const code = this.cryptoFullArray[event].Symbol;
+      const fullname = this.cryptoFullArray[event].CoinName;
+      const pieceImageurl = this.cryptoFullArray[event].ImageUrl;
+      const theImageUrl = this.baseUrl + pieceImageurl;
+      const oneCrypto = {
+        code,
+        fullname,
+        theImageUrl
+      };
+      this.showOneCrypto = oneCrypto;
     }
   },
-  mounted () {
+  mounted() {
     this.getAllCrypto();
   }
 };
 </script>
 
 <style scoped>
-  .image {
-    width: 100%;
-    display: block;
-  }
+.image {
+  width: 100%;
+  display: block;
+}
 </style>
