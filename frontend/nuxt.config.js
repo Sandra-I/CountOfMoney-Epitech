@@ -40,7 +40,8 @@ export default {
   modules: [
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/moment'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -59,7 +60,7 @@ export default {
     baseURL: 'http://127.0.0.1:3000',
     withCredentials: true
   },
-  
+
 
   // Authentification module
   auth: {
