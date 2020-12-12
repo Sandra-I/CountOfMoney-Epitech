@@ -23,11 +23,12 @@
 
     <el-row type="flex" class="d-flex">
       <el-col :span="24" class="d-flex justify-content-center">
-          <el-menu :default-active="activeIndex" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" :router="true">
+          <el-menu :default-active="activeIndex" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+            <!-- :router="true" -->
             <!-- <el-menu-item><nuxt-link to="/"><span><i class="el-icon-s-home"></i>Home</span></nuxt-link></el-menu-item> -->
             <el-menu-item index="1"><nuxt-link to="/">Home</nuxt-link></el-menu-item>
-            <el-menu-item index="2"><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item>
-            <el-menu-item index="3"><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item>
+            <el-menu-item index="2"><nuxt-link to="/favorites">My Favorites C</nuxt-link></el-menu-item>
+            <!-- <el-menu-item index="3"><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item> -->
             <el-menu-item index="4" v-if="this.isloggedState"><nuxt-link to="/profile">Profile</nuxt-link></el-menu-item>
             <el-menu-item index="5" v-if="this.isAdmin"><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item>
           </el-menu>
@@ -56,16 +57,23 @@ export default {
   },
   methods: {
     async logOut() {
-      await this.$axios.get("/users/logout").then(response => {
-        if (response.status == 200) {
-          console.log("logout");
-          localStorage.removeItem("user");
-          localStorage.removeItem("jwt");
-          this.$store.commit("isloggedInFalse");
-          this.$store.commit("isAdminInFalse");
-          this.$router.push("/");
-        }
-      });
+      try {
+        await this.$axios.get("/users/logout").then(response => {
+          if (response.status == 200) {
+            console.log("logout");
+            localStorage.removeItem("user");
+            localStorage.removeItem("jwt");
+            this.$store.commit("isloggedInFalse");
+            this.$store.commit("isAdminInFalse");
+            this.$store.commit("isUserInFalse");
+            this.$store.commit("stateInitialization");
+            this.$router.push("/");
+          }
+        });
+      } catch(e) {
+        console.log(e);
+        //reject(err);
+      }
     }
   }
 };

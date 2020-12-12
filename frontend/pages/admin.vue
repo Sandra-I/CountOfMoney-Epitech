@@ -15,15 +15,14 @@
           </el-col>
         </el-row>
       </el-header>
-      <!-- ajouter confirmation avant la suppression -->
       <crypto-table></crypto-table>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import AddCryptoCurrency from "../components/AddCryptoCurrency.vue";
-import CryptoTable from "../components/CryptoTable.vue";
+import AddCryptoCurrency from "@/components/AddCryptoCurrency.vue";
+import CryptoTable from "@/components/CryptoTable.vue";
 
 export default {
   //middleware: 'auth',

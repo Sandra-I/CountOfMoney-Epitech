@@ -48,28 +48,6 @@
             </div>
           </template>
         </el-form>
-
-        <!-- <el-card class="box-card" v-if="value">
-          <div slot="header" class="clearfix">
-            <span>Crypto Details</span>
-          </div>
-          <ul>
-            <li>
-              <span>Code:</span>
-              <span>{{ showOneCrypto.code }}</span>
-            </li>
-            <li>
-              <span>Name:</span>
-              <span>{{ showOneCrypto.fullname }}</span>
-            </li>
-            <li>
-              <span>Image:</span>
-              <span>
-                <img src="" class="image" />
-              </span>
-            </li>
-          </ul>
-        </el-card> -->
       </div>
 
       <span slot="footer" class="dialog-footer">
@@ -90,11 +68,6 @@ export default {
       info: [],
       cryptoFullArray: [],
       formLabelWidth: "120px",
-      // form: {
-      //   code: '',
-      //   name: '',
-      //   image: ''
-      // },
       baseUrl: '',
       showOneCrypto: {}
     };
@@ -117,6 +90,7 @@ export default {
 
             const cryptoArrayofObject = response.data.Data;
             this.cryptoFullArray = cryptoArrayofObject;
+            //console.log(cryptoArrayofObject);
 
             const cryptoCode = Object.keys(cryptoArrayofObject);
 

@@ -4,7 +4,8 @@
    class="box-card"
    shadow="hover"
   >
-    <div style="padding: 14px">
+  <!-- v-for fficher crypto qui sont dans les favoris -->
+    <div style="padding: 4px">
       <h1>Crypto Name</h1>
       <h4>Current Price €€€</h4>
       <br />
@@ -32,13 +33,13 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 .time {
   font-size: 13px;
   color: #999;
 }
 .box-card {
-  /* width: 400px; */
+  width: 300px;
   height: 200px;
 }
 </style>

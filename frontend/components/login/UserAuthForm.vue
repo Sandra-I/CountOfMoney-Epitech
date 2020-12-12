@@ -59,7 +59,8 @@ export default {
       valid: false,
       userInfo: {
         name: '',
-        email: 'admin@admin.fr',
+        //email: 'admin@admin.fr',
+        email: 'sisi@sisi.fr',
         password: 'test'
         //passwordConfirmation: ''
       },
