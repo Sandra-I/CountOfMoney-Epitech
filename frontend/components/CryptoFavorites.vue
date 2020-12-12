@@ -45,12 +45,11 @@
         sortable
       >
       </el-table-column>
-      <el-table-column v-if="this.isAdmin"
+      <!-- <el-table-column v-if="this.isAdmin"
                        fixed="right"
                        label="Operation"
                        width="110"
       >
-        <!-- @click="handleDelete()" -->
         <template slot-scope="scope">
           <el-button type="danger"
                     icon="el-icon-delete"
@@ -59,26 +58,27 @@
             >Delete</el-button
           >
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- ajouter méthode add -->
       <el-table-column v-if="this.isUser" 
                        fixed="right" 
                        label="Operation" 
-                       width="100">
+                       width="120">
         <!-- @click="handleDelete()" -->
         <template slot-scope="scope">
           <el-button
-            type="primary"
-            icon="el-icon-delete"
+            type="warning"
+            plain
+            icon="el-icon-scissors"
             size="small"
-            @click.prevent="addCrypto(scope.$index, scope.row)"
-            >Add</el-button
+            @click.prevent="removeCryptosFromFav(scope.$index, scope.row)"
+            >Remove</el-button
           >
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog
+    <!-- <el-dialog
       title="Delete confirmation"
       :visible.sync="showDeleteModale"
       width="45%"
@@ -88,9 +88,9 @@
       <p>Are you sure?</p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showDeleteModale = false">Annuler</el-button>
-        <!-- <el-button type="primary" @click="deleteCrypto()">Confirmer</el-button> -->
+        <el-button type="primary" @click="deleteCrypto()">Confirmer</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </el-card>
 </template>
 
@@ -113,23 +113,16 @@ export default {
     })
   },
   methods: {
-    handleDelete(index, code) {
-      this.openModale();
-      console.log("test", index);
-    },
-    closeModale() {
-      this.showDeleteModale = false;
-    },
-    openModale() {
-      this.showDeleteModale = true;
-    },
-    async deleteCrypto(index, rows) {
+    // Supprimer cryptos des favoris
+    async removeCryptosFromFav(index, rows) {
       console.log(index);
       console.log(rows.code);
       const cryptoId = rows.code;
+      const userId = this.$store.state.userId;
       try {
         // passer le code de la crypto pour supprimer
-        await this.$axios.delete(`/cryptos?cmid=${cryptoId}`).then(response => {
+        // '/cryptos/:code/:userid'
+        await this.$axios.delete(`/cryptos?code=${cryptoId}?cmid=${userId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
@@ -144,63 +137,14 @@ export default {
         console.log(e);
       }
     },
-    deleteRow(index, rows) {
-      console.log(index);
-      console.log(rows.code);
-      // rows.splice(index, 1);
-    },
-    async getCrypto() {
+    // Récupére les cryptos fav du user au chargement
+    async getFavoriteCryptos() {
       const id = this.$store.state.userId;
-      //const currency2 = Object.assign(this.$store.state.usercurrency2);
-      const currency = this.$store.state.usercurrency;
-      //console.log(currency);
       try {
         await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
-          //console.log(response);
+          console.log(response);
           if (response.status == 200) {
-            console.log(response.data.DISPLAY["365"].EUR);
-            console.log(response.data.DISPLAY["365"]);
-            // array of the crypto object ni our DB
-            const cryptoArrayofObject = response.data.DISPLAY;
-            // array of the crypto CODE available in our DB
-            const arrayCode = Object.keys(response.data.DISPLAY);
-            //console.log(arrayCode);
-
-            // boucle to get the crypto infos using he array of the code
-            for (let i = 0; i < arrayCode.length; i++) {
-              const code = arrayCode[i];
-              //console.log(code);
-
-              // informations nécessaires pour le tableau
-              // const pieceImageurl = cryptoArrayofObject[code].currency.IMAGEURL;
-              // const baseUrlImage = "https://www.cryptocompare.com";
-              // const image = baseUrlImage + pieceImageurl;
-              // const fullname = cryptoArrayofObject[code].currency.MARKET;
-              // const currentPrice = cryptoArrayofObject[code].currency.PRICE;
-              // const openingPrice = cryptoArrayofObject[code].currency.OPENDAY;
-              // const lowestPrice = cryptoArrayofObject[code].currency.LOWDAY;
-              // const highestPrice = cryptoArrayofObject[code].currency.HIGHDAY;
-
-              const pieceImageurl = cryptoArrayofObject[code].EUR.IMAGEURL;
-              const baseUrlImage = "https://www.cryptocompare.com";
-              const image = baseUrlImage + pieceImageurl;
-              const fullname = cryptoArrayofObject[code].EUR.MARKET;
-              const currentPrice = cryptoArrayofObject[code].EUR.PRICE;
-              const openingPrice = cryptoArrayofObject[code].EUR.OPENDAY;
-              const lowestPrice = cryptoArrayofObject[code].EUR.LOWDAY;
-              const highestPrice = cryptoArrayofObject[code].EUR.HIGHDAY;
-              const oneCrypto = {
-                image,
-                code,
-                fullname,
-                currentPrice,
-                openingPrice,
-                lowestPrice,
-                highestPrice
-              };
-              // insertion of one crypto in the table
-              this.cryptoArray.push(oneCrypto);
-            }
+            console.log('response ok 200');
           } else {
             alert(response.data.message);
           }
@@ -208,33 +152,10 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    },
-    async addCrypto(index, rows) {
-      console.log("add crypto");
-      const userid = this.$store.state.userId;
-      const cryptoCodeToAdd = rows.code;
-      console.log('user id ', userid);
-      console.log('code crypto ', cryptoCodeToAdd);
-      try {
-        console.log('try in');
-      
-        await this.$axios.post(`/cryptos/${userid}`, {code: cryptoCodeToAdd}).then(response => {
-          console.log('in response cryptoCodeToAdd =', cryptoCodeToAdd);
-          console.log(response);
-
-          // if (response.status == 200) {
-          //   console.log('response okay in');
-
-          // }
-        }
-        )
-      } catch {
-
-      }
     }
   },
   mounted() {
-    this.getCrypto();
+    this.getFavoriteCryptos();
   }
 };
 </script>

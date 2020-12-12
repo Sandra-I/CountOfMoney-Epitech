@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header height="120px">
+    <el-header height="120px" class="d-flex flex-column pt-2">
       <h1>My Favorites Cryptos</h1>
       <p>Here all the information about your favorites C!</p>
     </el-header>
@@ -12,21 +12,16 @@
           </el-col>
         </el-row>
       </el-header>
-      <crypto-table></crypto-table>
+      <CryptoFavorites />>
     </el-main>
   </el-container>
 </template>
 
 <script>
-import AddCryptoCurrency from "@/components/AddCryptoCurrency.vue";
-import CryptoTable from "@/components/CryptoTable.vue";
 import CryptoFavorites from '@/components/CryptoFavorites';
 
 export default {
-  //middleware: 'auth',
   components: { 
-    CryptoTable, 
-    AddCryptoCurrency,
     CryptoFavorites 
   },
   data() {
@@ -35,13 +30,7 @@ export default {
     };
   },
   methods: {
-    handleClose(done) {
-      this.$confirm("Do you really want to add this currency?")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    }
+
   }
 };
 </script>

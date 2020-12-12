@@ -23,15 +23,34 @@
 
     <el-row type="flex" class="d-flex">
       <el-col :span="24" class="d-flex justify-content-center">
-          <el-menu :default-active="activeIndex" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <template v-if="this.isloggedState">
+          <el-menu
+          :default-active="activeIndex"
+          mode="horizontal"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          >
             <!-- :router="true" -->
             <!-- <el-menu-item><nuxt-link to="/"><span><i class="el-icon-s-home"></i>Home</span></nuxt-link></el-menu-item> -->
-            <el-menu-item index="1"><nuxt-link to="/">Home</nuxt-link></el-menu-item>
-            <el-menu-item index="2"><nuxt-link to="/favorites">My Favorites C</nuxt-link></el-menu-item>
+            <el-menu-item index="1"
+              ><nuxt-link to="/">Home</nuxt-link></el-menu-item
+            >
+            <el-menu-item index="2"
+              ><nuxt-link to="/favorites">My Favorites C</nuxt-link></el-menu-item
+            >
             <!-- <el-menu-item index="3"><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item> -->
-            <el-menu-item index="4" v-if="this.isloggedState"><nuxt-link to="/profile">Profile</nuxt-link></el-menu-item>
-            <el-menu-item index="5" v-if="this.isAdmin"><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item>
+            <el-menu-item index="4">
+              <nuxt-link to="/profile">Profile</nuxt-link></el-menu-item
+            >
+            <el-menu-item index="5" v-if="this.isAdmin"
+              ><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item
+            >
           </el-menu>
+        </template>
+        <template v-if="!this.isloggedState">
+          <p>Welcome in the Crypto World! Register to follow your favorites cryptos</p>
+        </template>
       </el-col>
     </el-row>
   </div>
@@ -45,14 +64,14 @@ export default {
     return {
       butLogAccount: "Register | Sign in",
       testname: "Test",
-      activeIndex: '5'
+      activeIndex: "5"
     };
   },
   computed: {
     ...mapState({
-      isloggedState: 'isloggedState',
-      username: 'username',
-      isAdmin: 'isAdmin'
+      isloggedState: "isloggedState",
+      username: "username",
+      isAdmin: "isAdmin"
     })
   },
   methods: {
@@ -70,7 +89,7 @@ export default {
             this.$router.push("/");
           }
         });
-      } catch(e) {
+      } catch (e) {
         console.log(e);
         //reject(err);
       }
