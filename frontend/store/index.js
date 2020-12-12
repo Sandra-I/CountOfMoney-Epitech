@@ -2,7 +2,11 @@ export const state = () => ({
   isloggedState: false,
   isAdmin: false,
   username: 'No name',
-  useremail: ''
+  useremail: '',
+  userId: null,
+  usercurrency: 'EUR',
+  usercrypto: null,
+  userarticle: null
 })
 
 export const getters = () => ({
@@ -30,8 +34,14 @@ export const mutations = {
   setUsername(currentState, payload) {
     currentState.username = payload;
   },
-  setUseremail(payload) {
-    this.state.useremail = payload;
+  setUserId(currentState, payload) {
+    currentState.userId = payload;
+  },
+  setUseremail(currentState, payload) {
+    currentState.useremail = payload;
+  },
+  setUsercurrency(currentState, payload) {
+    currentState.usercurrency = payload;
   }
 }
 

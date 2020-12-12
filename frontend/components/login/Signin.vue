@@ -43,7 +43,13 @@ export default {
               if (localStorage.getItem("user")) {
                 const user = JSON.parse(localStorage.getItem("user"));
                 const username = user.username;
+                const userId = user.id;
+                const currency = user.current;
                 this.$store.commit("setUsername", username);
+                this.$store.commit("setUserId", userId);
+                if (currency) {
+                  this.$store.commit("setUsercurrency", currency);
+                }
               }
               if (response.data.isadmin == 1) {
                 this.$store.commit("isAdminInTrue");

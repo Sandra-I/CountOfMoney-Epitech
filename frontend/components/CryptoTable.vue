@@ -54,7 +54,7 @@
             type="danger"
             icon="el-icon-delete"
             size="small"
-            @click.prevent="deleteRow(scope.$index, cryptoArray)"
+            @click.prevent="deleteRow(scope.$index, scope.row)"
             >Delete</el-button>
         </template>
       </el-table-column>
@@ -71,7 +71,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="showDeleteModale = false">Annuler</el-button>
         <!-- Ajouter méthode pour supprimer + emit -->
-        <el-button type="primary" @click="deleteCrypto">Confirmer</el-button>
+        <!-- <el-button type="primary" @click="deleteCrypto">Confirmer</el-button> -->
       </span>
     </el-dialog>
   </el-card>
@@ -88,6 +88,7 @@ export default {
       cryptoArray: [
         {
           image: '',
+          code: 'BTC',
           fullname: 'BTC',
           currentPrice: '',
           openingPrice: '',
@@ -96,6 +97,7 @@ export default {
         },
         {
           image: '',
+          code: 'ETC',
           fullname: 'ETC',
           currentPrice: '',
           openingPrice: '',
@@ -104,6 +106,7 @@ export default {
         },
         {
           image: '',
+          code: 'FFF',
           fullname: 'FFF',
           currentPrice: '',
           openingPrice: '',
@@ -112,6 +115,7 @@ export default {
         },
         {
           image: '',
+          code: 'TTT',
           fullname: 'TTT',
           currentPrice: '',
           openingPrice: '',
@@ -123,7 +127,8 @@ export default {
   },
   computed: {
     ...mapState({
-      isAdmin: "isAdmin"
+      isAdmin: 'isAdmin',
+      userId: 'userId'
     })
   },
   methods: {
@@ -137,21 +142,32 @@ export default {
     openModale() {
       this.showDeleteModale = true;
     },
-    async deleteCrypto() {
-      alert('delete click');
-      const cryptoId = 0;
-      await this.$axios.delete('/cryptos/:cmid').then(response => {
+    async deleteCrypto(index, rows) {
+      console.log(index);
+      console.log(rows.code);
+      const cryptoId = rows.code;
+      try {
+        // passerle code de la crypto pour supprimer
+        await this.$axios.delete(`/cryptos`, cryptoId).then(response => {
         // checker si suppresssionokay renvoyer alert succés
         console.log(response);
-      });
+        // pour rafraîchir le tableau
+        // this.getCrypto();
+        });
+      } catch(e) {
+        console.log(e);
+      }
     },
     deleteRow(index, rows) {
-      console.log(index)
-      rows.splice(index, 1);
+      console.log(index);
+      console.log(rows.code);
+      // rows.splice(index, 1);
     },
     async getCrypto() {
+      const id =  this.$store.state.userId;
+      console.log(id);
       try {
-        await this.$axios.get(`/cryptos`).then(response => {
+        await this.$axios.get(`/cryptos?cmid=${id}`).then(response => {
         // si user avec localstorage with preference currency send par défaut EUR géré dans le back
         // ?userID= pour checker si money indiquer
         console.log(response);
@@ -162,7 +178,7 @@ export default {
     }
   },
   mounted() {
-    //this.getCrypto();
+    this.getCrypto();
   }
 };
 </script>

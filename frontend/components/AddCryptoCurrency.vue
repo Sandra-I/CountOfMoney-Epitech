@@ -10,8 +10,8 @@
       :visible.sync="showModale"
     >
       <div>
-        <el-form ref="form" :model="form">
-          <el-form-item label="Crypto" :label-width="formLabelWidth">
+        <el-form ref="showOneCrypto" :model="showOneCrypto">
+          <el-form-item label="Selected Crypto" :label-width="formLabelWidth">
             <el-select
               v-model="value"
               filterable
@@ -27,9 +27,8 @@
                 :value="crypto.code"
               >
                 <span style="float: left">{{ crypto.fullname }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{
-                  crypto.code
-                }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">
+                  {{ crypto.code }}</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -40,12 +39,13 @@
             <el-form-item label="Fullname">
               <el-input v-model="showOneCrypto.fullname" disabled></el-input>
             </el-form-item>
-            <el-form-item label="Image">
+            <div>
+              <p>Image</p>
               <el-image
-                style="width: 100px; height: 100px"
-                :src="showOneCrypto.imageurl"
+              style="width: 100px; height: 100px"
+              :src="showOneCrypto.theImageUrl"
               ></el-image>
-            </el-form-item>
+            </div>
           </template>
         </el-form>
 
@@ -86,22 +86,17 @@ export default {
   data() {
     return {
       showModale: false,
-      options: {
-        code: "",
-        name: "",
-        image: ""
-      },
-      value: "",
+      value: '',
       info: [],
       cryptoFullArray: [],
       formLabelWidth: "120px",
-      form: {
-        code: "",
-        name: "",
-        image: ""
-      },
-      baseUrl: "",
-      showOneCrypto: []
+      // form: {
+      //   code: '',
+      //   name: '',
+      //   image: ''
+      // },
+      baseUrl: '',
+      showOneCrypto: {}
     };
   },
   methods: {
@@ -149,25 +144,24 @@ export default {
     },
     async addCrypto(event) {
       console.log(event);
-      // try {
-      //   await this.$axios
-      //     .post("/cryptos", {
-      //       fullname: event.fullname,
-      //       code: event.code,
-      //       imageurl: event.imageurl
-      //     })
-      //     .then(response => {
-      //       console.log(response);
-      //       // Ajouter la crypto dans la BDD
-      //       // if (response.status == 200) {
-      //       //   this.$router.push('/home');
-      //       // } else {
-      //       //   alert(response.data.message);
-      //       // }
-      //     });
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        await this.$axios
+          .post("/cryptos", {
+            fullname: event.fullname,
+            code: event.code,
+            imageurl: event.pieceImageurl
+          })
+          .then(response => {
+            console.log(response);
+            if (response.status == 200) {
+              this.closeModale();
+            } else {
+              alert(response.data.message);
+            }
+          });
+      } catch (e) {
+        console.log(e);
+      }
     },
     onChange(event) {
       const code = this.cryptoFullArray[event].Symbol;
@@ -177,7 +171,8 @@ export default {
       const oneCrypto = {
         code,
         fullname,
-        theImageUrl
+        theImageUrl,
+        pieceImageurl
       };
       this.showOneCrypto = oneCrypto;
     }

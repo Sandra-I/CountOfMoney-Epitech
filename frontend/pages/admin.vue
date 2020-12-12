@@ -34,8 +34,6 @@ export default {
     };
   },
   methods: {
-    deleteCrypto() {},
-    
     handleClose(done) {
       this.$confirm("Do you really want to add this currency?")
         .then(_ => {
