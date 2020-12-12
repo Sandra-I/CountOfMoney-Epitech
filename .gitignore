@@ -3,6 +3,7 @@ backend/api/node_modules/
 backend/api/start.sh
 backend/api/stop.sh
 backend/api/delete.sh
+backend/
 
 frontend/node_modules/
 frontend/package-lock.json
