@@ -47,6 +47,9 @@
         sortable
       >
       </el-table-column>
+      <template>
+        
+      </template>
       <el-table-column v-if="this.isAdmin" fixed="right" label="Operation">
         <!-- @click="handleDelete()" -->
         <template slot-scope="scope">
@@ -56,6 +59,17 @@
             size="small"
             @click.prevent="deleteRow(scope.$index, scope.row)"
             >Delete</el-button>
+        </template>
+      </el-table-column>
+      <el-table-column v-if="!this.isAdmin" fixed="right" label="Operation">
+        <!-- @click="handleDelete()" -->
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="small"
+            @click.prevent="deleteRow(scope.$index, scope.row)"
+            >Add</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -167,7 +181,7 @@ export default {
       const id =  this.$store.state.userId;
       console.log(id);
       try {
-        await this.$axios.get(`/cryptos?cmid=${id}`).then(response => {
+        await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
         // si user avec localstorage with preference currency send par défaut EUR géré dans le back
         // ?userID= pour checker si money indiquer
         console.log(response);

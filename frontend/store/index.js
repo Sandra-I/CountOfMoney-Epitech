@@ -1,6 +1,7 @@
 export const state = () => ({
   isloggedState: false,
   isAdmin: false,
+  isUser: false,
   username: 'No name',
   useremail: '',
   userId: null,
