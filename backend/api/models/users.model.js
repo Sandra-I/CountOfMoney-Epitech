@@ -8,6 +8,7 @@ const Customer = function (customer, id) {
     this.username = customer.username;
     this.email = customer.email;
     this.password = CryptoJS.AES.encrypt(customer.password, passConfig.KEY).toString();
+    this.current = customer.current
 };
 
 Customer.create = (newCustomer, result) => {

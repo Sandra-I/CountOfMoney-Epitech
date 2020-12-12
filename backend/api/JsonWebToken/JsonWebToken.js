@@ -9,7 +9,7 @@ exports.sendToken = (req, res, next) => {
     const cookieConfig = {
         httpOnly: true,
         secure: false,
-        expires: new Date(Date.now() + (1000 * 60 * 60 * 24)),
+        expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365)),
     };
     console.log(req.body)
     db.query(`select * from users where email = '${req.body.email}'`, function (err, result) {
@@ -21,7 +21,7 @@ exports.sendToken = (req, res, next) => {
                 email: result[0].email,
                 isadmin: result[0].isadmin,
                 id: result[0].id
-            }, secretConfig.secret, {expiresIn: "3h"});
+            }, secretConfig.secret, {expiresIn: "1h"});
             res.cookie('cookie', token, cookieConfig);
             var user = result[0]
             delete user.password
@@ -63,6 +63,7 @@ exports.logout = (req, res, next) => {
 
 exports.checkSuperRight = (req, res, next) => {
     console.log("checkRightOrId")
+    console.log("toto: ", req.cookies)
     const cookies = req.cookies;
     var token = cookies.cookie
     //var token = req.query.token

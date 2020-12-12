@@ -1,5 +1,6 @@
 const Crypto = require("../models/cryptos.model.js");
 const request = require('request');
+const { datamigration } = require("googleapis/build/src/apis/datamigration");
 
 exports.all = (req, res) => {
 
@@ -13,7 +14,6 @@ exports.all = (req, res) => {
         res.send(`Expected status code 200 but received ${response.statusCode}.`);
         return;
     }
-    console.log(response.body);
     res.send(response.body)
 });
 }
@@ -84,7 +84,6 @@ exports.del = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    money = req.query.money
     Crypto.findall((err, data) => {
       if (err) {
         if (err.kind === "not_found") {
@@ -97,8 +96,28 @@ exports.findAll = (req, res) => {
           });
         }
       } else{
-          console.log("data: ", data)
-        //res.send(data);
+        user = req.query.userid
+        console.log("userid: ", user)
+        if (user){
+          console.log("toto")
+          Crypto.selectCurrent(user, (err,data) => {
+            if (err) {
+              if (err.kind === "not_found") {
+                res.status(404).send({
+                  message: `Not found user with id ${req.params.cmid}.`
+                });
+              } else {
+                res.status(500).send({
+                  message: "Error retrieving user with id " + req.params.cmid
+                });
+              }
+            } else { money = data[0]
+            }
+          })
+          //money = currencie
+        }else {
+          money = "EUR";
+        }
         request(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${data}&tsyms=${money}&api_key=f25326a83d9c6bc40ab459c37a569a1b0d58fc05cb83f6139331c3c7dac78c3c`, (error, response) => {
             if (error) {
                 res.send(`Could not send request to API: ${error.message}`);
@@ -154,8 +173,6 @@ exports.findAll = (req, res) => {
             }
             res.send(response.body)
         });
-          //https://min-api.cryptocompare.com/data/v2/${period}?fsym=${data[0].code}&tsym=USD&limit=10&api_key=f25326a83d9c6bc40ab459c37a569a1b0d58fc05cb83f6139331c3c7dac78c3c
-          //res.send(data);
       } 
     });
   };

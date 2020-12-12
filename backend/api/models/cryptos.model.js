@@ -141,6 +141,27 @@ Crypto.findall = (result) => {
       result({ kind: "not_found" }, null);
     });
   };
+  Crypto.selectCurrent = (user, result) => {
+    console.log("sandre: ", user)
+    sql.query(`SELECT name FROM currents, users WHERE currents.id = users.current AND users.id = ?`, user, (err, res) => {
+      console.log("sandra")
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      if (res.length) {
+        console.log("san")
+        console.log("user: ", res)
+        result(null, res[0].name);
+        return;
+      }
+  
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+    });
+  };
 
   Crypto.adds = (newCrypto, result) => {
     sql.query("INSERT INTO favorites SET ?", newCrypto, (err, res) => {

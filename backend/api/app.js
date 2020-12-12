@@ -9,6 +9,7 @@ let app = express();
 app.use(cors({
   credentials: true,
   origin:true,
+  exposedHeaders: ['set-cookie']
 }))
 
 app.use(function (req, res, next) {
