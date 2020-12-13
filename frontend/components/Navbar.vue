@@ -3,7 +3,7 @@
     <el-row class="d-flex mb-0">
       <el-col :span="12" class="d-flex m-auto">
         <div class="pl-3" style="height: 30px">
-          <nuxt-link to="/home">LOGO</nuxt-link>
+          <nuxt-link to="/home"><i class="el-icon-home"></i>HOME</nuxt-link>
         </div>
       </el-col>
       <el-col :span="12" class="d-flex justify-content-end">
@@ -28,18 +28,24 @@
 
     <el-row type="flex" class="d-flex">
       <el-col :span="24" class="d-flex justify-content-center">
-        <template v-if="this.isloggedState">
-          <el-menu
+        <el-menu
           mode="horizontal"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
-          >
+          class="d-flex justify-content-center"
+        >
+          <template v-if="this.isAdmin">
             <el-menu-item
-              ><nuxt-link to="/">Home</nuxt-link></el-menu-item
+              ><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item
             >
+          </template>
+          <template v-if="this.isUser">
+            <el-menu-item><nuxt-link to="/">Home</nuxt-link></el-menu-item>
             <el-menu-item
-              ><nuxt-link to="/favorites">My Favorites C</nuxt-link></el-menu-item
+              ><nuxt-link to="/favorites"
+                >My Favorites C</nuxt-link
+              ></el-menu-item
             >
             <el-menu-item>
               <nuxt-link to="/profile">Profile</nuxt-link></el-menu-item
@@ -47,10 +53,17 @@
             <el-menu-item v-if="this.isAdmin"
               ><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item
             >
-          </el-menu>
-        </template>
+          </template>
+        </el-menu>
         <template v-if="!this.isloggedState">
-          <p>Welcome in the Crypto World! Register to follow your favorites cryptos</p>
+          <el-row class="d-flex mb-0">
+            <el-col class="d-flex m-auto">
+              <div class="pl-3" style="height: 30px">
+                Welcome in the Crypto World! Register to follow your favorites
+                cryptos
+              </div>
+            </el-col>
+          </el-row>
         </template>
       </el-col>
     </el-row>
@@ -65,7 +78,8 @@ export default {
     ...mapState({
       isloggedState: "isloggedState",
       username: "username",
-      isAdmin: "isAdmin"
+      isAdmin: "isAdmin",
+      isUser: "isUser"
     })
   },
   methods: {

@@ -13,6 +13,7 @@
       buttonText="Register"
       :submitForm="registerUser"
       hasName="true"
+      hasPassword="true"
     />
   </el-card>
 </template>

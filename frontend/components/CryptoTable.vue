@@ -17,7 +17,7 @@
 
       <el-table-column prop="fullname" label="Name" width="150" sortable fixed>
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          
           <span style="margin-left: 10px">{{ scope.row.code }}</span>
         </template>
       </el-table-column>
@@ -55,7 +55,6 @@
         label="Operation"
         width="110"
       >
-        <!-- @click="handleDelete()" -->
         <template slot-scope="scope">
           <el-button
             type="danger"
@@ -67,17 +66,6 @@
         </template>
       </el-table-column>
       <template v-if="this.isUser">
-        <!-- <el-table-column fixed="right" label="Detail" width="120">
-          <template slot-scope="scope">
-            <el-button
-              type="info"
-              icon="el-icon-thumb"
-              size="small"
-              @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
-              >Details</el-button
-            >
-          </template>
-        </el-table-column> -->
         <el-table-column fixed="right"
                          label="Add"
                          width="100"
@@ -149,12 +137,9 @@ export default {
     },
     async getCrypto() {
       const id = this.$store.state.userId;
-      //const currency2 = Object.assign(this.$store.state.usercurrency2);
-      //const currency = this.$store.state.usercurrency;
       try {
         await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
           if (response.status == 200) {
-            //console.log(response.data.DISPLAY["300"].EUR);
             // array of the crypto object ni our DB
             const cryptoArrayofObject = response.data.DISPLAY;
             // array of the crypto CODE available in our DB

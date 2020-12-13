@@ -3,7 +3,6 @@
     label-position="top"
     label-width="100px"
     v-model="userInfo"
-    :rules="rules"
     ref="userInfo"
     status-icon
   >
@@ -29,6 +28,7 @@
       required
       prop="password"
       placeholder="Your secret password"
+      v-if="hasPassword"
     >
       <el-input v-model="userInfo.password"></el-input>
     </el-form-item>
@@ -51,28 +51,27 @@ export default {
       valid: false,
       userInfo: {
         name: '',
-        //email: 'admin@admin.fr',
-        email: 'sisi@sisi.fr',
-        password: 'test'
+        email: '',
+        password: ''
       },
-      rules: {
-        name: [
-          { message: "Please input your username", trigger: "blur" },
-          { min: 3, max: 10, message: "Length should be 3 to 10", trigger: "blur" }
-        ],
-        email: [
-          { required: true, message: "Please input your email" },
-          { type: "email", trigger: ["blur", "change"] }
-        ],
-        // 8 caractères min + 1 chiffres + 1 lettre
-        password: [
-          { required: true, message: "Please input your password", trigger: "blur" },
-          { min: 8, max: 15, message: "Length should be 8 to 15", trigger: "blur" }
-        ]
-      }
+      // rules: {
+      //   name: [
+      //     { message: "Please input your username", trigger: "blur" },
+      //     { min: 3, max: 10, message: "Length should be 3 to 10", trigger: "blur" }
+      //   ],
+      //   email: [
+      //     { required: true, message: "Please input your email" },
+      //     { type: "email", trigger: ["blur", "change"] }
+      //   ],
+      //   // 8 caractères min + 1 chiffres + 1 lettre
+      //   password: [
+      //     { required: true, message: "Please input your password", trigger: "blur" },
+      //     { min: 8, max: 15, message: "Length should be 8 to 15", trigger: "blur" }
+      //   ]
+      // }
     };
   },
-  props: ["submitForm", "buttonText", "hasName"]
+  props: ["submitForm", "buttonText", "hasName", "hasPassword"]
 };
 </script>
 
