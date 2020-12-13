@@ -66,24 +66,6 @@ exports.delete = (req, res) => {
   });
 };
 
-exports.del = (req, res) => {
-  console.log("coucou")
-  code = req.params.code;
-  userid = req.params.userid;
-  console.log("code: ", code)
-  console.log("userid: ", userid)
-  Crypto.remov(userid, code, (err, data) => {
-    if (err)
-      res.status(203).send({
-        message:
-          err.message || "Some error to delete crypto."
-      });
-    else {
-      res.status(200).send("deleted crypto in favorite");
-    }
-  });
-};
-
 exports.findAll = (req, res) => {
   Crypto.findall((err, data) => {
     if (err) {
@@ -140,19 +122,20 @@ exports.findAll = (req, res) => {
 
 
 exports.findOne = (req, res) => {
-  Crypto.findById(req.params.cmid, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found user with id ${req.params.cmid}.`
-        });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving user with id " + req.params.cmid
-        });
-      }
-    } else res.send(data);
-  });
+  code = req.params.cmid
+  // Crypto.findById(code, (err, data) => {
+  //   if (err) {
+  //     if (err.kind === "not_found") {
+  //       res.status(404).send({
+  //         message: `Not found user with id ${req.params.cmid}.`
+  //       });
+  //     } else {
+  //       res.status(500).send({
+  //         message: "Error retrieving user with id " + req.params.cmid
+  //       });
+  //     }
+  //   } else res.send(data);
+  // });
 };
 
 exports.findOnes = (req, res) => {

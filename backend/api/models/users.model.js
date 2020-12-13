@@ -33,22 +33,9 @@ Customer.findOne = (email, result) => {
     });
 }
 
-Customer.updateById = (id, customer, result) => {
-    if (req.body.username === undefined || req.body.email === undefined || req.body.password === undefined) {
-        result({
-            message: "Received data is invalid, some fields are missing!"
-        });
-        return;
-    }
-    if (!isEmailValid(customer.email)) {
-        result({
-            message: "Email address is invalid."
-        });
-        return;
-    }
-    sql.query(
-        "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?",
-        [customer.username, customer.email, customer.password, id],
+Customer.updateById = (id, user, result) => {
+    sql.query("UPDATE users SET username = ?, email = ? WHERE id = ?",
+        [user.username, user.email, id],
         (err, res) => {
             if (err) {
                 result(null, err);
@@ -65,20 +52,38 @@ Customer.updateById = (id, customer, result) => {
         }
     );
 };
-
-Customer.findAdmin = (result) => {
-
-    sql.query(`SELECT * FROM users WHERE isadmin = TRUE`, (err, res) => {
+Customer.profiles = (user, result) => {
+    let info
+    sql.query(`SELECT id, username, email, current FROM users WHERE id= ?`, user, (err, res) => {
         if (err) {
+            console.log("error: ", err);
             result(err, null);
             return;
-        } else if (res.length > 0) {
-            result(null, res);
-            return;
         }
-        result(null);
+        if (res.length == 0) {
+            console.log("totot: ", res[0])
 
+            //result(null, res[0]);
+            result({ kind: "not_found" }, null);
+        }else{
+            console.log("totot: ", res[0])
+            info = res[0]
+            sql.query(`SELECT * FROM currents`, (err, res) => {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                if (res.length > 0) {
+                    console.log("sandra: ", res)
+                    info.currents = res
+                    console.log("sandra: ", info)
+                    result(null, info);
+                    return;
+                }
+                result({ kind: "not_found" }, null);
+            });
+        }
     });
 }
-
 module.exports = Customer;
