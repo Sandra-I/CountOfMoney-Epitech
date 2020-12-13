@@ -1,0 +1,24 @@
+{
+  "name": "news_fetcher",
+  "version": "1.0.0",
+  "description": "A news fetcher for the Count of Money project.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EpitechMscPro2020/CountOfMoney_2020_49.git"
+  },
+  "author": "com_group49",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EpitechMscPro2020/CountOfMoney_2020_49/issues"
+  },
+  "homepage": "https://github.com/EpitechMscPro2020/CountOfMoney_2020_49#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "moment": "^2.29.1",
+    "mysql2": "^2.2.5"
+  }
+}

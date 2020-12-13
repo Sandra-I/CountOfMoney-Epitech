@@ -1,6 +1,3 @@
-USE project;
-
-
 CREATE TABLE `cryptos` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `fullname` VARCHAR(255) NOT NULL,
@@ -15,12 +12,12 @@ CREATE TABLE `currents` (
 
 CREATE TABLE `articles` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `summary` VARCHAR(255) NOT NULL,
+  `title` VARCHAR(1024) NOT NULL,
+  `summary` VARCHAR(1024) NOT NULL,
   `source` VARCHAR(255) NOT NULL,
   `date` DATETIME NOT NULL,
-  `urlpage` VARCHAR(255) NOT NULL,
-  `urlimage` VARCHAR(255) NULL
+  `urlpage` VARCHAR(1024) NOT NULL,
+  `urlimage` VARCHAR(1024) NULL
   );
 
 
@@ -49,4 +46,3 @@ CREATE TABLE `favorites` (
 INSERT INTO currents (name) VALUES ("EUR");
 INSERT INTO currents (name) VALUES ("USD");
 INSERT INTO currents (name) VALUES ("BTC");
-INSERT INTO users (isadmin, username, email, password, current) VALUES (TRUE, 'user', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=', 1);
