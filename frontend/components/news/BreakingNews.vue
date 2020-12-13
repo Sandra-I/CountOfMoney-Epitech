@@ -2,10 +2,10 @@
   <div>
     <el-card>
       <div slot="header" class="clearfix">
-        <h1 style="float: left">Breaking News</h1>
+        <h1 style="float: left">News</h1>
       </div>
-      <div v-for="o in 3" :key="o"  style="display: inline-block;">
-        <single-news-card></single-news-card>
+      <div v-for="result in results" :key="o"  style="display: inline-block;">
+        <single-news-card :data="result"></single-news-card>
       </div>
     </el-card>
   </div>
@@ -15,5 +15,17 @@
 import SingleNewsCard from "./components/SingleNewsCard.vue";
 export default {
   components: { SingleNewsCard },
+  data() {
+    return {
+      results: []
+    }
+  },
+  mounted() {
+    this.$axios.get("/news/articles?maxValue=5")
+      .then(response => {
+        console.log(JSON.stringify(response.data.result))
+        this.results = response.data.result
+      })
+  }
 };
 </script>
