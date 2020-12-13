@@ -1,10 +1,5 @@
-backend/api/package-lock.json
-backend/api/node_modules/
-backend/api/start.sh
-backend/api/stop.sh
-backend/api/delete.sh
-
-frontend/node_modules/
-frontend/package-lock.json
-backend/api/package-lock.json
-.gitignore
+node_modules
+package-lock.json
+.env.local
+.idea
+.vscode
