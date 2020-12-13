@@ -86,11 +86,9 @@ export default {
           if (response.status == 200) {
             const baseUrlImage = response.data.BaseImageUrl;
             this.baseUrl = baseUrlImage;
-            // const message = response.data.Message;
 
             const cryptoArrayofObject = response.data.Data;
             this.cryptoFullArray = cryptoArrayofObject;
-            //console.log(cryptoArrayofObject);
 
             const cryptoCode = Object.keys(cryptoArrayofObject);
 

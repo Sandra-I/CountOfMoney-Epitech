@@ -49,7 +49,6 @@
       >
       </el-table-column>
 
-      <!-- ajouter méthode add -->
       <el-table-column
         v-if="this.isUser"
         fixed="right"

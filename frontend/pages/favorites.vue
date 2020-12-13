@@ -23,14 +23,6 @@ import CryptoFavorites from '@/components/CryptoFavorites';
 export default {
   components: { 
     CryptoFavorites 
-  },
-  data() {
-    return {
-      
-    };
-  },
-  methods: {
-
   }
 };
 </script>

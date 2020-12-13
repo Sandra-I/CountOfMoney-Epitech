@@ -24,7 +24,6 @@
     >
       <el-input type="email" v-model="userInfo.email"></el-input>
     </el-form-item>
-    <!-- intégrer double vérification des mots de passe. correspondance -->
     <el-form-item
       label="Password"
       required
@@ -32,15 +31,8 @@
       placeholder="Your secret password"
     >
       <el-input v-model="userInfo.password"></el-input>
-      <!-- <el-form-item label="Confirm password" required prop="passwordConfirmation" placeholder="The same secret!">
-        <el-input  v-model="user.passwordConfirmation"></el-input>
-      </el-form-item> -->
-
-      <!-- voir si possible à intégrer -->
-      <p>Forget password?</p>
     </el-form-item>
     <el-form-item>
-      <!-- Disabled le bouton :disabled="!valid" -->
       <el-button
         type="primary"
         style="float: right;"
@@ -62,7 +54,6 @@ export default {
         //email: 'admin@admin.fr',
         email: 'sisi@sisi.fr',
         password: 'test'
-        //passwordConfirmation: ''
       },
       rules: {
         name: [
@@ -78,10 +69,6 @@ export default {
           { required: true, message: "Please input your password", trigger: "blur" },
           { min: 8, max: 15, message: "Length should be 8 to 15", trigger: "blur" }
         ]
-        // passwordConfirmation: [
-        //   { required: true, message: 'Please input the same password', trigger: 'blur' },
-        //   { min: 8, max: 15, message: 'Length should be 8 to 15', trigger: 'blur' }
-        // ]
       }
     };
   },

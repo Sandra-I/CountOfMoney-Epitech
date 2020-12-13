@@ -130,8 +130,6 @@ export default {
       this.showDeleteModale = true;
     },
     async deleteCryptoToDatabase(index, rows) {
-      console.log(index);
-      console.log(rows.code);
       const cryptoId = rows.code;
       try {
         // passer le code de la crypto pour supprimer
@@ -154,7 +152,6 @@ export default {
       const id = this.$store.state.userId;
       //const currency2 = Object.assign(this.$store.state.usercurrency2);
       //const currency = this.$store.state.usercurrency;
-      //console.log(currency);
       try {
         await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
           if (response.status == 200) {
@@ -167,7 +164,6 @@ export default {
             // boucle to get the crypto infos using he array of the code
             for (let i = 0; i < arrayCode.length; i++) {
               const code = arrayCode[i];
-              //console.log(code);
 
               // informations nécessaires pour le tableau
               const pieceImageurl = cryptoArrayofObject[code].EUR.IMAGEURL;
@@ -199,41 +195,31 @@ export default {
       }
     },
     async addCryptoToFavorites(index, rows) {
-      console.log("add crypto");
       const userid = this.$store.state.userId;
       const cryptoCodeToAdd = rows.code;
-      console.log("user id ", userid);
-      console.log("code crypto ", cryptoCodeToAdd);
       try {
-        console.log("try in");
-
         await this.$axios
           .post(`/cryptos/${userid}`, { code: cryptoCodeToAdd })
           .then(response => {
-            console.log("in response cryptoCodeToAdd =", cryptoCodeToAdd);
-            console.log(response);
-
-            // if (response.status == 200) {
-            //   console.log('response okay in');
-
-            // }
+            if (response.status == 200) {
+              alert('Crypto well add!');
+            }
           });
       } catch (e) {
         console.log(e);
       }
     },
     async moreCryptoDetails(index, rows) {
-      //const cryptoId = rows.code;
-      // moreCryptoDetails(index, rows)
+      // const cryptoId = rows.code;
       const cryptoId = 'BTCD';
       try {
-        // passer le code de la crypto pour supprimer
+        // `/cryptos?code=${cryptoId}`
         await this.$axios.get(`/cryptos/${cryptoId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
             console.log("response status 200");
-
+            this.router.push('/cryptocurrencie');
           } else {
             alert(response.data.message);
           }
