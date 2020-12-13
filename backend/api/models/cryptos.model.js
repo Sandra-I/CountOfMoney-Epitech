@@ -9,37 +9,29 @@ const Crypto = function (crypto, id) {
 Crypto.creat = (newCrypto, result) => {
   sql.query("INSERT INTO cryptos SET ?", newCrypto, (err, res) => {
     if (err) {
-      console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created crypto: ", { id: res.insertId, ...newCrypto });
     result(null, { id: res.insertId, ...newCrypto });
   });
 };
 
 Crypto.remove = (code, result) => {
-  console.log("remove")
   sql.query(`DELETE FROM cryptos WHERE code = ?`, code, (err, res) => {
-    console.log("toto")
     if (err) {
-      console.log("error: ", err);
       result(null, err);
       return;
     }
     if (res.affectedRows == 0) {
-      console.log("totoAA")
       result({ kind: "not_found" }, null);
       return;
     } else {
-      console.log("totoAA")
       result(null, res);
     }
   });
   sql.query(`DELETE FROM favorites WHERE code = ?`, code, (err, res) => {
     if (err) {
-      console.log("error: ", err);
       result(null, err);
       return;
     }
@@ -53,18 +45,15 @@ Crypto.remove = (code, result) => {
 Crypto.findall = (result) => {
   sql.query(`SELECT * FROM cryptos`, (err, res) => {
     if (err) {
-      console.log("error: ", err);
       result(err, null);
       return;
     }
 
     if (res.length) {
       let ress = [];
-      console.log("found user: ", res[0].code);
       for (let i = 0; i < res.length; i++) {
         ress.push(res[i].code)
       }
-      console.log("code: ", ress)
       result(null, ress);
       return;
     }
@@ -93,18 +82,13 @@ Crypto.findall = (result) => {
 // };
 
 Crypto.selectCurrent = (user, result) => {
-  console.log("sandre: ", user)
   sql.query(`SELECT name FROM currents, users WHERE currents.id = users.current AND users.id = ?`, user, (err, res) => {
-    console.log("sandra")
     if (err) {
-      console.log("error: ", err);
       result(err, null);
       return;
     }
 
     if (res.length) {
-      console.log("san")
-      console.log("user: ", res)
       result(null, res[0].name);
       return;
     }

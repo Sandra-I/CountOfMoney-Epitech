@@ -1,5 +1,6 @@
 const Favorite = require("../models/favorites.model.js");
 const request = require('request');
+const apiKey = process.env.CC_API_KEY
 
 
 exports.add = (req, res) => {
@@ -11,7 +12,6 @@ exports.add = (req, res) => {
     }
     else {
         code = req.body.code;
-        console.log(code)
         Favorite.select(code, (err, data) => {
             if (err)
                 res.status(203).send({
@@ -32,7 +32,6 @@ exports.add = (req, res) => {
                     imageurl: data[0].imageurl,
                     user: req.params.userid
                 });
-                console.log(crypto)
                 Favorite.adds(crypto, (err, data) => {
                     if (err)
                         res.status(203).send({
@@ -67,7 +66,6 @@ exports.favorite = (req, res) => {
         } else {
             const code = data;
             Favorite.selectCurrent(user, (err, data) => {
-                console.log(data)
                 if (err) {
                     if (err.kind === "not_found") {
                         res.status(404).send({
@@ -81,9 +79,7 @@ exports.favorite = (req, res) => {
                 } else {
 
                     money = data
-                    console.log("data222222: ", code)
-                    console.log("moneyojoooooooo: ", money)
-                    request(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${code}&tsyms=${money}&api_key=f25326a83d9c6bc40ab459c37a569a1b0d58fc05cb83f6139331c3c7dac78c3c`, (error, response) => {
+                    request(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${code}&tsyms=${money}&api_key=${apiKey}`, (error, response) => {
                         if (error) {
                             res.send(`Could not send request to API: ${error.message}`);
                         }

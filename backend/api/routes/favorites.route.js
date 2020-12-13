@@ -1,13 +1,14 @@
+let router = require('express').Router()
 const current = require("../controllers/favorites.controller.js");
 let router = require('express').Router();
 
+
     // Add a crypto in favorite
-    router.post('/cryptos/:userid', current.add);
+router.post('/cryptos/:userid', current.add);
 
     // get all crypto in favorite of user
-    router.get('/cryptos/user/:userid', current.favorite);
+router.get('/cryptos/user/:userid', current.favorite);
 
-    // Delete a crypto in favorite   checkToken.checkSuperToken,
-    router.delete('/cryptos/:code/:userid', current.del);
+router.delete('/cryptos/:code/:userid', current.del);
 
-    module.exports = router
+module.exports = router

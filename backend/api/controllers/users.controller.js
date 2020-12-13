@@ -185,6 +185,7 @@ exports.createAdmin = async (req, res) => {
                 username: process.env.DEFAULT_ADMIN_USERNAME,
                 email: process.env.DEFAULT_ADMIN_EMAIL,
                 password: hash,
+                current: 1
             });
 
             customer["isadmin"] = 1
