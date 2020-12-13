@@ -7,6 +7,7 @@
         <div class="d-flex flex-column mb-3">
           <label for="username">Username</label>
           <el-input
+            disabled
             id="username"
             placeholder="Enter your username"
             v-model="username"
@@ -15,6 +16,7 @@
         <div class="d-flex flex-column mb-3">
           <label for="email">Email</label>
           <el-input
+            disabled
             id="email"
             placeholder="Enter your email"
             v-model="useremail"
@@ -60,6 +62,9 @@
             <el-radio v-model="usercurrency" label="USD" border size="medium"
               ></el-radio
             >
+            <el-radio v-model="usercurrency" label="BTC" border size="medium"
+              ></el-radio
+            >
           </div>
         </div>
 
@@ -86,6 +91,9 @@ export default {
       useremail: 'useremail',
       usercurrency: 'usercurrency'
     })
+  },
+  mounted () {
+    console.log(this.usercurrency);
   }
 };
 </script>

@@ -16,7 +16,7 @@
 <script>
 import UserAuthForm from "@/components/login/UserAuthForm.vue";
 import axios from "axios";
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 
 export default {
   name: "Signin",
@@ -26,10 +26,11 @@ export default {
   methods: {
     async loginUser(userInfo) {
       try {
-        await this.$axios.post('/users/login', { 
+        await this.$axios
+          .post("/users/login", {
             email: userInfo.email,
             password: userInfo.password
-           })
+          })
           .then(response => {
             console.log(response);
             if (response.status == 200) {
@@ -38,26 +39,28 @@ export default {
 
               if (localStorage.getItem("jwt")) {
                 this.$store.commit("isloggedInTrue");
-                axios.defaults.headers.common['Authorization'] = localStorage.getItem("jwt");
+                axios.defaults.headers.common[
+                  "Authorization"
+                ] = localStorage.getItem("jwt");
               }
               if (localStorage.getItem("user")) {
                 const user = JSON.parse(localStorage.getItem("user"));
                 const username = user.username;
                 const userId = user.id;
                 const currency = user.current;
+                const useremail = user.email;
                 this.$store.commit("setUsername", username);
                 this.$store.commit("setUserId", userId);
-                if (currency) {
-                  this.$store.commit("setUsercurrency", currency);
-                }
+                this.$store.commit("setUseremail", useremail);
+                // méthode pour attribuer la money selon valeur
+                this.setCurrency(currency);
               }
               if (response.data.isadmin == 1) {
                 this.$store.commit("isAdminInTrue");
                 this.$router.push("/admin");
               } else {
                 this.$store.commit("isUserInTrue");
-                this.$router.push("/");
-                // this.$router.push("/favorites");
+                this.$router.push("/favorites");
               }
             } else {
               alert(response.data.message);
@@ -65,8 +68,8 @@ export default {
           });
       } catch (e) {
         console.log(e);
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('user');
+        localStorage.removeItem("jwt");
+        localStorage.removeItem("user");
         this.$store.commit("isloggedInFalse");
         this.$store.commit("isAdminInFalse");
         this.$store.commit("isUserInFalse");
@@ -76,7 +79,26 @@ export default {
     },
     ...mapMutations({
       isIn: "isloggedInTrue"
-    })
+    }),
+    setCurrency(currency) {
+      if (currency) {
+        this.$store.commit("setUsercurrency", "EUR");
+        switch (currency) {
+          case 1:
+            this.$store.commit("setUsercurrency", "EUR");
+            break;
+          case 2:
+            this.$store.commit("setUsercurrency", "DOL");
+            break;
+          case 3:
+            this.$store.commit("setUsercurrency", "BTC");
+            break;
+          default:
+            this.$store.commit("setUsercurrency", "EUR");
+            break;
+        }
+      }
+    }
   },
   computed: {
     userLoggedState() {

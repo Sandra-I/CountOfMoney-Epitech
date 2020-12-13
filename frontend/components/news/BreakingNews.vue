@@ -4,7 +4,7 @@
       <div slot="header" class="clearfix">
         <h1 style="float: left">News</h1>
       </div>
-      <div v-for="result in results" :key="o"  style="display: inline-block;">
+      <div v-for="result in results" :key="result"  style="display: inline-block;">
         <single-news-card :data="result"></single-news-card>
       </div>
     </el-card>

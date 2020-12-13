@@ -96,7 +96,7 @@ export default {
       const userId = this.$store.state.userId;
       try {
         await this.$axios
-          .delete(`/cryptos?code=${cryptoId}?cmid=${userId}`)
+          .delete(`/cryptos/${cryptoId}/${userId}`)
           .then(response => {
             console.log(response.data);
             // checker si suppresssion okay renvoyer alert succés
@@ -119,36 +119,35 @@ export default {
         await this.$axios.get(`/cryptos/user/${id}`).then(response => {
           console.log(response.data);
           if (response.status == 200) {
-            //const cryptoArrayofObject = response.data.DISPLAY;
-            // array of the crypto CODE available in our DB
-            //const arrayCode = Object.keys(response.data.DISPLAY);
+            const cryptoArrayofObject = response.data.DISPLAY;
+            // array of the crypto CODE favorites
+            const arrayCode = Object.keys(response.data.DISPLAY);
 
             // boucle to get the crypto infos using he array of the code
-            // for (let i = 0; i < arrayCode.length; i++) {
-            //   const code = arrayCode[i];
-            //   //console.log(code);
+            for (let i = 0; i < arrayCode.length; i++) {
+              const code = arrayCode[i];
 
-            //   // informations nécessaires pour le tableau
-            //   const pieceImageurl = cryptoArrayofObject[code].EUR.IMAGEURL;
-            //   const baseUrlImage = "https://www.cryptocompare.com";
-            //   const image = baseUrlImage + pieceImageurl;
-            //   const fullname = cryptoArrayofObject[code].EUR.MARKET;
-            //   const currentPrice = cryptoArrayofObject[code].EUR.PRICE;
-            //   const openingPrice = cryptoArrayofObject[code].EUR.OPENDAY;
-            //   const lowestPrice = cryptoArrayofObject[code].EUR.LOWDAY;
-            //   const highestPrice = cryptoArrayofObject[code].EUR.HIGHDAY;
-            //   const oneCrypto = {
-            //     image,
-            //     code,
-            //     fullname,
-            //     currentPrice,
-            //     openingPrice,
-            //     lowestPrice,
-            //     highestPrice
-            //   };
-            //   // insertion of one crypto in the table
-            //   this.cryptoArray.push(oneCrypto);
-            // }
+              // informations nécessaires pour le tableau
+              const pieceImageurl = cryptoArrayofObject[code].EUR.IMAGEURL;
+              const baseUrlImage = "https://www.cryptocompare.com";
+              const image = baseUrlImage + pieceImageurl;
+              const fullname = cryptoArrayofObject[code].EUR.MARKET;
+              const currentPrice = cryptoArrayofObject[code].EUR.PRICE;
+              const openingPrice = cryptoArrayofObject[code].EUR.OPENDAY;
+              const lowestPrice = cryptoArrayofObject[code].EUR.LOWDAY;
+              const highestPrice = cryptoArrayofObject[code].EUR.HIGHDAY;
+              const oneCrypto = {
+                image,
+                code,
+                fullname,
+                currentPrice,
+                openingPrice,
+                lowestPrice,
+                highestPrice
+              };
+              // insertion of one crypto in the table
+              this.cryptoArray.push(oneCrypto);
+            }
           } else {
             alert(response.data.message);
           }
