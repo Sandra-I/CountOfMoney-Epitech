@@ -19,19 +19,19 @@ docker-compose up --build -d
 First, you have to generate an admin account. To do so, edit the DEFAULT_ADMIN_* fields before launching the project and then, in your browser, go to http(s)://<domain_name>/setup (replace <domain_name> with the domain from where the project is launched).
 
 ### You can then:
-- Connect as an Administrator
+Connect as an Administrator
  
- -- Add cryptocurrencies in the app database
+- Add cryptocurrencies in the app database
  
- -- Delete some
+- Delete some
  
-- Create an user account
+Create an user account
  
- -- Register
+- Register
  
- -- Sign in
+- Sign in
  
- -- And enjoy your navigation !
+- And enjoy your navigation !
 
 ## How to stop
 ```
