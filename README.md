@@ -20,12 +20,17 @@ First, you have to generate an admin account. To do so, edit the DEFAULT_ADMIN_*
 
 ### You can then:
 - Connect as an Administrator
+ 
  -> Add cryptocurrencies in the app database
+ 
  -> Delete some
  
 - Create an user account
+ 
  -> Register
+ 
  -> Sign in
+ 
  -> And enjoy your navigation !
 
 ## How to stop
