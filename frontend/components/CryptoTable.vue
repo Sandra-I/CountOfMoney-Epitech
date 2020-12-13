@@ -79,11 +79,9 @@
             >
           </template>
         </el-table-column>
-        <el-table-column
-          v-if="this.isUser"
-          fixed="right"
-          label="Add"
-          width="100"
+        <el-table-column fixed="right"
+                         label="Add"
+                         width="100"
         >
           <template slot-scope="scope">
             <el-button
@@ -225,14 +223,17 @@ export default {
       }
     },
     async moreCryptoDetails(index, rows) {
-      const cryptoId = rows.code;
+      //const cryptoId = rows.code;
+      // moreCryptoDetails(index, rows)
+      const cryptoId = 'BTCD';
       try {
         // passer le code de la crypto pour supprimer
-        await this.$axios.get(`/cryptos?code=${cryptoId}`).then(response => {
+        await this.$axios.get(`/cryptos/${cryptoId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
             console.log("response status 200");
+
           } else {
             alert(response.data.message);
           }
