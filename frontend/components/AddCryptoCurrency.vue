@@ -92,8 +92,7 @@ export default {
 
             const cryptoCode = Object.keys(cryptoArrayofObject);
 
-            // i < cryptoCode.length
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < cryptoCode.length; i++) {
               const element = cryptoCode[i];
               const code = cryptoArrayofObject[element].Symbol;
               const fullname = cryptoArrayofObject[element].CoinName;
