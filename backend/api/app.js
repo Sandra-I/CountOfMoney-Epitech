@@ -47,11 +47,6 @@ app.use(require('./routes/cryptos.route.js'))
 app.use(require('./routes/favorites.route.js'))
 
 
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  next(createError(404));checkToken.checkTokencheckToken.checkToken
-}); */
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

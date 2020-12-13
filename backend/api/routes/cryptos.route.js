@@ -1,6 +1,7 @@
 let router = require('express').Router()
 const current = require("../controllers/cryptos.controller.js");
 const checkToken = require("../JsonWebToken/JsonWebToken.js")
+let router = require('express').Router();
 
 
 router.get('/cryptos/all', current.all)
@@ -10,10 +11,6 @@ router.post('/cryptos', current.create);
 
     // Delete a crypto
 router.delete('/cryptos/:cmid', current.delete);
-
-
-    // Delete a crypto in favorite   checkToken.checkSuperToken,
-router.delete('/cryptos/:code/:userid', checkToken.checkSuperToken, current.del);
 
     //  get all crypto of table crypto with params money /cryptos?userid=
 router.get('/cryptos', current.findAll);

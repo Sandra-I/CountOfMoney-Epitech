@@ -64,14 +64,50 @@ Favorite.select = (code, result) => {
 
 
 Favorite.adds = (newCrypto, result) => {
-    sql.query("INSERT INTO favorites SET ?", newCrypto, (err, res) => {
+    console.log(newCrypto.user)
+    sql.query(`SELECT * FROM favorites WHERE code = ? AND user = ?`, [newCrypto.code, newCrypto.user], (err, res) => {
         if (err) {
             result(err, null);
             return;
         }
 
-        result(null, { id: res.insertId, ...newCrypto });
+        if (res.length) {
+             console.log("le crypto existe deja")
+             result({message: "this crypto existe in your favorite"}, null);
+            // result(null, res);
+            return;
+        }else{
+            sql.query("INSERT INTO favorites SET ?", newCrypto, (err, res) => {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                console.log("created crypto: ", { id: res.insertId, ...newCrypto });
+                result(null, { id: res.insertId, ...newCrypto });
+            });
+        }
     });
 };
+
+Favorite.remov = (userid, code, result) => {
+    console.log("remov")
+    console.log("coder: ", code)
+    console.log("useridr: ", userid)
+    sql.execute(`DELETE FROM favorites WHERE code = ? AND user = ?`, [code, userid], (err, res) => {
+      console.log("toto")
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      result(null, res);
+    });
+  }
+  
 
 module.exports = Favorite;
