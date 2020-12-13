@@ -18,3 +18,11 @@ export default {
   components: { Signin }
 };
 </script>
+
+<style scoped>
+.card {
+  max-width: 40em;
+  margin: auto;
+  border-radius: 10px;
+}
+</style>

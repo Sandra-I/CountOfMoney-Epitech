@@ -1,6 +1,6 @@
 <template>
   <el-card
-    class="grid-content bg-purple-dark"
+    class="grid-content bg-purple-light"
     shadow="never"
     type="flex"
     justify="center"
@@ -22,8 +22,8 @@ import UserAuthForm from "@/components/login/UserAuthForm.vue";
 
 export default {
   name: "Register",
-  components: { 
-    UserAuthForm 
+  components: {
+    UserAuthForm
   },
   methods: {
     
@@ -33,7 +33,7 @@ export default {
           {
             username: userInfo.name,
             email: userInfo.email,
-            password: userInfo.password 
+            password: userInfo.password
           }
         ).then(
           (response) => {
@@ -53,3 +53,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.bg-purple-light {
+  background: #f6f7fb;
+}
+.grid-content {
+  border-radius: 4px;
+}
+</style>

@@ -1,8 +1,8 @@
 <template>
   <div id="navbar" type="flex" class="mt-2">
-    <el-row class="d-flex">
-      <el-col :span="12" class="d-flex">
-        <div style="padding-left: 20px; height: 60px">
+    <el-row class="d-flex mb-0">
+      <el-col :span="12" class="d-flex m-auto">
+        <div class="pl-3" style="height: 30px">
           <nuxt-link to="/home">LOGO</nuxt-link>
         </div>
       </el-col>
