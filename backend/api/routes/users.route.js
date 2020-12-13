@@ -29,5 +29,8 @@ router.get('/users/logout', checkToken.logout);
 // admin setup
 router.get('/users/setup', customers.createAdmin)
 
+// Delete a crypto
+//app.delete('/cryptos/:cmid', customers.delete);
+
 
 module.exports = router

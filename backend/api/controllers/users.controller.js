@@ -1,5 +1,7 @@
 const Customer = require("../models/users.model.js");
+const checkToken = require("../JsonWebToken/JsonWebToken.js")
 const argon2 = require("argon2")
+
 
 let emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
@@ -58,9 +60,9 @@ exports.create = async (req, res) => {
         const customer = new Customer({
             username: req.body.username,
             email: req.body.email,
-            password: hash
+            password: hash,
+            current: 1
         });
-
         // Save Customer in the database
         Customer.create(customer, (err, data) => {
             if (err)

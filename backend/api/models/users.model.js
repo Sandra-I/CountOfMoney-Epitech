@@ -5,6 +5,7 @@ const Customer = function (customer, id) {
     this.username = customer.username;
     this.email = customer.email;
     this.password = customer.password;
+    this.current = customer.current;
 };
 
 Customer.create = (newCustomer, result) => {
@@ -18,7 +19,6 @@ Customer.create = (newCustomer, result) => {
 };
 
 Customer.findOne = (email, result) => {
-
     sql.query(`SELECT * FROM users WHERE email = '${email}'`, (err, res) => {
         if (err) {
             result(err, null);

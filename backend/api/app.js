@@ -10,6 +10,7 @@ let app = express();
 app.use(cors({
   credentials: true,
   origin:true,
+  exposedHeaders: ['set-cookie']
 }))
 
 app.use(function (req, res, next) {
@@ -42,11 +43,14 @@ app.use(cookieParser());
 //routes
 require('./routes/users.route.js')(app)
 require('./routes/news.route.js')(app)
+require('./routes/cryptos.route.js')(app)
+require('./routes/favorites.route.js')(app)
+
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+/*app.use(function(req, res, next) {
+  next(createError(404));checkToken.checkTokencheckToken.checkToken
+}); */
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -55,6 +59,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+
     res.status(err.status || 500);
     res.json({
         message: err.message,
