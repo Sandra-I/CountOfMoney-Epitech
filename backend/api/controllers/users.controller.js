@@ -104,6 +104,27 @@ exports.login = (req, res, next) => {
     })
 };
 
+//get info of user
+exports.profile = (req, res) => {
+    user = req.params.id;
+    Customer.profiles(user, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found user with id ${req.params.id}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving user with id " + req.params.id
+                });
+            }
+        } else {
+            console.log("master: ", data)
+            res.send(data)
+        };
+    })
+}
+
 // Update a user identified by the userId in the request
 exports.update = (req, res) => {
     // Validate Request
@@ -113,7 +134,10 @@ exports.update = (req, res) => {
         });
     }
 
-    Customer.updateById(req.params.userId, new Customer(req.body, req.params.userId), (err, data) => {
+    id = req.params.id;
+    user = req.body;
+    // new Customer(req.body, req.params.userId),
+    Customer.updateById(id, user, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({
@@ -161,6 +185,7 @@ exports.createAdmin = async (req, res) => {
                 username: process.env.DEFAULT_ADMIN_USERNAME,
                 email: process.env.DEFAULT_ADMIN_EMAIL,
                 password: hash,
+                current: 1
             });
 
             customer["isadmin"] = 1

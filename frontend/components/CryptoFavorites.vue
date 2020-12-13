@@ -108,7 +108,7 @@ export default {
       const userId = this.$store.state.userId;
       try {
         await this.$axios
-          .delete(`/cryptos/${cryptoId}/${userId}`)
+          .delete(`/api/cryptos/${cryptoId}/${userId}`)
           .then(response => {
             console.log(response.data);
             // checker si suppresssion okay renvoyer alert succés
@@ -128,7 +128,7 @@ export default {
     async getFavoriteCryptos() {
       const id = this.$store.state.userId;
       try {
-        await this.$axios.get(`/cryptos/user/${id}`).then(response => {
+        await this.$axios.get(`/api/cryptos/user/${id}`).then(response => {
           console.log(response.data);
           if (response.status == 200) {
             const cryptoArrayofObject = response.data.DISPLAY;

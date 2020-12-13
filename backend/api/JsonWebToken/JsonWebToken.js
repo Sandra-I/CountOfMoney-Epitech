@@ -56,12 +56,12 @@ exports.checkToken = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
-    const cookieConfig = {
-        httpOnly: true,
-        secure: false,
-        expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365)),
-    };
-    res.cookie('cookie', "", cookieConfig);
+    // const cookieConfig = {
+    //     httpOnly: true,
+    //     secure: false,
+    //     expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365)),
+    // };
+    // res.cookie('cookie', "", cookieConfig);
     res.send("log out")
 }
 

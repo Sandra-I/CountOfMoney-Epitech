@@ -85,7 +85,7 @@ export default {
   methods: {
     async logOut() {
       try {
-        await this.$axios.get("/users/logout").then(response => {
+        await this.$axios.get("/api/users/logout").then(response => {
           if (response.status == 200) {
             localStorage.removeItem("user");
             localStorage.removeItem("jwt");

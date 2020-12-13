@@ -41,16 +41,11 @@ app.use(cookieParser());
 
 
 //routes
-require('./routes/users.route.js')(app)
-require('./routes/news.route.js')(app)
-require('./routes/cryptos.route.js')(app)
-require('./routes/favorites.route.js')(app)
+app.use(require('./routes/users.route.js'))
+app.use(require('./routes/news.route.js'))
+app.use(require('./routes/cryptos.route.js'))
+app.use(require('./routes/favorites.route.js'))
 
-
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  next(createError(404));checkToken.checkTokencheckToken.checkToken
-}); */
 
 // error handler
 app.use(function(err, req, res, next) {

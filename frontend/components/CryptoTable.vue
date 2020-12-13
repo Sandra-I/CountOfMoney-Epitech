@@ -120,7 +120,7 @@ export default {
       const cryptoId = rows.code;
       try {
         // passer le code de la crypto pour supprimer
-        await this.$axios.delete(`/cryptos/${cryptoId}`).then(response => {
+        await this.$axios.delete(`/api/cryptos/${cryptoId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
@@ -138,7 +138,7 @@ export default {
     async getCrypto() {
       const id = this.$store.state.userId;
       try {
-        await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
+        await this.$axios.get(`/api/cryptos?userid=${id}`).then(response => {
           if (response.status == 200) {
             // array of the crypto object ni our DB
             const cryptoArrayofObject = response.data.DISPLAY;
@@ -183,7 +183,7 @@ export default {
       const cryptoCodeToAdd = rows.code;
       try {
         await this.$axios
-          .post(`/cryptos/${userid}`, { code: cryptoCodeToAdd })
+          .post(`/api/cryptos/${userid}`, { code: cryptoCodeToAdd })
           .then(response => {
             if (response.status == 200) {
               alert('Crypto well add in your favoritee !');
