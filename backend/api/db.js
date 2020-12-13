@@ -12,12 +12,10 @@ const connection = mysql.createConnection({
 
 
 // open the MySQL connection
-//TODO: gestion d'erreur avec loop lorsque la base de données n'est pas encore prête, le serveur envoie actuellement une exception
 connection.connect(error => {
-  if (error) throw error;
-  console.log("Successfully connected to the database.");
+  if (error) throw error
+  else console.log("Successfully connected to the database.");
 });
 
-//TODO: au lancement du serveur, faire une requête BDD sur la liste des users et s'il n'y en a pas, en créer un proprement au lieu de l'ajouter directement depuis le script SQL
 
 module.exports = connection;

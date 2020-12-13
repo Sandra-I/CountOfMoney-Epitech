@@ -122,7 +122,67 @@ exports.update = (req, res) => {
                         message: "Error updating user with id " + req.params.userId + "."
                     });
                 }
-            } else res.send(data); //TODO: implémentation algo quand update fonctionnera
+            } else res.send(data);
         }
     );
+};
+
+
+exports.createAdmin = async (req, res) => {
+    let hash = await argon2.hash(process.env.DEFAULT_ADMIN_PASSWORD)
+
+    Customer.findAdmin((err, data) => {
+        if (err) {
+            res.status(500).send({message: err.message});
+        }
+        else if (!data) {
+            if (process.env.DEFAULT_ADMIN_USERNAME === undefined || process.env.DEFAULT_ADMIN_EMAIL === undefined || process.env.DEFAULT_ADMIN_PASSWORD === undefined) {
+                res.status(400).send({
+                    message: "Received data is invalid, some fields are missing in environment!"
+                });
+                return;
+            }
+            else if (!isEmailValid(process.env.DEFAULT_ADMIN_EMAIL)) {
+                res.status(400).send({
+                    message: "Environment email address is invalid."
+                });
+                return;
+            }
+            else if (process.env.DEFAULT_ADMIN_PASSWORD.length < 12) {
+                res.status(400).send({
+                    message: "Environment password must be at least 12 characters."
+                });
+                return;
+            }
+
+            let customer = new Customer({
+                username: process.env.DEFAULT_ADMIN_USERNAME,
+                email: process.env.DEFAULT_ADMIN_EMAIL,
+                password: hash,
+            });
+
+            customer["isadmin"] = 1
+
+            Customer.create(customer, (err) => {
+                if (err) {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while creating the admin account."
+                    });
+                }
+                else {
+                    res.send({
+                        message: "Admin account successfully created with credentials specified in environment."
+                    });
+                }
+            });
+        }
+        else {
+            res.status(404).send({
+                "message": "Not Found",
+                "error": {
+                    "message": "Not Found"
+                }
+            })
+        }
+    })
 };

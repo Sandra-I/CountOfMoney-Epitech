@@ -26,6 +26,8 @@ router.post('/login', createAccountLimiter, customers.login, checkToken.sendToke
 router.get('/profile', checkToken.sendToken, customers.update);
 // user logout
 router.get('/logout', checkToken.logout);
+// admin setup
+router.get('/setup', customers.createAdmin)
 
 
 module.exports = router
