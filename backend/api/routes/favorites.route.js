@@ -7,4 +7,7 @@ module.exports = app => {
     // get all crypto in favorite of user
     app.get('/cryptos/user/:userid', current.favorite);
 
+    // Delete a crypto in favorite   checkToken.checkSuperToken,
+    app.delete('/cryptos/:code/:userid', current.del);
+
 }

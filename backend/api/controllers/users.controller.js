@@ -1,7 +1,8 @@
 const Customer = require("../models/users.model.js");
 var CryptoJS = require("crypto-js");
 const passConfig = require("../config/password.config.js");
-const checkToken = require("../JsonWebToken/JsonWebToken.js")
+const checkToken = require("../JsonWebToken/JsonWebToken.js");
+const { execute } = require("../db.js");
 
 var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
@@ -39,15 +40,15 @@ exports.create = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-    else{
+    else {
         if (req.body.username == '' || req.body.email == '' || req.body.password === '') {
             console.log("invalid data");
-            res.status(204).send({message: "data invalid!"}, null);
+            res.status(204).send({ message: "data invalid!" }, null);
             return;
         }
         if (!isEmailValid(req.body.email)) {
             console.log("invalid email");
-            res.status(204).send({message: "email invalid!"}, null);
+            res.status(204).send({ message: "email invalid!" }, null);
             return;
         }
 
@@ -76,26 +77,47 @@ exports.create = (req, res) => {
 exports.login = (req, res, next) => {
     if (!isEmailValid(req.body.email)) {
         console.log("invalid email");
-        res.status(204).send({message: "invalid email format !"});
+        res.status(204).send({ message: "invalid email format !" });
         return;
     }
     Customer.findOne(req.body.email, function (customer) {
         console.log("ici")
         if (customer === null) {
-            res.status(204).json({message: 'Utilisateur non trouvé !'});
+            res.status(204).json({ message: 'Utilisateur non trouvé !' });
             return;
         }
-        var bytes  = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
+        var bytes = CryptoJS.AES.decrypt(customer.password, passConfig.KEY);
         var originalText = bytes.toString(CryptoJS.enc.Utf8);
 
         if (req.body.password === originalText) {
             checkToken.sendToken(req, res);
         } else {
-            res.status(208).json({message: "bad password"})
+            res.status(208).json({ message: "bad password" })
         }
     })
 
 };
+
+//get info of user
+exports.profile = (req, res) => {
+    user = req.params.id;
+    Customer.profiles(user, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                    message: `Not found user with id ${req.params.id}.`
+                });
+            } else {
+                res.status(500).send({
+                    message: "Error retrieving user with id " + req.params.id
+                });
+            }
+        } else {
+            console.log("master: ", data)
+            res.send(data)
+        };
+    })
+}
 
 // Update a user identified by the userId in the request
 exports.update = (req, res) => {
@@ -106,10 +128,10 @@ exports.update = (req, res) => {
         });
     }
 
-    Customer.updateById(
-        req.params.userId,
-        new Customer(req.body, req.params.userId),
-        (err, data) => {
+    id = req.params.id;
+    user = req.body;
+    // new Customer(req.body, req.params.userId),
+    Customer.updateById(id, user, (err, data) => {
             if (err) {
                 if (err.kind === "not_found") {
                     res.status(404).send({

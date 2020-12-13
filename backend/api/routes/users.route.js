@@ -58,6 +58,7 @@ app.get('/auth/google/callback', function (req, res) {
   }
 }); */
 
+
 module.exports = app => {
 const createAccountLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min window
@@ -72,10 +73,16 @@ const createAccountLimiter = rateLimit({
 
 // Create a new user
 app.post('/users/register', customers.create);
+
 // user login
 app.post('/users/login', createAccountLimiter, customers.login, checkToken.sendToken,);
-// user update
-app.get('/users/profile', checkToken.sendToken, customers.update,);
+
+// get user info
+app.get('/users/profile/:id', customers.profile,);
+
+//  update info
+app.put('/users/profile/:id', customers.update,);
+
 // user logout
 app.get('/users/logout', checkToken.logout);
 

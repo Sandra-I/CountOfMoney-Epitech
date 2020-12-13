@@ -41,20 +41,9 @@ Customer.findOne = (email, result) => {
     });
 }
 
-Customer.updateById = (id, customer, result) => {
-    if (customer.username == '' || customer.email == '' || customer.password === '') {
-        console.log("invalid data");
-        result({message: "data invalid!"}, null);
-        return;
-    }
-    if (!isEmailValid(customer.email)) {
-        console.log("invalid email");
-        result({message: "email invalid!"}, null);
-        return;
-    }
-    sql.query(
-        "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?",
-        [customer.username, customer.email, customer.password, id],
+Customer.updateById = (id, user, result) => {
+    sql.query("UPDATE users SET username = ?, email = ?, current = ? WHERE id = ?",
+        [user.username, user.email, user.password, id],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -73,5 +62,38 @@ Customer.updateById = (id, customer, result) => {
         }
     );
 };
+Customer.profiles = (user, result) => {
+    let info
+    sql.query(`SELECT id, username, email, current FROM users WHERE id= ?`, user, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        if (res.length == 0) {
+            console.log("totot: ", res[0])
 
+            //result(null, res[0]);
+            result({ kind: "not_found" }, null);
+        }else{
+            console.log("totot: ", res[0])
+            info = res[0]
+            sql.query(`SELECT * FROM currents`, (err, res) => {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                if (res.length > 0) {
+                    console.log("sandra: ", res)
+                    info.currents = res
+                    console.log("sandra: ", info)
+                    result(null, info);
+                    return;
+                }
+                result({ kind: "not_found" }, null);
+            });
+        }
+    });
+}
 module.exports = Customer;
