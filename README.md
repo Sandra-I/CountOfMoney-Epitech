@@ -16,7 +16,7 @@ And finally:
 sudo docker-compose up -d
 ```
 
-##How to stop
+## How to stop
 ```
 sudo docker-compose down
 ```
