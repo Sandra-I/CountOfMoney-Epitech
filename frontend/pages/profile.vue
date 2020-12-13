@@ -7,7 +7,7 @@
         <div class="d-flex flex-column mb-3">
           <label for="username">Username</label>
           <el-input
-            disabled
+            
             id="username"
             placeholder="Enter your username"
             v-model="username"
@@ -16,43 +16,12 @@
         <div class="d-flex flex-column mb-3">
           <label for="email">Email</label>
           <el-input
-            disabled
+            
             id="email"
             placeholder="Enter your email"
             v-model="useremail"
           ></el-input>
         </div>
-        <!-- <div class="d-flex flex-row">
-          <div class="d-flex flex-column mb-3 pr-5">
-            <label for="password">Password</label>
-            <el-input
-              id="password"
-              placeholder="Enter your new password"
-              v-model="input"
-              show-password
-              minlength="8"
-            ></el-input>
-          </div>
-          <div class="d-flex flex-column mb-3">
-            <label for="password2">Password</label>
-            <el-input
-              id="password2"
-              placeholder="Re enter your new password"
-              v-model="password2"
-              show-password
-              minlength="8"
-            ></el-input>
-          </div>
-        </div>
-        <div class="d-flex justify-content-end">
-          <el-button>Update</el-button>
-        </div> -->
-      </el-card>
-    </el-col>
-    <el-col :span="18">
-      <el-card class="d-flex flex-column p-2 mb-5" shadow="never">
-        <h2 slot="header">Your settings</h2>
-
         <div class="d-flex flex-column">
           <p>Default currency</p>
           <div class="d-flex flex-row">
@@ -67,7 +36,15 @@
             >
           </div>
         </div>
-
+        <div class="d-flex justify-content-end">
+          <el-button>Update</el-button>
+        </div>
+      </el-card>
+    </el-col>
+    
+    <el-col :span="18">
+      <el-card class="d-flex flex-column p-2 mb-5" shadow="never">
+        <h2 slot="header">Your settings</h2>
         <el-divider></el-divider>
         <div class="d-flex flex-column">
           <p>Press Keywords</p>

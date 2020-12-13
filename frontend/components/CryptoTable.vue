@@ -21,22 +21,25 @@
           <span style="margin-left: 10px">{{ scope.row.code }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="currentPrice"
-                      label="Current Price"
-                      width="150"
-                      sortable
+      <el-table-column
+        prop="currentPrice"
+        label="Current Price"
+        width="150"
+        sortable
       >
       </el-table-column>
-      <el-table-column prop="openingPrice"
-                       label="Opening Price"
-                       width="150"
-                       sortable
+      <el-table-column
+        prop="openingPrice"
+        label="Opening Price"
+        width="150"
+        sortable
       >
       </el-table-column>
-      <el-table-column prop="lowestPrice"
-                       label="Lowest Price"
-                       width="150"
-                       sortable
+      <el-table-column
+        prop="lowestPrice"
+        label="Lowest Price"
+        width="150"
+        sortable
       >
       </el-table-column>
       <el-table-column
@@ -46,57 +49,54 @@
         sortable
       >
       </el-table-column>
-      <el-table-column v-if="this.isAdmin"
-                       fixed="right"
-                       label="Operation"
-                       width="110"
+      <el-table-column
+        v-if="this.isAdmin"
+        fixed="right"
+        label="Operation"
+        width="110"
       >
         <!-- @click="handleDelete()" -->
         <template slot-scope="scope">
-          <el-button type="danger"
-                    icon="el-icon-delete"
-                    size="small"
-                    @click.prevent="deleteCryptoToDatabase(scope.$index, scope.row)"
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="small"
+            @click.prevent="deleteCryptoToDatabase(scope.$index, scope.row)"
             >Delete</el-button
           >
         </template>
       </el-table-column>
-      <el-table-column v-if="this.isUser" 
-                       fixed="right" 
-                       label="Crypto details" 
-                       width="110">
-        <template slot-scope="scope">
-          <!-- Méthode à mettre dans le compo crypto favorites -->
-          <!-- <el-button
-            type="info"
-            icon="el-icon-thumb"
-            size="small"
-            @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
-            >Details</el-button
-          > -->
-          <el-button
-            type="primary"
-            icon="el-icon-delete"
-            size="small"
-            @click.prevent="addCryptoToFavorites(scope.$index, scope.row)"
-            >Add</el-button
-          >
-        </template>
-      </el-table-column>
+      <template v-if="this.isUser">
+        <el-table-column fixed="right" label="Detail" width="120">
+          <template slot-scope="scope">
+            <!-- Méthode à mettre dans le compo crypto favorites -->
+            <el-button
+              type="info"
+              icon="el-icon-thumb"
+              size="small"
+              @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
+              >Details</el-button
+            >
+          </template>
+        </el-table-column>
+        <el-table-column
+          v-if="this.isUser"
+          fixed="right"
+          label="Add"
+          width="100"
+        >
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              icon="el-icon-star-on"
+              size="small"
+              @click.prevent="addCryptoToFavorites(scope.$index, scope.row)"
+              >Add</el-button
+            >
+          </template>
+        </el-table-column>
+      </template>
     </el-table>
-
-    <!-- <el-dialog
-      title="Delete confirmation"
-      :visible.sync="showDeleteModale"
-      width="45%"
-    >
-      <p>This currency will be remove from your database!</p>
-      <p><strong>Crypto Name</strong></p>
-      <p>Are you sure?</p>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showDeleteModale = false">Annuler</el-button>
-      </span>
-    </el-dialog> -->
   </el-card>
 </template>
 
@@ -114,8 +114,8 @@ export default {
   props: {
     tableTitle: {
       type: String,
-      default: 'Crypto Infos'
-    },
+      default: "Crypto Infos"
+    }
   },
   computed: {
     ...mapState({
@@ -125,10 +125,6 @@ export default {
     })
   },
   methods: {
-    handleDelete(index, code) {
-      this.openModale();
-      console.log("test", index);
-    },
     closeModale() {
       this.showDeleteModale = false;
     },
@@ -208,22 +204,23 @@ export default {
       console.log("add crypto");
       const userid = this.$store.state.userId;
       const cryptoCodeToAdd = rows.code;
-      console.log('user id ', userid);
-      console.log('code crypto ', cryptoCodeToAdd);
+      console.log("user id ", userid);
+      console.log("code crypto ", cryptoCodeToAdd);
       try {
-        console.log('try in');
-      
-        await this.$axios.post(`/cryptos/${userid}`, { code: cryptoCodeToAdd }).then(response => {
-          console.log('in response cryptoCodeToAdd =', cryptoCodeToAdd);
-          console.log(response);
+        console.log("try in");
 
-          // if (response.status == 200) {
-          //   console.log('response okay in');
+        await this.$axios
+          .post(`/cryptos/${userid}`, { code: cryptoCodeToAdd })
+          .then(response => {
+            console.log("in response cryptoCodeToAdd =", cryptoCodeToAdd);
+            console.log(response);
 
-          // }
-        }
-        )
-      } catch(e) {
+            // if (response.status == 200) {
+            //   console.log('response okay in');
+
+            // }
+          });
+      } catch (e) {
         console.log(e);
       }
     },
@@ -235,7 +232,7 @@ export default {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
-            console.log('response status 200');
+            console.log("response status 200");
           } else {
             alert(response.data.message);
           }

@@ -60,7 +60,7 @@
           <el-button
             type="warning"
             plain
-            icon="el-icon-scissors"
+            icon="el-icon-delete-solid"
             size="small"
             @click.prevent="removeCryptosFromFav(scope.$index, scope.row)"
             >Remove</el-button

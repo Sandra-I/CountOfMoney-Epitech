@@ -12,7 +12,7 @@
           </el-col>
         </el-row>
       </el-header>
-      <CryptoFavorites />>
+      <CryptoFavorites />
     </el-main>
   </el-container>
 </template>

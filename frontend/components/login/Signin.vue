@@ -82,7 +82,6 @@ export default {
     }),
     setCurrency(currency) {
       if (currency) {
-        this.$store.commit("setUsercurrency", "EUR");
         switch (currency) {
           case 1:
             this.$store.commit("setUsercurrency", "EUR");
