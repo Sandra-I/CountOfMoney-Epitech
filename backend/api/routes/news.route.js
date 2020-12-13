@@ -1,5 +1,4 @@
 let router = require('express').Router()
-
 const news = require("../controllers/news.controller.js")
 
 

@@ -135,7 +135,7 @@ export default {
       const cryptoId = rows.code;
       try {
         // passer le code de la crypto pour supprimer
-        await this.$axios.delete(`/cryptos/${cryptoId}`).then(response => {
+        await this.$axios.delete(`/api/cryptos/${cryptoId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
@@ -156,7 +156,7 @@ export default {
       //const currency = this.$store.state.usercurrency;
       //console.log(currency);
       try {
-        await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
+        await this.$axios.get(`/api/cryptos?userid=${id}`).then(response => {
           if (response.status == 200) {
             //console.log(response.data.DISPLAY["365"].EUR);
             // array of the crypto object ni our DB
@@ -208,7 +208,7 @@ export default {
         console.log("try in");
 
         await this.$axios
-          .post(`/cryptos/${userid}`, { code: cryptoCodeToAdd })
+          .post(`/api/cryptos/${userid}`, { code: cryptoCodeToAdd })
           .then(response => {
             console.log("in response cryptoCodeToAdd =", cryptoCodeToAdd);
             console.log(response);
@@ -228,7 +228,7 @@ export default {
       const cryptoId = 'BTCD';
       try {
         // passer le code de la crypto pour supprimer
-        await this.$axios.get(`/cryptos/${cryptoId}`).then(response => {
+        await this.$axios.get(`/api/cryptos/${cryptoId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {

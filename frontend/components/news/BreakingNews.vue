@@ -21,9 +21,8 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get("/news/articles?maxValue=5")
+    this.$axios.get("/api/news/articles?maxValue=5")
       .then(response => {
-        console.log(JSON.stringify(response.data.result))
         this.results = response.data.result
       })
   }
