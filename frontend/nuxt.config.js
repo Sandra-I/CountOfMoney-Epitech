@@ -2,6 +2,10 @@ export default {
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
   ssr: false,
 
+  server: {
+    port: 8000 // default: 3000
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'frontend',
@@ -36,7 +40,8 @@ export default {
   modules: [
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/moment'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -45,30 +50,29 @@ export default {
   },
 
   // METTRE A JOUR AVEC .env
-
   // Global axios options to applied to all requests
   axios: {
     // proxy: true,
     // baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
-    baseURL: 'http://127.0.0.1:3000'
+    // headers: {
+    //   Authorization: 'Bearer {token}'
+    // },
+    baseURL: 'http://127.0.0.1:3000',
+    withCredentials: true
   },
-  
+
 
   // Authentification module
-  // auth: {
-  //   strategies: {
-  //     local: {
-  //       endpoints: {
-  //         login: { url: '/users/login', method: 'post', propertyName: 'token' },
-  //         logout: { url: '/users/logout', method: 'get' },
-  //         user: { url: '/users/profile', method: 'get', propertyName: 'user' },
-  //         register: { url: '/users/register', method: 'post'}
-  //       },
-  //       // tokenRequired: true,
-  //       // tokenType: '',
-  //       // globalToken: true,
-  //       // autoFetchUser: true
-  //     }
-  //   }
-  // }
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/users/login', method: 'post', propertyName: 'data.token' },
+          logout: { url: '/users/logout', method: 'get' },
+          user: false
+          //user: { url: '/users/profile', method: 'get', propertyName: 'user' }
+        }
+      }
+    }
+  }
 }

@@ -26,9 +26,10 @@ export default {
     UserAuthForm
   },
   methods: {
+    
     async registerUser(userInfo) {
       try {
-        await this.$axios.post('http://127.0.0.1:3000/users/register',
+        await this.$axios.post('/users/register', 
           {
             username: userInfo.name,
             email: userInfo.email,
@@ -38,7 +39,7 @@ export default {
           (response) => {
             console.log(response);
             if (response.status == 200) {
-              this.$router.push('/home');
+              this.$router.push('/login');
             } else {
               alert(response.data.message);
             }

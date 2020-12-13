@@ -6,75 +6,96 @@
           <nuxt-link to="/home">LOGO</nuxt-link>
         </div>
       </el-col>
-      <el-col :span="12" class="d-flex justify-content-end mb-2 pr-3">
-        <div v-if="this.userLoggedState">
-          Coucou
+      <el-col :span="12" class="d-flex justify-content-end">
+        <div v-if="this.isloggedState">
+          <span>{{ this.username }}</span>
           <el-button size="medium" @click="logOut">Logout</el-button>
         </div>
-        <div v-if="!this.userLoggedState">
+        <div v-if="!this.isloggedState">
+          <nuxt-link to="/register">
+            <el-button size="medium">
+              Register
+            </el-button>
+          </nuxt-link>
           <nuxt-link to="/login">
             <el-button size="medium">
-              Login | Register
+              Login
             </el-button>
           </nuxt-link>
         </div>
       </el-col>
     </el-row>
 
-    <el-row type="flex" justify="center" class="d-flex">
-      <el-col :span="24" style="text-align: center">
-        <div>
+    <el-row type="flex" class="d-flex">
+      <el-col :span="24" class="d-flex justify-content-center">
+        <template v-if="this.isloggedState">
           <el-menu
-            class="el-menu-demo d-flex flex-direction-column"
-            mode="horizontal"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
+          :default-active="activeIndex"
+          mode="horizontal"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
           >
-            <!-- <el-menu-item index="3" disabled>Info</el-menu-item> -->
-            <el-menu-item
-              ><nuxt-link to="/home">Home</nuxt-link></el-menu-item
+            <!-- :router="true" -->
+            <!-- <el-menu-item><nuxt-link to="/"><span><i class="el-icon-s-home"></i>Home</span></nuxt-link></el-menu-item> -->
+            <el-menu-item index="1"
+              ><nuxt-link to="/">Home</nuxt-link></el-menu-item
             >
-            <el-menu-item
-              ><nuxt-link to="/">Cryto Currencies</nuxt-link></el-menu-item
+            <el-menu-item index="2"
+              ><nuxt-link to="/favorites">My Favorites C</nuxt-link></el-menu-item
             >
-            <el-menu-item
-              ><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item
+            <!-- <el-menu-item index="3"><nuxt-link to="/">Cryto News</nuxt-link></el-menu-item> -->
+            <el-menu-item index="4">
+              <nuxt-link to="/profile">Profile</nuxt-link></el-menu-item
+            >
+            <el-menu-item index="5" v-if="this.isAdmin"
+              ><nuxt-link to="/admin">App Settings</nuxt-link></el-menu-item
             >
           </el-menu>
-        </div>
+        </template>
+        <template v-if="!this.isloggedState">
+          <p>Welcome in the Crypto World! Register to follow your favorites cryptos</p>
+        </template>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
-      butLogAccount: "Log In | Sign Up"
+      activeIndex: "5"
     };
   },
   computed: {
-    userLoggedState () {
-      return this.$store.state.isloggedState;
-    }
+    ...mapState({
+      isloggedState: "isloggedState",
+      username: "username",
+      isAdmin: "isAdmin"
+    })
   },
   methods: {
     async logOut() {
-      await this.$axios.get('http://127.0.0.1:3000/users/logout'
-      ).then(
-        (response) => {
-          if(response.status == 200) {
-            //console.log(response.data);
-            localStorage.removeItem('user');
-            localStorage.removeItem('jwt');
-            this.$store.commit('isloggedInFalse');
-            this.$router.push('/home');
+      try {
+        await this.$axios.get("/users/logout").then(response => {
+          if (response.status == 200) {
+            console.log("logout");
+            localStorage.removeItem("user");
+            localStorage.removeItem("jwt");
+            this.$store.commit("isloggedInFalse");
+            this.$store.commit("isAdminInFalse");
+            this.$store.commit("isUserInFalse");
+            this.$store.commit("stateInitialization");
+            this.$router.push("/");
           }
-        }
-      )
+        });
+      } catch (e) {
+        console.log(e);
+        //reject(err);
+      }
     }
   }
 };
