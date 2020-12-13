@@ -41,19 +41,6 @@
         </div>
       </el-card>
     </el-col>
-    
-    <el-col :span="18">
-      <el-card class="d-flex flex-column p-2 mb-5" shadow="never">
-        <h2 slot="header">Your settings</h2>
-        <el-divider></el-divider>
-        <div class="d-flex flex-column">
-          <p>Press Keywords</p>
-          <div class="d-flex flex-row">
-            Mettre quelque chose
-          </div>
-        </div>
-      </el-card>
-    </el-col>
   </div>
 </template>
 
@@ -70,7 +57,6 @@ export default {
     })
   },
   mounted () {
-    console.log(this.usercurrency);
   }
 };
 </script>

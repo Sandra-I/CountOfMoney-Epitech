@@ -30,7 +30,6 @@
       <el-col :span="24" class="d-flex justify-content-center">
         <template v-if="this.isloggedState">
           <el-menu
-          :default-active="activeIndex"
           mode="horizontal"
           background-color="#545c64"
           text-color="#fff"

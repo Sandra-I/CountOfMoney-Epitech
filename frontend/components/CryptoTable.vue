@@ -67,9 +67,8 @@
         </template>
       </el-table-column>
       <template v-if="this.isUser">
-        <el-table-column fixed="right" label="Detail" width="120">
+        <!-- <el-table-column fixed="right" label="Detail" width="120">
           <template slot-scope="scope">
-            <!-- Méthode à mettre dans le compo crypto favorites -->
             <el-button
               type="info"
               icon="el-icon-thumb"
@@ -78,7 +77,7 @@
               >Details</el-button
             >
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column fixed="right"
                          label="Add"
                          width="100"
@@ -155,7 +154,7 @@ export default {
       try {
         await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
           if (response.status == 200) {
-            //console.log(response.data.DISPLAY["365"].EUR);
+            //console.log(response.data.DISPLAY["300"].EUR);
             // array of the crypto object ni our DB
             const cryptoArrayofObject = response.data.DISPLAY;
             // array of the crypto CODE available in our DB
@@ -202,28 +201,11 @@ export default {
           .post(`/cryptos/${userid}`, { code: cryptoCodeToAdd })
           .then(response => {
             if (response.status == 200) {
-              alert('Crypto well add!');
+              alert('Crypto well add in your favoritee !');
+            } else {
+              alert(response.data.message);
             }
           });
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async moreCryptoDetails(index, rows) {
-      // const cryptoId = rows.code;
-      const cryptoId = 'BTCD';
-      try {
-        // `/cryptos?code=${cryptoId}`
-        await this.$axios.get(`/cryptos/${cryptoId}`).then(response => {
-          console.log(response);
-          // checker si suppresssion okay renvoyer alert succés
-          if (response.status == 200) {
-            console.log("response status 200");
-            this.router.push('/cryptocurrencie');
-          } else {
-            alert(response.data.message);
-          }
-        });
       } catch (e) {
         console.log(e);
       }
