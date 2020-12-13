@@ -1,5 +1,6 @@
 <template>
   <el-card style="margin-bottom: 20px;">
+    <h3 slot="header">{{ tableTitle }}</h3>
     <!-- Utiliser attribut height dans el-table pour avoir un header fixe -->
     <el-table
       :data="cryptoArray"
@@ -55,7 +56,7 @@
           <el-button type="danger"
                     icon="el-icon-delete"
                     size="small"
-                    @click.prevent="deleteCrypto(scope.$index, scope.row)"
+                    @click.prevent="deleteCryptoToDatabase(scope.$index, scope.row)"
             >Delete</el-button
           >
         </template>
@@ -65,18 +66,26 @@
                        label="Crypto details" 
                        width="110">
         <template slot-scope="scope">
-          <el-button
+          <!-- Méthode à mettre dans le compo crypto favorites -->
+          <!-- <el-button
             type="info"
             icon="el-icon-thumb"
             size="small"
             @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
             >Details</el-button
+          > -->
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="small"
+            @click.prevent="addCryptoToFavorites(scope.$index, scope.row)"
+            >Add</el-button
           >
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog
+    <!-- <el-dialog
       title="Delete confirmation"
       :visible.sync="showDeleteModale"
       width="45%"
@@ -86,9 +95,8 @@
       <p>Are you sure?</p>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showDeleteModale = false">Annuler</el-button>
-        <!-- <el-button type="primary" @click="deleteCrypto()">Confirmer</el-button> -->
       </span>
-    </el-dialog>
+    </el-dialog> -->
   </el-card>
 </template>
 
@@ -102,6 +110,12 @@ export default {
       showDeleteModale: false,
       cryptoArray: []
     };
+  },
+  props: {
+    tableTitle: {
+      type: String,
+      default: 'Crypto Infos'
+    },
   },
   computed: {
     ...mapState({
@@ -121,13 +135,13 @@ export default {
     openModale() {
       this.showDeleteModale = true;
     },
-    async deleteCrypto(index, rows) {
+    async deleteCryptoToDatabase(index, rows) {
       console.log(index);
       console.log(rows.code);
       const cryptoId = rows.code;
       try {
         // passer le code de la crypto pour supprimer
-        await this.$axios.delete(`/cryptos?cmid=${cryptoId}`).then(response => {
+        await this.$axios.delete(`/cryptos/${cryptoId}`).then(response => {
           console.log(response);
           // checker si suppresssion okay renvoyer alert succés
           if (response.status == 200) {
@@ -142,11 +156,6 @@ export default {
         console.log(e);
       }
     },
-    deleteRow(index, rows) {
-      console.log(index);
-      console.log(rows.code);
-      // rows.splice(index, 1);
-    },
     async getCrypto() {
       const id = this.$store.state.userId;
       //const currency2 = Object.assign(this.$store.state.usercurrency2);
@@ -154,15 +163,12 @@ export default {
       //console.log(currency);
       try {
         await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
-          //console.log(response);
           if (response.status == 200) {
             //console.log(response.data.DISPLAY["365"].EUR);
-            //console.log(response.data.DISPLAY["365"]);
             // array of the crypto object ni our DB
             const cryptoArrayofObject = response.data.DISPLAY;
             // array of the crypto CODE available in our DB
             const arrayCode = Object.keys(response.data.DISPLAY);
-            //console.log(arrayCode);
 
             // boucle to get the crypto infos using he array of the code
             for (let i = 0; i < arrayCode.length; i++) {
@@ -170,15 +176,6 @@ export default {
               //console.log(code);
 
               // informations nécessaires pour le tableau
-              // const pieceImageurl = cryptoArrayofObject[code].currency.IMAGEURL;
-              // const baseUrlImage = "https://www.cryptocompare.com";
-              // const image = baseUrlImage + pieceImageurl;
-              // const fullname = cryptoArrayofObject[code].currency.MARKET;
-              // const currentPrice = cryptoArrayofObject[code].currency.PRICE;
-              // const openingPrice = cryptoArrayofObject[code].currency.OPENDAY;
-              // const lowestPrice = cryptoArrayofObject[code].currency.LOWDAY;
-              // const highestPrice = cryptoArrayofObject[code].currency.HIGHDAY;
-
               const pieceImageurl = cryptoArrayofObject[code].EUR.IMAGEURL;
               const baseUrlImage = "https://www.cryptocompare.com";
               const image = baseUrlImage + pieceImageurl;
@@ -207,7 +204,7 @@ export default {
         console.log(e);
       }
     },
-    async addCrypto(index, rows) {
+    async addCryptoToFavorites(index, rows) {
       console.log("add crypto");
       const userid = this.$store.state.userId;
       const cryptoCodeToAdd = rows.code;
@@ -216,7 +213,7 @@ export default {
       try {
         console.log('try in');
       
-        await this.$axios.post(`/cryptos/${userid}`, {code: cryptoCodeToAdd}).then(response => {
+        await this.$axios.post(`/cryptos/${userid}`, { code: cryptoCodeToAdd }).then(response => {
           console.log('in response cryptoCodeToAdd =', cryptoCodeToAdd);
           console.log(response);
 
@@ -226,8 +223,8 @@ export default {
           // }
         }
         )
-      } catch {
-
+      } catch(e) {
+        console.log(e);
       }
     },
     async moreCryptoDetails(index, rows) {

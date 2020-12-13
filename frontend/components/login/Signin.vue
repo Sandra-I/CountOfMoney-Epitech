@@ -67,7 +67,11 @@ export default {
         console.log(e);
         localStorage.removeItem('jwt');
         localStorage.removeItem('user');
-        reject(err);
+        this.$store.commit("isloggedInFalse");
+        this.$store.commit("isAdminInFalse");
+        this.$store.commit("isUserInFalse");
+        this.$store.commit("stateInitialization");
+        //reject(err);
       }
     },
     ...mapMutations({

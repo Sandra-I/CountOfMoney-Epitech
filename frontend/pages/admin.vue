@@ -7,7 +7,7 @@
     <el-main>
       <el-header>
         <el-row class="d-flex">
-          <el-col :span="12" class="d-flex">
+          <el-col :span="12" class="d-flex pt-2">
             <h2>Actual Cryptocurrencies</h2>
           </el-col>
           <el-col :span="12" class="d-flex justify-content-end">
@@ -15,7 +15,7 @@
           </el-col>
         </el-row>
       </el-header>
-      <crypto-table></crypto-table>
+      <crypto-table :tableTitle="title"></crypto-table>
     </el-main>
   </el-container>
 </template>
@@ -29,7 +29,7 @@ export default {
   components: { CryptoTable, AddCryptoCurrency },
   data() {
     return {
-      
+      title: 'Cryptocurrencies in the database'
     };
   },
   methods: {

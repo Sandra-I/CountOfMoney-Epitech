@@ -12,9 +12,14 @@
           <el-button size="medium" @click="logOut">Logout</el-button>
         </div>
         <div v-if="!this.isloggedState">
+          <nuxt-link to="/register">
+            <el-button size="medium">
+              Register
+            </el-button>
+          </nuxt-link>
           <nuxt-link to="/login">
             <el-button size="medium">
-              {{ butLogAccount }}
+              Login
             </el-button>
           </nuxt-link>
         </div>
@@ -62,8 +67,6 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      butLogAccount: "Register | Sign in",
-      testname: "Test",
       activeIndex: "5"
     };
   },
