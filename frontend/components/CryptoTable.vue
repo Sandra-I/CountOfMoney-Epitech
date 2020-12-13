@@ -24,7 +24,7 @@
                       label="Current Price"
                       width="150"
                       sortable
-    >
+      >
       </el-table-column>
       <el-table-column prop="openingPrice"
                        label="Opening Price"
@@ -60,19 +60,17 @@
           >
         </template>
       </el-table-column>
-      <!-- ajouter méthode add -->
       <el-table-column v-if="this.isUser" 
                        fixed="right" 
-                       label="Operation" 
-                       width="100">
-        <!-- @click="handleDelete()" -->
+                       label="Crypto details" 
+                       width="110">
         <template slot-scope="scope">
           <el-button
-            type="primary"
-            icon="el-icon-delete"
+            type="info"
+            icon="el-icon-thumb"
             size="small"
-            @click.prevent="addCrypto(scope.$index, scope.row)"
-            >Add</el-button
+            @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
+            >Details</el-button
           >
         </template>
       </el-table-column>
@@ -152,7 +150,7 @@ export default {
     async getCrypto() {
       const id = this.$store.state.userId;
       //const currency2 = Object.assign(this.$store.state.usercurrency2);
-      const currency = this.$store.state.usercurrency;
+      //const currency = this.$store.state.usercurrency;
       //console.log(currency);
       try {
         await this.$axios.get(`/cryptos?userid=${id}`).then(response => {
@@ -230,6 +228,23 @@ export default {
         )
       } catch {
 
+      }
+    },
+    async moreCryptoDetails(index, rows) {
+      const cryptoId = rows.code;
+      try {
+        // passer le code de la crypto pour supprimer
+        await this.$axios.get(`/cryptos?code=${cryptoId}`).then(response => {
+          console.log(response);
+          // checker si suppresssion okay renvoyer alert succés
+          if (response.status == 200) {
+            console.log('response status 200');
+          } else {
+            alert(response.data.message);
+          }
+        });
+      } catch (e) {
+        console.log(e);
       }
     }
   },

@@ -56,7 +56,8 @@ export default {
                 this.$router.push("/admin");
               } else {
                 this.$store.commit("isUserInTrue");
-                this.$router.push("/favorites");
+                this.$router.push("/");
+                // this.$router.push("/favorites");
               }
             } else {
               alert(response.data.message);
