@@ -49,7 +49,19 @@
       >
       </el-table-column>
 
-      <!-- ajouter méthode add -->
+      <el-table-column fixed="right" label="Detail" width="120">
+        <template slot-scope="scope">
+          <!-- Méthode à mettre dans le compo crypto favorites -->
+          <el-button
+            type="info"
+            icon="el-icon-thumb"
+            size="small"
+            @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
+            >Details</el-button
+          >
+        </template>
+      </el-table-column>
+
       <el-table-column
         v-if="this.isUser"
         fixed="right"
@@ -155,6 +167,28 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    // Voir plus de détails sur une crypto
+    async moreCryptoDetails(index, rows) {
+      // const cryptoId = rows.code;
+      const cryptoId = "BTCD";
+      this.$router.push("/cryptocurrencie");
+      // try {
+      //   // `/cryptos?code=${cryptoId}`
+      //   await this.$axios.get(`/cryptos/${cryptoId}`).then(response => {
+      //     console.log(response);
+          
+      //     // checker si suppresssion okay renvoyer alert succés
+      //     if (response.status == 200) {
+      //       console.log("response status 200");
+      //       this.router.push("/cryptocurrencie");
+      //     } else {
+      //       alert(response.data.message);
+      //     }
+      //   });
+      // } catch (e) {
+      //   console.log(e);
+      // }
     }
   },
   mounted() {
