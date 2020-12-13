@@ -4,7 +4,7 @@ USE project;
 CREATE TABLE `cryptos` (
   `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `fullname` VARCHAR(255) NOT NULL,
-  `code` VARCHAR(255) NOT NULL,
+  `code` VARCHAR(255) UNIQUE NOT NULL,
   `imageurl` VARCHAR(255) NOT NULL
   );
 
@@ -46,10 +46,7 @@ CREATE TABLE `favorites` (
   FOREIGN KEY(user) REFERENCES users(id)
   );
 
-INSERT INTO users (isadmin, username, email, password) VALUES (TRUE, 'user', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=');
-INSERT INTO cryptos (fullname, code, imageurl) VALUES ("Bitcoin", "BTC", "toto");
-INSERT INTO cryptos (fullname, code, imageurl) VALUES ("Litcoin", "LTC", "toto");
-
 INSERT INTO currents (name) VALUES ("EUR");
 INSERT INTO currents (name) VALUES ("USD");
 INSERT INTO currents (name) VALUES ("BTC");
+INSERT INTO users (isadmin, username, email, password, current) VALUES (TRUE, 'user', 'admin@admin.fr', 'U2FsdGVkX190MKXmZh1FIbmDwE+WTWOjXiVhvKvjCH4=', 1);

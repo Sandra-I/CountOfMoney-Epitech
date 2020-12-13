@@ -1,63 +1,52 @@
 const sql = require("../db.js");
 
 const Crypto = function (crypto, id) {
-    this.fullname = crypto.fullname;
-    this.code = crypto.code;
-    this.imageurl = crypto.imageurl;
+  this.fullname = crypto.fullname;
+  this.code = crypto.code;
+  this.imageurl = crypto.imageurl;
 };
 
 Crypto.creat = (newCrypto, result) => {
-    sql.query("INSERT INTO cryptos SET ?", newCrypto, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+  sql.query("INSERT INTO cryptos SET ?", newCrypto, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
 
-        console.log("created crypto: ", {id: res.insertId, ...newCrypto});
-        result(null, {id: res.insertId, ...newCrypto});
-    });
+    console.log("created crypto: ", { id: res.insertId, ...newCrypto });
+    result(null, { id: res.insertId, ...newCrypto });
+  });
 };
 
-Crypto.remove = (id, result) => {
+Crypto.remove = (code, result) => {
   console.log("remove")
-  sql.query(`SELECT * FROM cryptos WHERE id = ?`, id, (err, res) => {
-    console.log("voici")
+  sql.query(`DELETE FROM cryptos WHERE code = ?`, code, (err, res) => {
+    console.log("toto")
     if (err) {
-      console.log("erreur")
       console.log("error: ", err);
       result(null, err);
+      return;
     }
-    if (res.length){
-      console.log(res)
-      cod = res[0].code
-      console.log("cod: ", cod)
-      sql.query(`DELETE FROM favorites WHERE code = ?`, cod, (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(null, err);
-          return;
-        }
-        if (res.affectedRows == 0) {
-         // result({kind: "not_found"}, null);
-          return;
-        }
-      });
+    if (res.affectedRows == 0) {
+      console.log("totoAA")
+      result({ kind: "not_found" }, null);
+      return;
+    } else {
+      console.log("totoAA")
+      result(null, res);
     }
   });
-  sql.query(`DELETE FROM cryptos WHERE id = ?`, id, (err, res) => {
+  sql.query(`DELETE FROM favorites WHERE code = ?`, code, (err, res) => {
     if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-
     if (res.affectedRows == 0) {
-        result({kind: "not_found"}, null);
-        return;
+      // result({kind: "not_found"}, null);
+      return;
     }
-
-    result(null, res);
   });
 };
 
@@ -73,7 +62,7 @@ Crypto.remov = (userid, code, result) => {
       return;
     }
     if (res.affectedRows == 0) {
-     result({kind: "not_found"}, null);
+      result({ kind: "not_found" }, null);
       return;
     }
     result(null, res);
@@ -81,99 +70,70 @@ Crypto.remov = (userid, code, result) => {
 }
 
 Crypto.findall = (result) => {
-    sql.query(`SELECT * FROM cryptos`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-  
-      if (res.length) {
-          let ress = [];
-        console.log("found user: ", res[0].code);
-        for(let i=0; i < res.length; i++){
-            ress.push(res[i].code)
-        }
-        console.log("code: ", ress)
-        result(null, ress);
-        return;
-      }
-  
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-    });
-  };
+  sql.query(`SELECT * FROM cryptos`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
 
-  Crypto.findById = (id, result) => {
-    sql.query(`SELECT * FROM cryptos WHERE id = '${id}'`, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
+    if (res.length) {
+      let ress = [];
+      console.log("found user: ", res[0].code);
+      for (let i = 0; i < res.length; i++) {
+        ress.push(res[i].code)
       }
-  
-      if (res.length) {
-        console.log("found crypto: ", res[0]);
-        result(null, res);
-        return;
-      }
-  
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-    });
-  };
+      console.log("code: ", ress)
+      result(null, ress);
+      return;
+    }
 
-  Crypto.select = (code, result) => {
-    sql.query(`SELECT * FROM cryptos WHERE code = ?`, code, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-  
-      if (res.length) {
-        console.log("code: ", res)
-        result(null, res);
-        return;
-      }
-  
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-    });
-  };
-  Crypto.selectCurrent = (user, result) => {
-    console.log("sandre: ", user)
-    sql.query(`SELECT name FROM currents, users WHERE currents.id = users.current AND users.id = ?`, user, (err, res) => {
-      console.log("sandra")
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-  
-      if (res.length) {
-        console.log("san")
-        console.log("user: ", res)
-        result(null, res[0].name);
-        return;
-      }
-  
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-    });
-  };
-
-  Crypto.adds = (newCrypto, result) => {
-    sql.query("INSERT INTO favorites SET ?", newCrypto, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-
-        console.log("created crypto: ", {id: res.insertId, ...newCrypto});
-        result(null, {id: res.insertId, ...newCrypto});
-    });
+    // not found Customer with the id
+    result({ kind: "not_found" }, null);
+  });
 };
-  
+
+Crypto.findById = (id, result) => {
+  sql.query(`SELECT * FROM cryptos WHERE id = '${id}'`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found crypto: ", res[0]);
+      result(null, res);
+      return;
+    }
+
+    // not found Customer with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Crypto.selectCurrent = (user, result) => {
+  console.log("sandre: ", user)
+  sql.query(`SELECT name FROM currents, users WHERE currents.id = users.current AND users.id = ?`, user, (err, res) => {
+    console.log("sandra")
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("san")
+      console.log("user: ", res)
+      result(null, res[0].name);
+      return;
+    }
+
+    // not found Customer with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
+
+
 module.exports = Crypto;
