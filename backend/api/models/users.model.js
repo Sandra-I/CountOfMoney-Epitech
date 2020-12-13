@@ -34,8 +34,8 @@ Customer.findOne = (email, result) => {
 }
 
 Customer.updateById = (id, user, result) => {
-    sql.query("UPDATE users SET username = ?, email = ?, current = ? WHERE id = ?",
-        [user.username, user.email, user.password, id],
+    sql.query("UPDATE users SET username = ?, email = ? WHERE id = ?",
+        [user.username, user.email, id],
         (err, res) => {
             if (err) {
                 result(null, err);
