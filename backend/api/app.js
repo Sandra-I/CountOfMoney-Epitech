@@ -6,6 +6,7 @@ let cors = require('cors')
 let bodyParser = require('body-parser');
 let app = express();
 
+
 app.use(cors({
   credentials: true,
   origin:true,
@@ -13,7 +14,7 @@ app.use(cors({
 }))
 
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Credentials', "true");
   res.header('Access-Control-Allow-Origin', req.headers.origin);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
@@ -38,10 +39,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+
 //routes
 require('./routes/users.route.js')(app)
+require('./routes/news.route.js')(app)
 require('./routes/cryptos.route.js')(app)
 require('./routes/favorites.route.js')(app)
+
 
 // catch 404 and forward to error handler
 /*app.use(function(req, res, next) {
@@ -55,8 +59,12 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.send('error');
+
+    res.status(err.status || 500);
+    res.json({
+        message: err.message,
+        error: err
+    });
 });
 
 module.exports = app;

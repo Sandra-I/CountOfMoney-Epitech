@@ -5,39 +5,43 @@ const secretConfig = require("../config/secret.config.js");
 const db = require("../db.js");
 
 exports.sendToken = (req, res, next) => {
-    console.log("sendToken")
     const cookieConfig = {
         httpOnly: true,
         secure: false,
         expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365)),
     };
-    console.log(req.body)
-    db.query(`select * from users where email = '${req.body.email}'`, function (err, result) {
+    db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`, function (err, result) {
         if (err) {
-            res.status(401).json({error: "error with email"})
+            res.status(500).send({
+                error: "An error has occured."
+            })
         } else {
-            const token = jwt.sign({
-                username: result[0].username,
-                email: result[0].email,
-                isadmin: result[0].isadmin,
-                id: result[0].id
-            }, secretConfig.secret, {expiresIn: "1h"});
-            res.cookie('cookie', token, cookieConfig);
-            var user = result[0]
-            delete user.password
-            delete user.token
-            user.token = token
-            console.log(user)
-            res.status(200).json(user)
-            db.query(`update users set token = '${token}' where id = ${result[0].id}`)
+            if (result[0]) {
+                const token = jwt.sign({
+                    user: result[0].username,
+                    email: result[0].email,
+                    isadmin: result[0].isadmin,
+                    id: result[0].id
+                }, secretConfig.secret, {expiresIn: "1h"});
+                res.cookie('cookie', token, cookieConfig);
+                let user = result[0]
+                delete user.password
+                delete user.token
+                user.token = token
+                res.status(200).send(user)
+                db.query(`update users set token = '${token}' where id = ${result[0].id}`)
+            } else {
+                res.status(400).send({
+                    error: "Please specify the profile email."
+                })
+            }
         }
     })
 }
 
 exports.checkToken = (req, res, next) => {
-    console.log("checkToken")
     const cookies = req.cookies;
-    var token = cookies.cookie
+    let token = cookies.cookie
     if (!token) {
         res.status(401).send('Unauthorized: No token provided');
     } else {
@@ -45,7 +49,7 @@ exports.checkToken = (req, res, next) => {
             if (err) {
                 res.status(401).send('Unauthorized: Invalid token');
             } else {
-                res.status(200).json({success: "success"})
+                res.status(200).send({success: "success"})
             }
         });
     }
@@ -62,23 +66,16 @@ exports.logout = (req, res, next) => {
 }
 
 exports.checkSuperRight = (req, res, next) => {
-    console.log("checkRightOrId")
-    console.log("toto: ", req.cookies)
     const cookies = req.cookies;
     var token = cookies.cookie
-    //var token = req.query.token
-    console.log("token: " + token);
     if (!token) {
         res.status(401).send('Unauthorized: No token provided');
     } else {
-        console.log('tooto')
         jwt.verify(token, secretConfig.secret, function (err, decoded) {
             if (err) {
-                console.log(err)
                 res.status(401).send('Unauthorized: Invalid token');
             } else {
                 if (decoded.isadmin == 1) {
-                    console.log("super")
                     next();
                 } else {
                     res.status(403).send('Unauthorized: Invalid Right');
@@ -89,22 +86,17 @@ exports.checkSuperRight = (req, res, next) => {
 }
 
 exports.checkSuperToken = (req, res, next) => {
-    console.log("checkRightOrId")
     const cookies = req.cookies;
     var token = cookies.cookie
     //var token = req.query.token
-    console.log("token: " + token);
     if (!token) {
         res.status(401).send('Unauthorized: No token provided');
     } else {
-        console.log('tooto')
         jwt.verify(token, secretConfig.secret, function (err, decoded) {
             if (err) {
-                console.log(err)
                 res.status(401).send('Unauthorized: Invalid token');
             } else {
                 if (decoded.isadmin == 0) {
-                    console.log("super")
                     next();
                 } else {
                     res.status(403).send('Unauthorized: Invalid Right');
