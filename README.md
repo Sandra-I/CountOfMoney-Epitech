@@ -1,7 +1,7 @@
-#CountOfMoney_2020_49
+# CountOfMoney_2020_49
 
 
-##Getting started:
+## Getting started:
 
 First, clone this repo:
 ```
