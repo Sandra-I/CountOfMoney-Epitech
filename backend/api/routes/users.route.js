@@ -17,16 +17,16 @@ const createAccountLimiter = rateLimit({
 //});
 
 // Create a new user
-app.post('/users/register', customers.create);
+router.post('/users/register', customers.create);
 
 // user login
-app.post('/users/login', createAccountLimiter, customers.login, checkToken.sendToken,);
+router.post('/users/login', createAccountLimiter, customers.login, checkToken.sendToken,);
 
 // get user info
-app.get('/users/profile/:id', customers.profile,);
+router.get('/users/profile/:id', customers.profile,);
 
 //  update info
-app.put('/users/profile/:id', customers.update,);
+router.put('/users/profile/:id', customers.update,);
 
 // user logout
 router.get('/users/logout', checkToken.logout);
