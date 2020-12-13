@@ -25,21 +25,14 @@ import AddCryptoCurrency from "@/components/AddCryptoCurrency.vue";
 import CryptoTable from "@/components/CryptoTable.vue";
 
 export default {
-  //middleware: 'auth',
-  components: { CryptoTable, AddCryptoCurrency },
+  components: { 
+    CryptoTable, 
+    AddCryptoCurrency 
+  },
   data() {
     return {
       title: 'Cryptocurrencies in the database'
     };
-  },
-  methods: {
-    handleClose(done) {
-      this.$confirm("Do you really want to add this currency?")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    }
   }
 };
 </script>

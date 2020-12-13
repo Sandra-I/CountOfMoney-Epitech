@@ -9,7 +9,7 @@
       <h1>Sign In</h1>
       <p>Welcome back!</p>
     </div>
-    <UserAuthForm buttonText="Sign in" :submitForm="loginUser" />
+    <UserAuthForm buttonText="Sign in" :submitForm="loginUser" hasPassword="true"/>
   </el-card>
 </template>
 
@@ -32,7 +32,6 @@ export default {
             password: userInfo.password
           })
           .then(response => {
-            console.log(response);
             if (response.status == 200) {
               localStorage.setItem("user", JSON.stringify(response.data));
               localStorage.setItem("jwt", response.data.token);
@@ -87,7 +86,7 @@ export default {
             this.$store.commit("setUsercurrency", "EUR");
             break;
           case 2:
-            this.$store.commit("setUsercurrency", "DOL");
+            this.$store.commit("setUsercurrency", "USD");
             break;
           case 3:
             this.$store.commit("setUsercurrency", "BTC");

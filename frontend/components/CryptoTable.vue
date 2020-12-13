@@ -17,7 +17,7 @@
 
       <el-table-column prop="fullname" label="Name" width="150" sortable fixed>
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
+          
           <span style="margin-left: 10px">{{ scope.row.code }}</span>
         </template>
       </el-table-column>
@@ -55,7 +55,6 @@
         label="Operation"
         width="110"
       >
-        <!-- @click="handleDelete()" -->
         <template slot-scope="scope">
           <el-button
             type="danger"
@@ -67,18 +66,6 @@
         </template>
       </el-table-column>
       <template v-if="this.isUser">
-        <el-table-column fixed="right" label="Detail" width="120">
-          <template slot-scope="scope">
-            <!-- Méthode à mettre dans le compo crypto favorites -->
-            <el-button
-              type="info"
-              icon="el-icon-thumb"
-              size="small"
-              @click.prevent="moreCryptoDetails(scope.$index, scope.row)"
-              >Details</el-button
-            >
-          </template>
-        </el-table-column>
         <el-table-column fixed="right"
                          label="Add"
                          width="100"
@@ -130,8 +117,6 @@ export default {
       this.showDeleteModale = true;
     },
     async deleteCryptoToDatabase(index, rows) {
-      console.log(index);
-      console.log(rows.code);
       const cryptoId = rows.code;
       try {
         // passer le code de la crypto pour supprimer
@@ -152,13 +137,9 @@ export default {
     },
     async getCrypto() {
       const id = this.$store.state.userId;
-      //const currency2 = Object.assign(this.$store.state.usercurrency2);
-      //const currency = this.$store.state.usercurrency;
-      //console.log(currency);
       try {
         await this.$axios.get(`/api/cryptos?userid=${id}`).then(response => {
           if (response.status == 200) {
-            //console.log(response.data.DISPLAY["365"].EUR);
             // array of the crypto object ni our DB
             const cryptoArrayofObject = response.data.DISPLAY;
             // array of the crypto CODE available in our DB
@@ -167,7 +148,6 @@ export default {
             // boucle to get the crypto infos using he array of the code
             for (let i = 0; i < arrayCode.length; i++) {
               const code = arrayCode[i];
-              //console.log(code);
 
               // informations nécessaires pour le tableau
               const pieceImageurl = cryptoArrayofObject[code].EUR.IMAGEURL;
@@ -199,45 +179,18 @@ export default {
       }
     },
     async addCryptoToFavorites(index, rows) {
-      console.log("add crypto");
       const userid = this.$store.state.userId;
       const cryptoCodeToAdd = rows.code;
-      console.log("user id ", userid);
-      console.log("code crypto ", cryptoCodeToAdd);
       try {
-        console.log("try in");
-
         await this.$axios
           .post(`/api/cryptos/${userid}`, { code: cryptoCodeToAdd })
           .then(response => {
-            console.log("in response cryptoCodeToAdd =", cryptoCodeToAdd);
-            console.log(response);
-
-            // if (response.status == 200) {
-            //   console.log('response okay in');
-
-            // }
+            if (response.status == 200) {
+              alert('Crypto well add in your favoritee !');
+            } else {
+              alert(response.data.message);
+            }
           });
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async moreCryptoDetails(index, rows) {
-      //const cryptoId = rows.code;
-      // moreCryptoDetails(index, rows)
-      const cryptoId = 'BTCD';
-      try {
-        // passer le code de la crypto pour supprimer
-        await this.$axios.get(`/api/cryptos/${cryptoId}`).then(response => {
-          console.log(response);
-          // checker si suppresssion okay renvoyer alert succés
-          if (response.status == 200) {
-            console.log("response status 200");
-
-          } else {
-            alert(response.data.message);
-          }
-        });
       } catch (e) {
         console.log(e);
       }

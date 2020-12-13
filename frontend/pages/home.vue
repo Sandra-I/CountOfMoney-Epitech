@@ -10,9 +10,9 @@
   </div>
 </template>
 <script>
-import CryptoGraphs from '../components/cryptoGraphCard/CryptoGraphs';
-import CryptoTable from "../components/CryptoTable";
-import BreakingNews from '../components/news/BreakingNews';
+import CryptoGraphs from '@/components/cryptoGraphCard/CryptoGraphs';
+import CryptoTable from "@/components/CryptoTable";
+import BreakingNews from '@/components/news/BreakingNews';
 
 export default {
   components: {
