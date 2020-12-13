@@ -82,7 +82,7 @@ export default {
     },
     async getAllCrypto() {
       try {
-        await this.$axios.get("/cryptos/all").then(response => {
+        await this.$axios.get("/api/cryptos/all").then(response => {
           if (response.status == 200) {
             const baseUrlImage = response.data.BaseImageUrl;
             this.baseUrl = baseUrlImage;
@@ -120,7 +120,7 @@ export default {
       console.log(event);
       try {
         await this.$axios
-          .post("/cryptos", {
+          .post("/api/cryptos", {
             fullname: event.fullname,
             code: event.code,
             imageurl: event.pieceImageurl

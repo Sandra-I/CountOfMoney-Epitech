@@ -26,10 +26,10 @@ export default {
     UserAuthForm
   },
   methods: {
-    
+
     async registerUser(userInfo) {
       try {
-        await this.$axios.post('/users/register', 
+        await this.$axios.post('/api/users/register',
           {
             username: userInfo.name,
             email: userInfo.email,

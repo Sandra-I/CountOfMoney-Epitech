@@ -27,7 +27,7 @@ export default {
     async loginUser(userInfo) {
       try {
         await this.$axios
-          .post("/users/login", {
+          .post("/api/users/login", {
             email: userInfo.email,
             password: userInfo.password
           })

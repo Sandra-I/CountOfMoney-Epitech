@@ -3,7 +3,7 @@ export default {
   ssr: false,
 
   server: {
-    port: 8000 // default: 3000
+    port: 80 // default: 3000
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -41,7 +41,8 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/moment'
+    '@nuxtjs/moment',
+    '@nuxtjs/proxy'
   ],
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
@@ -52,13 +53,17 @@ export default {
   // METTRE A JOUR AVEC .env
   // Global axios options to applied to all requests
   axios: {
-    // proxy: true,
+    proxy: true,
     // baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
     // headers: {
     //   Authorization: 'Bearer {token}'
     // },
-    baseURL: 'http://127.0.0.1:3000',
+    //baseURL: 'http://api:3000/',
     withCredentials: true
+  },
+
+  proxy: {
+    '/api/': { target: 'http://api:3000/', pathRewrite: {'^/api/': ''}, changeOrigin: true }
   },
 
 
