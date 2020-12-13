@@ -40,10 +40,8 @@ app.use(cookieParser());
 
 
 //routes
-let usersRouter = require('./routes/users.route.js')
-let newsRouter = require('./routes/news.route.js')
-app.use('/users', usersRouter)
-app.use('/news', newsRouter)
+require('./routes/users.route.js')(app)
+require('./routes/news.route.js')(app)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
