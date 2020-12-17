@@ -1,7 +1,6 @@
 let router = require('express').Router()
 const current = require("../controllers/cryptos.controller.js");
 const checkToken = require("../JsonWebToken/JsonWebToken.js")
-let router = require('express').Router();
 
 
 router.get('/cryptos/all', current.all)

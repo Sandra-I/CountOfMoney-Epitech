@@ -86,4 +86,20 @@ Customer.profiles = (user, result) => {
         }
     });
 }
+
+Customer.findAdmin = (result) => {
+
+    sql.query(`SELECT * FROM users WHERE isadmin = TRUE`, (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        } else if (res.length > 0) {
+            result(null, res);
+            return;
+        }
+        result(null);
+
+    });
+}
+
 module.exports = Customer;

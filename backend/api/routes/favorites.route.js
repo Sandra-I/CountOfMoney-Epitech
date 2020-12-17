@@ -1,6 +1,5 @@
 let router = require('express').Router()
 const current = require("../controllers/favorites.controller.js");
-let router = require('express').Router();
 
 
     // Add a crypto in favorite
